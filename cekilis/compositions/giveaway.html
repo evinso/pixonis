@@ -1,0 +1,739 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      font-family: "Nunito", sans-serif;
+      color: #29314b;
+    }
+    .mat {
+      position: absolute;
+      inset: 0;
+      background-color: #a8dcc6;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.55) 3px, transparent 3px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.55) 3px, transparent 3px),
+        linear-gradient(rgba(255, 255, 255, 0.3) 2px, transparent 2px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.3) 2px, transparent 2px);
+      background-size:
+        180px 180px,
+        180px 180px,
+        45px 45px,
+        45px 45px;
+      background-position: 0 40px;
+    }
+    .slot {
+      position: absolute;
+      inset: 0;
+    }
+    .tag {
+      position: absolute;
+      padding: 12px 26px 14px;
+      background: #d8b38a;
+      border: 9px solid #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+      font-weight: 900;
+      font-size: 42px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    .title {
+      position: absolute;
+      font-family: "Archivo Black", sans-serif;
+      line-height: 0.95;
+      letter-spacing: -0.01em;
+    }
+    .title .w {
+      display: inline-block;
+    }
+    /* ---------- gift world (also becomes the post inside the phone) ---------- */
+    #gc {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+      transform-origin: 0 0;
+      overflow: hidden;
+      clip-path: inset(0px 0px 0px 0px);
+    }
+    #g-box {
+      position: absolute;
+      left: 290px;
+      top: 1030px;
+      width: 500px;
+      height: 390px;
+      border-radius: 10px;
+      background: #a9784c;
+      box-shadow:
+        inset 0 0 0 18px #c99a6b,
+        inset 0 34px 44px rgba(0, 0, 0, 0.38),
+        0 18px 30px rgba(0, 0, 0, 0.25);
+    }
+    #g-lid {
+      position: absolute;
+      left: 290px;
+      top: 1030px;
+      width: 500px;
+      height: 390px;
+      border-radius: 10px;
+      background: linear-gradient(160deg, #d3a676 0%, #c99a6b 55%, #bf8f60 100%);
+      box-shadow: 0 18px 30px rgba(0, 0, 0, 0.25);
+    }
+    .g-twine-v,
+    .g-twine-h {
+      position: absolute;
+      background: #efe3c8;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+    }
+    .g-twine-v {
+      left: 244px;
+      top: 0;
+      width: 12px;
+      height: 390px;
+    }
+    .g-twine-h {
+      left: 0;
+      top: 189px;
+      width: 500px;
+      height: 12px;
+    }
+    .g-cek {
+      position: absolute;
+      left: 74px;
+      top: 118px;
+      padding: 14px 30px 18px;
+      background: #e1a8a4;
+      border: 11px solid #ffffff;
+      border-radius: 18px;
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+      font-family: "Archivo Black", sans-serif;
+      font-size: 76px;
+      line-height: 1;
+      white-space: nowrap;
+      transform: rotate(-6deg);
+    }
+    #g-tape {
+      position: absolute;
+      left: -8px;
+      top: 262px;
+      width: 516px;
+      height: 70px;
+      background: rgba(236, 216, 176, 0.88);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+      transform-origin: 0 50%;
+    }
+    #g-ship {
+      position: absolute;
+      left: 96px;
+      top: 248px;
+      padding: 10px 24px 13px;
+      background: #29314b;
+      color: #ffffff;
+      border: 9px solid #ffffff;
+      border-radius: 14px;
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.22);
+      font-family: "Archivo Black", sans-serif;
+      font-size: 46px;
+      line-height: 1;
+      white-space: nowrap;
+      opacity: 0;
+    }
+    .g-card {
+      position: absolute;
+      width: 240px;
+      height: 240px;
+      padding: 12px;
+      background: #ffffff;
+      border-radius: 6px;
+      box-shadow: 0 10px 16px rgba(0, 0, 0, 0.24);
+      opacity: 0;
+    }
+    .g-card img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .g-custom {
+      position: relative;
+      width: 216px;
+      height: 216px;
+    }
+    .g-custom svg {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+    .dash {
+      fill: none;
+      stroke: #e1a8a4;
+      stroke-width: 5;
+      stroke-dasharray: 10 8;
+    }
+    .g-custom-t {
+      position: absolute;
+      left: 0;
+      top: 82px;
+      width: 216px;
+      text-align: center;
+      font-family: "Archivo Black", sans-serif;
+      font-size: 28px;
+      line-height: 1.05;
+    }
+    .g-gloss {
+      position: absolute;
+      inset: 12px;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .g-band {
+      position: absolute;
+      top: -30%;
+      left: 0;
+      width: 40%;
+      height: 160%;
+      background: linear-gradient(100deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0) 100%);
+    }
+    #g-badge {
+      position: absolute;
+      left: 668px;
+      top: 214px;
+      width: 340px;
+      height: 340px;
+      border-radius: 50%;
+      background: #e1a8a4;
+      border: 14px solid #ffffff;
+      box-shadow: 0 8px 14px rgba(0, 0, 0, 0.22);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .g-badge-a {
+      font-family: "Archivo Black", sans-serif;
+      font-size: 88px;
+      line-height: 1;
+    }
+    .g-badge-b {
+      font-weight: 900;
+      font-size: 36px;
+      line-height: 1.1;
+    }
+    #g-cal {
+      position: absolute;
+      left: 70px;
+      top: 214px;
+      width: 330px;
+      height: 372px;
+      border: 12px solid #ffffff;
+      border-radius: 22px;
+      background: #ffffff;
+      box-shadow: 0 8px 14px rgba(0, 0, 0, 0.22);
+      overflow: hidden;
+    }
+    .g-cal-top {
+      height: 92px;
+      background: #e1a8a4;
+      font-weight: 900;
+      font-size: 40px;
+      line-height: 92px;
+      text-align: center;
+      letter-spacing: 0.04em;
+    }
+    .g-cal-day {
+      font-family: "Archivo Black", sans-serif;
+      font-size: 196px;
+      line-height: 252px;
+      text-align: center;
+      letter-spacing: -0.03em;
+    }
+    #g-mark {
+      position: absolute;
+      left: 112px;
+      top: 690px;
+      padding: 28px 44px 32px;
+      background: #29314b;
+      border: 14px solid #ffffff;
+      border-radius: 28px;
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+      font-family: "Lato", sans-serif;
+      font-weight: 900;
+      font-size: 86px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    .g-mark-a {
+      color: #e8bcac;
+    }
+    .g-mark-b {
+      color: #ffffff;
+    }
+    .conf {
+      position: absolute;
+      filter: drop-shadow(0px 8px 10px rgba(0, 0, 0, 0.22));
+      opacity: 0;
+    }
+    .conf img {
+      display: block;
+      width: 100%;
+    }
+    /* ---------- phone + checklist ---------- */
+    #ph-body {
+      position: absolute;
+      left: 500px;
+      top: 300px;
+      width: 520px;
+      height: 1000px;
+      border-radius: 60px;
+      background: #29314b;
+      box-shadow: 0 24px 40px rgba(0, 0, 0, 0.3);
+    }
+    #ph-screen {
+      position: absolute;
+      left: 18px;
+      top: 18px;
+      width: 484px;
+      height: 964px;
+      border-radius: 44px;
+      background: #ffffff;
+    }
+    .ph-notch {
+      position: absolute;
+      left: 200px;
+      top: 14px;
+      width: 120px;
+      height: 26px;
+      border-radius: 13px;
+      background: #1c2235;
+    }
+    #ph-ui {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+    }
+    #ph-av {
+      position: absolute;
+      left: 536px;
+      top: 352px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #e1a8a4;
+      font-family: "Archivo Black", sans-serif;
+      font-size: 22px;
+      line-height: 56px;
+      text-align: center;
+    }
+    .ph-user {
+      position: absolute;
+      left: 604px;
+      top: 364px;
+      font-weight: 900;
+      font-size: 28px;
+      line-height: 1;
+    }
+    #ph-follow {
+      position: absolute;
+      left: 836px;
+      top: 356px;
+      width: 150px;
+      height: 50px;
+      border-radius: 12px;
+      background: #e1a8a4;
+    }
+    .ph-ft {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 150px;
+      line-height: 50px;
+      text-align: center;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+    #ph-f1 {
+      font-size: 28px;
+    }
+    #ph-f2 {
+      font-size: 28px;
+      opacity: 0;
+    }
+    .ph-ico {
+      position: absolute;
+      top: 1042px;
+      width: 50px;
+      height: 50px;
+    }
+    .ph-ico path {
+      fill: none;
+      stroke: #29314b;
+      stroke-width: 4;
+      stroke-linejoin: round;
+      stroke-linecap: round;
+    }
+    #ph-hfill path {
+      fill: #e1a8a4;
+      stroke: #29314b;
+    }
+    #ph-hfill {
+      opacity: 0;
+    }
+    #ph-input {
+      position: absolute;
+      left: 536px;
+      top: 1108px;
+      width: 448px;
+      height: 62px;
+      border-radius: 14px;
+      border: 3px solid #d9d9e3;
+      background: #ffffff;
+    }
+    #ph-ph {
+      position: absolute;
+      left: 556px;
+      top: 1125px;
+      font-weight: 800;
+      font-size: 28px;
+      line-height: 1;
+      color: #6e7389;
+    }
+    #ph-typed {
+      position: absolute;
+      left: 554px;
+      top: 1119px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 900;
+      font-size: 28px;
+      white-space: nowrap;
+    }
+    .ph-chip {
+      padding: 4px 7px 6px;
+      border-radius: 8px;
+      background: #f3d6d3;
+      opacity: 0;
+    }
+    #ph-send {
+      position: absolute;
+      left: 934px;
+      top: 1120px;
+      width: 40px;
+      height: 40px;
+    }
+    #ph-send path {
+      fill: #29314b;
+    }
+    #ph-heart {
+      position: absolute;
+      left: 650px;
+      top: 612px;
+      width: 220px;
+      opacity: 0;
+      filter: drop-shadow(0px 10px 14px rgba(0, 0, 0, 0.3));
+    }
+    #ph-heart img {
+      display: block;
+      width: 100%;
+    }
+    #ph-touch {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.6);
+      border: 4px solid rgba(41, 49, 75, 0.6);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+      opacity: 0;
+    }
+    #ph-ring {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      border: 5px solid rgba(255, 255, 255, 0.9);
+      opacity: 0;
+    }
+    .step {
+      position: absolute;
+      left: 44px;
+      width: 430px;
+      min-height: 112px;
+      padding: 18px 20px 18px 104px;
+      background: #d8b38a;
+      border: 9px solid #ffffff;
+      border-radius: 18px;
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+      font-weight: 900;
+      font-size: 38px;
+      line-height: 1.08;
+      display: flex;
+      align-items: center;
+      opacity: 0;
+    }
+    .step-n {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      margin-top: -34px;
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: #e1a8a4;
+      font-family: "Archivo Black", sans-serif;
+      font-size: 34px;
+      line-height: 68px;
+      text-align: center;
+    }
+    .step-k {
+      position: absolute;
+      left: 60px;
+      top: -14px;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: #29314b;
+      border: 4px solid #ffffff;
+      opacity: 0;
+    }
+    .step-k::after {
+      content: "";
+      position: absolute;
+      left: 13px;
+      top: 7px;
+      width: 9px;
+      height: 18px;
+      border-right: 5px solid #ffffff;
+      border-bottom: 5px solid #ffffff;
+      transform: rotate(45deg);
+    }
+  </style>
+
+  <div id="root" data-composition-id="giveaway" data-width="1080" data-height="1920">
+    <div class="mat"></div>
+
+    <!-- ===== phone world (revealed when the gift world shrinks into the post) ===== -->
+    <div id="cl" class="slot clip" data-start="5.2" data-duration="6.8" data-track-index="1">
+      <h2 id="c-title" data-layout-allow-overlap class="title" style="left: 60px; top: 196px; font-size: 70px">
+        <span class="w">Nasıl</span><br /><span class="w">katılırım?</span>
+      </h2>
+      <div id="c-s1" class="step" style="top: 470px"><div class="step-n">1</div>Takip et<div id="c-k1" class="step-k"></div></div>
+      <div id="c-s2" class="step" style="top: 640px"><div class="step-n">2</div>Beğen<div id="c-k2" class="step-k"></div></div>
+      <div id="c-s3" class="step" style="top: 810px"><div class="step-n">3</div>Yorum yap<div id="c-k3" class="step-k"></div></div>
+      <div id="c-s4" class="step" style="top: 980px"><div class="step-n">4</div>3 arkadaşını<br />etiketle<div id="c-k4" class="step-k"></div></div>
+    </div>
+    <div id="ph" class="slot clip" data-start="4.55" data-duration="7.45" data-track-index="2">
+      <div id="ph-body"><div id="ph-screen"><div class="ph-notch"></div></div></div>
+    </div>
+
+    <!-- ===== gift world ===== -->
+    <div id="gcs" class="slot clip" data-start="0" data-duration="24.9" data-track-index="3">
+      <div id="gc">
+        <div class="mat"></div>
+        <h1 id="g-title" class="title" style="left: 72px; top: 196px; font-size: 104px">
+          <span class="w">10</span> <span class="w">sayfa</span><br /><span class="w">sticker</span><br /><span class="w">kazan!</span>
+        </h1>
+        <div id="g-box"></div>
+        <div id="g-f1" class="g-card" style="left: 80.6px; top: 840.6px"><img src="assets/sheets/set-1.jpg" alt="" /><div class="g-gloss" data-layout-ignore><div id="g-b1" class="g-band"></div></div></div>
+        <div id="g-f2" class="g-card" style="left: 144.7px; top: 786.8px"><img src="assets/sheets/set-2.jpg" alt="" /><div class="g-gloss" data-layout-ignore><div id="g-b2" class="g-band"></div></div></div>
+        <div id="g-f3" class="g-card" style="left: 217.1px; top: 745.0px"><img src="assets/sheets/set-3.jpg" alt="" /><div class="g-gloss" data-layout-ignore><div id="g-b3" class="g-band"></div></div></div>
+        <div id="g-f4" class="g-card" style="left: 295.8px; top: 716.4px"><img src="assets/sheets/set-4.jpg" alt="" /><div class="g-gloss" data-layout-ignore><div id="g-b4" class="g-band"></div></div></div>
+        <div id="g-f5" class="g-card" style="left: 378.2px; top: 701.8px"><img src="assets/sheets/set-5.jpg" alt="" /><div class="g-gloss" data-layout-ignore><div id="g-b5" class="g-band"></div></div></div>
+        <div id="g-f6" class="g-card" style="left: 461.8px; top: 701.8px"><img src="assets/sheets/set-6.jpg" alt="" /><div class="g-gloss" data-layout-ignore><div id="g-b6" class="g-band"></div></div></div>
+        <div id="g-f7" class="g-card" style="left: 544.2px; top: 716.4px"><img src="assets/sheets/set-7.jpg" alt="" /><div class="g-gloss" data-layout-ignore><div id="g-b7" class="g-band"></div></div></div>
+        <div id="g-f8" class="g-card" style="left: 622.9px; top: 745.0px"><img src="assets/sheets/set-8.jpg" alt="" /><div class="g-gloss" data-layout-ignore><div id="g-b8" class="g-band"></div></div></div>
+        <div id="g-f9" class="g-card" style="left: 695.3px; top: 786.8px"><div class="g-custom"><svg viewBox="0 0 216 216" width="216" height="216"><circle cx="58" cy="58" r="38" class="dash"/><rect x="122" y="22" width="72" height="72" rx="16" class="dash"/><path d="M58 196 C 10 160, 18 118, 58 138 C 98 118, 106 160, 58 196 Z" class="dash"/><polygon points="158,118 168,146 198,146 174,164 182,194 158,176 134,194 142,164 118,146 148,146" class="dash"/></svg><div class="g-custom-t">SENİN<br/>TASARIMIN</div></div><div class="g-gloss" data-layout-ignore><div id="g-b9" class="g-band"></div></div></div>
+        <div id="g-f10" class="g-card" style="left: 759.4px; top: 840.6px"><div class="g-custom"><svg viewBox="0 0 216 216" width="216" height="216"><circle cx="58" cy="58" r="38" class="dash"/><rect x="122" y="22" width="72" height="72" rx="16" class="dash"/><path d="M58 196 C 10 160, 18 118, 58 138 C 98 118, 106 160, 58 196 Z" class="dash"/><polygon points="158,118 168,146 198,146 174,164 182,194 158,176 134,194 142,164 118,146 148,146" class="dash"/></svg><div class="g-custom-t">SENİN<br/>TASARIMIN</div></div><div class="g-gloss" data-layout-ignore><div id="g-b10" class="g-band"></div></div></div>
+        <div id="g-lid" data-layout-ignore>
+          <div class="g-twine-v"></div>
+          <div class="g-twine-h"></div>
+          <div class="g-cek">ÇEKİLİŞ</div>
+          <div id="g-tape" data-layout-ignore></div>
+          <div id="g-ship" data-layout-allow-overlap>KARGO BİZDEN</div>
+        </div>
+        <div id="g-badge" data-layout-allow-overlap><span class="g-badge-a">3 KİŞİ</span><span class="g-badge-b">kazanacak</span></div>
+        <div id="g-t2" class="tag" style="left: 52px; top: 1150px; font-size: 34px; opacity: 0" data-layout-allow-overlap>2 sayfa · sen tasarla</div>
+        <div id="g-t8" class="tag" style="left: 556px; top: 1150px; font-size: 34px; opacity: 0" data-layout-allow-overlap>8 sayfa · hazır tasarım</div>
+        <div id="g-cal" style="opacity: 0"><div class="g-cal-top">KASIM 2026</div><div class="g-cal-day">20</div></div>
+        <div id="g-tA" class="tag" style="left: 448px; top: 292px; opacity: 0">Son katılım günü</div>
+        <div id="g-tB" class="tag" style="left: 448px; top: 420px; opacity: 0">Kazananlar aynı gün</div>
+        <div id="g-mark" style="opacity: 0"><span class="g-mark-a">MALIBU</span> <span class="g-mark-b">CRAFT</span></div>
+        <h2 id="g-handle" class="title" style="left: 150px; top: 878px; font-size: 54px"><span class="w">@malibucraft_</span></h2>
+        <div id="g-c1" class="conf" style="left: 40px; top: 1150px; width: 230px" data-layout-ignore><img src="assets/cutouts/vg-starry.png" alt="" /></div>
+        <div id="g-c2" class="conf" style="left: 830px; top: 1170px; width: 200px" data-layout-ignore><img src="assets/cutouts/disco-heart.png" alt="" /></div>
+        <div id="g-c3" class="conf" style="left: 880px; top: 860px; width: 160px" data-layout-ignore><img src="assets/cutouts/vg-portrait.png" alt="" /></div>
+        <div id="g-c4" class="conf" style="left: 60px; top: 1470px; width: 210px" data-layout-ignore><img src="assets/cutouts/kawaii-laptop.png" alt="" /></div>
+      </div>
+    </div>
+
+    <!-- ===== phone UI, above the shrunken gift world (the post) ===== -->
+    <div id="phu" class="slot clip" data-start="5.2" data-duration="6.3" data-track-index="4">
+      <div id="ph-ui">
+        <div id="ph-av" data-layout-ignore>MC</div>
+        <div class="ph-user">malibucraft_</div>
+        <div id="ph-follow"><div id="ph-f1" class="ph-ft">Takip et</div><div id="ph-f2" class="ph-ft">Takipte</div></div>
+        <svg id="ph-hico" class="ph-ico" style="left: 536px" viewBox="0 0 50 50"><path d="M25 43 C 8 31, 3 21, 9 13 C 14 7, 22 8, 25 15 C 28 8, 36 7, 41 13 C 47 21, 42 31, 25 43 Z" /></svg>
+        <svg id="ph-hfill" class="ph-ico" style="left: 536px" viewBox="0 0 50 50"><path d="M25 43 C 8 31, 3 21, 9 13 C 14 7, 22 8, 25 15 C 28 8, 36 7, 41 13 C 47 21, 42 31, 25 43 Z" /></svg>
+        <svg class="ph-ico" style="left: 604px" viewBox="0 0 50 50"><path d="M25 8 C 36 8, 44 15, 44 24 C 44 33, 36 40, 25 40 C 22 40, 19 39, 17 38 L 8 42 L 10 34 C 7 31, 6 28, 6 24 C 6 15, 14 8, 25 8 Z" /></svg>
+        <svg class="ph-ico" style="left: 672px" viewBox="0 0 50 50"><path d="M7 24 L 43 8 L 31 43 L 24 28 Z M 24 28 L 43 8" /></svg>
+        <div id="ph-input"></div>
+        <div id="ph-ph">Yorum ekle…</div>
+        <div id="ph-typed"><span id="ph-c1" class="ph-chip">@ayse</span><span id="ph-c2" class="ph-chip">@mert</span><span id="ph-c3" class="ph-chip">@zeynep</span></div>
+        <svg id="ph-send" viewBox="0 0 40 40"><path d="M4 20 L 36 6 L 26 36 L 20 23 Z" /></svg>
+        <div id="ph-heart" data-layout-ignore><img src="assets/cutouts/red-heart.png" alt="" /></div>
+        <div id="ph-ring" data-layout-ignore></div>
+        <div id="ph-touch" data-layout-ignore></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Narration (Laura, Eleven v4, one take split at three silences; placed in index.html):
+    // 0.20 "Çekiliş zamanı (0.79)! Üç kişiye (1.39) on sayfalık (2.08) sticker seti hediye (3.72) ediyoruz."
+    // 5.15 "Katılmak çok kolay: bizi takip (6.87) et, bu gönderiyi beğen (8.40), yorum (8.88) yap ve üç (9.72) arkadaşını (9.86) etiketle (10.57)."
+    // 11.85 "İki (11.89) sayfayı istediğin tasarımla hazırlıyoruz, sekiz (14.66) sayfa da koleksiyonumuzdan. Kargo (16.70) bizden (17.18)!"
+    // 18.25 "Çekiliş yirmi (18.75) Kasım'da bitiyor (19.66), kazananları aynı (20.88) gün açıklıyoruz. Bol (22.26) şans!"
+    const tl = gsap.timeline({ paused: true });
+
+    function slapIn(sel, t, rot, from) {
+      tl.fromTo(sel, { scale: from || 1.4, rotation: rot + 8, opacity: 0 }, { scale: 1, rotation: rot, opacity: 1, duration: 0.2, ease: "power3.in" }, t);
+      tl.to(sel, { scale: 0.97, duration: 0.04, ease: "none" }, t + 0.2);
+      tl.to(sel, { scale: 1, duration: 0.12, ease: "power2.out" }, t + 0.24);
+    }
+    function peelAway(sel, t, rot) {
+      tl.to(sel, { x: "+=260", y: "-=320", rotation: rot - 28, scale: 1.08, opacity: 0, duration: 0.3, ease: "power3.in" }, t);
+    }
+    function wordsIn(sel, t) {
+      tl.fromTo(sel + " .w", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, stagger: 0.067, ease: "power2.out" }, t);
+    }
+    function wordsOut(sel, t) {
+      tl.to(sel + " .w", { opacity: 0, filter: "blur(8px)", duration: 0.15, ease: "power2.in" }, t);
+    }
+    function gloss(id, t) {
+      tl.fromTo(id, { xPercent: -160 }, { xPercent: 300, duration: 0.6, ease: "power1.inOut" }, t);
+    }
+    function touchTo(x, y, t, d) {
+      tl.to("#ph-touch", { x: x - 42, y: y - 42, duration: d || 0.4, ease: "power2.inOut" }, t);
+    }
+    function tap(x, y, t) {
+      tl.to("#ph-touch", { scale: 0.8, duration: 0.07, ease: "power2.in" }, t);
+      tl.to("#ph-touch", { scale: 1, duration: 0.16, ease: "power2.out" }, t + 0.07);
+      tl.set("#ph-ring", { x: x - 42, y: y - 42, scale: 0.7, opacity: 0.9 }, t + 0.04);
+      tl.to("#ph-ring", { scale: 1.9, opacity: 0, duration: 0.2, ease: "power2.out" }, t + 0.041);
+    }
+
+    // ---- 1 · the gift: frame 0 = wrapped package with the ÇEKİLİŞ sticker and the headline
+    tl.to("#g-lid", { y: -22, scale: 1.04, duration: 0.1, ease: "power2.out" }, 0.68);
+    tl.to("#g-lid", { x: 980, y: -1600, rotation: 38, scale: 1.1, duration: 0.36, ease: "power3.in" }, 0.8); // bursts open on "zamanı"
+    tl.fromTo("#g-f1", { x: 339.4, y: 264.4, scale: 0.3, rotation: 0, opacity: 0 }, { x: 0, y: 0, scale: 1, rotation: -45, opacity: 1, duration: 0.38, ease: "power3.out" }, 0.95);
+    tl.fromTo("#g-f2", { x: 275.3, y: 318.2, scale: 0.3, rotation: 0, opacity: 0 }, { x: 0, y: 0, scale: 1, rotation: -35, opacity: 1, duration: 0.38, ease: "power3.out" }, 1.05);
+    tl.fromTo("#g-f3", { x: 202.9, y: 360.0, scale: 0.3, rotation: 0, opacity: 0 }, { x: 0, y: 0, scale: 1, rotation: -25, opacity: 1, duration: 0.38, ease: "power3.out" }, 1.15);
+    tl.fromTo("#g-f4", { x: 124.2, y: 388.6, scale: 0.3, rotation: 0, opacity: 0 }, { x: 0, y: 0, scale: 1, rotation: -15, opacity: 1, duration: 0.38, ease: "power3.out" }, 1.25);
+    tl.fromTo("#g-f5", { x: 41.8, y: 403.2, scale: 0.3, rotation: 0, opacity: 0 }, { x: 0, y: 0, scale: 1, rotation: -5, opacity: 1, duration: 0.38, ease: "power3.out" }, 1.35);
+    tl.fromTo("#g-f6", { x: -41.8, y: 403.2, scale: 0.3, rotation: 0, opacity: 0 }, { x: 0, y: 0, scale: 1, rotation: 5, opacity: 1, duration: 0.38, ease: "power3.out" }, 1.45);
+    tl.fromTo("#g-f7", { x: -124.2, y: 388.6, scale: 0.3, rotation: 0, opacity: 0 }, { x: 0, y: 0, scale: 1, rotation: 15, opacity: 1, duration: 0.38, ease: "power3.out" }, 1.55);
+    tl.fromTo("#g-f8", { x: -202.9, y: 360.0, scale: 0.3, rotation: 0, opacity: 0 }, { x: 0, y: 0, scale: 1, rotation: 25, opacity: 1, duration: 0.38, ease: "power3.out" }, 1.65);
+    tl.fromTo("#g-f9", { x: -275.3, y: 318.2, scale: 0.3, rotation: 0, opacity: 0 }, { x: 0, y: 0, scale: 1, rotation: 35, opacity: 1, duration: 0.38, ease: "power3.out" }, 1.75);
+    tl.fromTo("#g-f10", { x: -339.4, y: 264.4, scale: 0.3, rotation: 0, opacity: 0 }, { x: 0, y: 0, scale: 1, rotation: 45, opacity: 1, duration: 0.38, ease: "power3.out" }, 1.85);
+    slapIn("#g-badge", 1.37, 6); // "Üç kişiye"
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].forEach((n, i) => gloss("#g-b" + n, 3.66 + i * 0.05)); // light ripple on "hediye"
+
+    // ---- 2 · the world shrinks into the post on a phone
+    tl.to("#gc", { scale: 0.448, x: 518, y: 360.4, clipPath: "inset(133px 0px 437px 0px)", duration: 0.7, ease: "power3.inOut" }, 4.6);
+    tl.fromTo("#ph-body", { scale: 1.12, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.55, ease: "power3.out" }, 4.7);
+    tl.to("#ph-ui", { opacity: 1, duration: 0.25, ease: "power1.out" }, 5.25);
+    wordsIn("#c-title", 5.25);
+    // follow on "takip"
+    tl.fromTo("#ph-touch", { x: 1000, y: 1500, opacity: 0 }, { x: 869, y: 339, opacity: 1, duration: 0.5, ease: "power2.out" }, 6.25);
+    tap(911, 381, 6.82);
+    tl.to("#ph-follow", { backgroundColor: "#e6e6ee", duration: 0.15, ease: "power1.out" }, 6.92);
+    tl.to("#ph-f1", { opacity: 0, duration: 0.1 }, 6.92);
+    tl.to("#ph-f2", { opacity: 1, duration: 0.12 }, 6.97);
+    slapIn("#c-s1", 6.85, -2);
+    tl.fromTo("#c-k1", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.22, ease: "back.out(2.2)" }, 7.2);
+    // like: double tap on the post, the real heart sticker drops on "beğen"
+    touchTo(760, 722, 7.5, 0.42);
+    tap(760, 722, 7.98);
+    tap(760, 722, 8.22);
+    tl.fromTo("#ph-heart", { scale: 0, opacity: 0, rotation: -12 }, { scale: 1.22, opacity: 1, rotation: 4, duration: 0.16, ease: "back.out(2)" }, 8.27);
+    tl.to("#ph-heart", { scale: 1, duration: 0.1, ease: "power2.out" }, 8.43);
+    tl.to("#ph-heart", { scale: 1.15, opacity: 0, y: -40, duration: 0.25, ease: "power2.in" }, 8.8);
+    tl.fromTo("#ph-hfill", { scale: 1.5, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.22, ease: "back.out(2.4)" }, 8.36);
+    slapIn("#c-s2", 8.36, 2);
+    tl.fromTo("#c-k2", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.22, ease: "back.out(2.2)" }, 8.62);
+    // comment on "yorum", three friends tagged on "üç arkadaşını"
+    touchTo(700, 1139, 8.55, 0.33);
+    slapIn("#c-s3", 8.84, -1);
+    tap(700, 1139, 8.92);
+    tl.to("#ph-input", { borderColor: "#29314b", duration: 0.12 }, 8.98);
+    tl.to("#ph-ph", { opacity: 0, duration: 0.1 }, 9.0);
+    tl.to("#ph-touch", { x: 880, y: 1260, opacity: 0.0, duration: 0.3, ease: "power2.in" }, 9.1);
+    tl.fromTo("#c-k3", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.22, ease: "back.out(2.2)" }, 9.52);
+    tl.fromTo("#ph-c1", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.16, ease: "back.out(2)" }, 9.12);
+    slapIn("#c-s4", 9.84, 1);
+    tl.fromTo("#ph-c2", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.16, ease: "back.out(2)" }, 9.74);
+    tl.fromTo("#ph-c3", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.16, ease: "back.out(2)" }, 10.08);
+    tl.to("#ph-touch", { x: 912, y: 1098, opacity: 1, duration: 0.3, ease: "power2.out" }, 10.36);
+    tap(954, 1140, 10.68);
+    tl.fromTo("#c-k4", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.22, ease: "back.out(2.2)" }, 10.72);
+    tl.to("#ph-touch", { opacity: 0, duration: 0.2 }, 11.0);
+
+    // ---- 3 · back into the post: the prize is 2 sheets of your design + 8 of ours
+    tl.to("#ph-ui", { opacity: 0, duration: 0.12, ease: "power1.in" }, 11.3);
+    tl.to("#gc", { scale: 1, x: 0, y: 0, clipPath: "inset(0px 0px 0px 0px)", duration: 0.6, ease: "power3.inOut" }, 11.38);
+    tl.to("#g-f1", { x: 557.9, y: -73.1, rotation: -10.0, scale: 1.08, duration: 0.5, ease: "power3.inOut" }, 14.660);
+    tl.to("#g-f2", { x: 502.8, y: -14.3, rotation: -7.1, scale: 1.08, duration: 0.5, ease: "power3.inOut" }, 14.695);
+    tl.to("#g-f3", { x: 439.4, y: 32.5, rotation: -4.3, scale: 1.08, duration: 0.5, ease: "power3.inOut" }, 14.730);
+    tl.to("#g-f4", { x: 369.7, y: 66.1, rotation: -1.4, scale: 1.08, duration: 0.5, ease: "power3.inOut" }, 14.765);
+    tl.to("#g-f5", { x: 296.3, y: 85.7, rotation: 1.4, scale: 1.08, duration: 0.5, ease: "power3.inOut" }, 14.800);
+    tl.to("#g-f6", { x: 221.7, y: 90.7, rotation: 4.3, scale: 1.08, duration: 0.5, ease: "power3.inOut" }, 14.835);
+    tl.to("#g-f7", { x: 148.3, y: 81.1, rotation: 7.2, scale: 1.08, duration: 0.5, ease: "power3.inOut" }, 14.870);
+    tl.to("#g-f8", { x: 78.6, y: 57.5, rotation: 10.0, scale: 1.08, duration: 0.5, ease: "power3.inOut" }, 14.905);
+    tl.to("#g-f9", { x: -637.3, y: -38.8, rotation: -7.0, scale: 1.25, duration: 0.5, ease: "power3.inOut" }, 12.050);
+    tl.to("#g-f10", { x: -417.4, y: -24.6, rotation: 6.0, scale: 1.25, duration: 0.5, ease: "power3.inOut" }, 12.050);
+    slapIn("#g-t2", 12.4, -3); // "istediğin"
+    slapIn("#g-t8", 14.95, 2); // "sekiz sayfa da"
+
+    // ---- 4 · kargo bizden: the sheets go back in, lid on, tape, stamp on "bizden"
+    tl.to(["#g-t2", "#g-t8"], { opacity: 0, scale: 0.9, duration: 0.18, ease: "power2.in" }, 16.35);
+    tl.to("#g-f10", { x: -339.4, y: 264.4, rotation: 0, scale: 0.35, opacity: 0, duration: 0.32, ease: "power3.in" }, 16.450);
+    tl.to("#g-f9", { x: -275.3, y: 318.2, rotation: 0, scale: 0.35, opacity: 0, duration: 0.32, ease: "power3.in" }, 16.485);
+    tl.to("#g-f8", { x: -202.9, y: 360.0, rotation: 0, scale: 0.35, opacity: 0, duration: 0.32, ease: "power3.in" }, 16.520);
+    tl.to("#g-f7", { x: -124.2, y: 388.6, rotation: 0, scale: 0.35, opacity: 0, duration: 0.32, ease: "power3.in" }, 16.555);
+    tl.to("#g-f6", { x: -41.8, y: 403.2, rotation: 0, scale: 0.35, opacity: 0, duration: 0.32, ease: "power3.in" }, 16.590);
+    tl.to("#g-f5", { x: 41.8, y: 403.2, rotation: 0, scale: 0.35, opacity: 0, duration: 0.32, ease: "power3.in" }, 16.625);
+    tl.to("#g-f4", { x: 124.2, y: 388.6, rotation: 0, scale: 0.35, opacity: 0, duration: 0.32, ease: "power3.in" }, 16.660);
+    tl.to("#g-f3", { x: 202.9, y: 360.0, rotation: 0, scale: 0.35, opacity: 0, duration: 0.32, ease: "power3.in" }, 16.695);
+    tl.to("#g-f2", { x: 275.3, y: 318.2, rotation: 0, scale: 0.35, opacity: 0, duration: 0.32, ease: "power3.in" }, 16.730);
+    tl.to("#g-f1", { x: 339.4, y: 264.4, rotation: 0, scale: 0.35, opacity: 0, duration: 0.32, ease: "power3.in" }, 16.765);
+    tl.to("#g-lid", { x: 0, y: 0, rotation: 0, scale: 1, duration: 0.26, ease: "power3.in" }, 16.84);
+    tl.to("#g-lid", { scale: 0.98, duration: 0.04, ease: "none" }, 17.1);
+    tl.to("#g-lid", { scale: 1, duration: 0.12, ease: "power2.out" }, 17.14);
+    tl.fromTo("#g-tape", { scaleX: 0 }, { scaleX: 1, duration: 0.16, ease: "power2.out" }, 17.08);
+    tl.fromTo("#g-ship", { scale: 1.5, rotation: 4, opacity: 0 }, { scale: 1, rotation: -4, opacity: 1, duration: 0.2, ease: "power3.in" }, 16.98);
+
+    // ---- 5 · date and sign-off
+    wordsOut("#g-title", 17.88);
+    peelAway("#g-badge", 17.9, 6);
+    slapIn("#g-cal", 18.53, -5); // "yirmi Kasım'da"
+    slapIn("#g-tA", 19.62, -2); // "bitiyor"
+    slapIn("#g-tB", 20.84, 2); // "aynı gün"
+    slapIn("#g-mark", 22.24, -3); // "Bol şans"
+    wordsIn("#g-handle", 22.5);
+    // real stickers burst out of the package (offsets = package centre minus each sticker's centre)
+    [["#g-c1", -10, 385, -20], ["#g-c2", 12, -390, -40], ["#g-c3", 8, -420, 285], ["#g-c4", -6, 375, -330]].forEach(([c, r, fx, fy], i) =>
+      tl.fromTo(c, { x: fx, y: fy, scale: 0.2, opacity: 0, rotation: 0 }, { x: 0, y: 0, scale: 1, opacity: 1, rotation: r, duration: 0.5, ease: "back.out(1.4)" }, 22.32 + i * 0.06),
+    );
+
+    window.__timelines["giveaway"] = tl;
+  </script>
+</template>
