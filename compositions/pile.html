@@ -12,9 +12,14 @@
       inset: 0;
       transform-origin: 320px 710px;
     }
+    #pile-drift {
+      position: absolute;
+      inset: 0;
+      transform-origin: 540px 960px;
+    }
     .pile-mat {
       position: absolute;
-      inset: -120px;
+      inset: -160px;
       background-color: #a8dcc6;
       background-image:
         linear-gradient(rgba(255, 255, 255, 0.55) 3px, transparent 3px),
@@ -28,7 +33,7 @@
         45px 45px,
         45px 45px,
         240px 240px;
-      background-position: 120px 120px;
+      background-position: 160px 160px;
     }
     .pile-slot {
       position: absolute;
@@ -43,12 +48,35 @@
       border-radius: 6px;
       box-shadow: 0 8px 14px rgba(0, 0, 0, 0.22);
     }
-    .pile-card img {
+    .pile-card > img {
       display: block;
       width: 100%;
       height: 100%;
       object-fit: cover;
       border-radius: 2px;
+    }
+    /* a glossy light streak that crosses the paper */
+    .pile-gloss {
+      position: absolute;
+      inset: 16px;
+      overflow: hidden;
+      border-radius: 2px;
+      pointer-events: none;
+    }
+    .pile-band {
+      position: absolute;
+      top: -30%;
+      left: 0;
+      width: 38%;
+      height: 160%;
+      background: linear-gradient(
+        100deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.18) 35%,
+        rgba(255, 255, 255, 0.62) 50%,
+        rgba(255, 255, 255, 0.18) 65%,
+        rgba(255, 255, 255, 0) 100%
+      );
     }
     .pile-tag {
       position: absolute;
@@ -63,6 +91,55 @@
       font-size: 36px;
       line-height: 1;
       white-space: nowrap;
+    }
+    .pile-dot {
+      position: absolute;
+      right: 40px;
+      top: -22px;
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      background: #d8b38a;
+      border: 7px solid #ffffff;
+      box-shadow: 0 5px 8px rgba(0, 0, 0, 0.18);
+      font-family: "Archivo Black", sans-serif;
+      font-size: 36px;
+      line-height: 62px;
+      text-align: center;
+      opacity: 0;
+    }
+    .pile-cut,
+    .pile-hole {
+      position: absolute;
+      left: 182px;
+      top: 122px;
+      width: 111px;
+      height: 123px;
+    }
+    .pile-cut img,
+    .pile-hole img {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    .pile-cut {
+      filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.12));
+    }
+    .pile-free {
+      position: absolute;
+      left: 8px;
+      top: 160px;
+      padding: 14px 30px 18px;
+      background: #e1a8a4;
+      border: 12px solid #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 8px 14px rgba(0, 0, 0, 0.22);
+      font-family: "Archivo Black", sans-serif;
+      font-size: 70px;
+      line-height: 1;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+      opacity: 0;
     }
     .pile-sticker {
       position: absolute;
@@ -80,25 +157,14 @@
       justify-content: center;
       text-align: center;
     }
-    .pile-sticker.is-pink {
+    .pile-sticker.is-offer {
       background: #e1a8a4;
     }
-    .pile-count {
+    .pile-size {
       font-weight: 900;
       font-size: 38px;
       line-height: 40px;
-      height: 40px;
-      overflow: hidden;
-      display: flex;
-      gap: 10px;
       letter-spacing: 0.04em;
-    }
-    .pile-strip {
-      display: flex;
-      flex-direction: column;
-    }
-    .pile-strip span {
-      height: 40px;
     }
     .pile-price {
       font-family: "Archivo Black", sans-serif;
@@ -109,8 +175,14 @@
     }
     .pile-unit {
       font-weight: 800;
-      font-size: 28px;
+      font-size: 30px;
       line-height: 1.1;
+    }
+    .pile-offer {
+      font-family: "Archivo Black", sans-serif;
+      font-size: 96px;
+      line-height: 0.98;
+      letter-spacing: -0.01em;
     }
     .pile-title {
       position: absolute;
@@ -125,135 +197,164 @@
     .pile-title .w {
       display: inline-block;
     }
+    .pile-qtag {
+      position: absolute;
+      padding: 14px 28px 16px;
+      background: #d8b38a;
+      border: 9px solid #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+      font-weight: 900;
+      font-size: 44px;
+      line-height: 1;
+      white-space: nowrap;
+    }
   </style>
 
-  <div id="root" data-composition-id="pile" data-width="1080" data-height="1920" data-composition-variables='[{"id": "photo1", "type": "string", "label": "Set 1 fotoğrafı", "default": "assets/products/set-1.jpg"}, {"id": "tag1", "type": "string", "label": "Set 1 etiketi", "default": "Van Gogh", "maxLength": 12}, {"id": "photo2", "type": "string", "label": "Set 2 fotoğrafı", "default": "assets/products/set-2.jpg"}, {"id": "tag2", "type": "string", "label": "Set 2 etiketi", "default": "Disco Pop", "maxLength": 12}, {"id": "photo3", "type": "string", "label": "Set 3 fotoğrafı", "default": "assets/products/set-3.jpg"}, {"id": "tag3", "type": "string", "label": "Set 3 etiketi", "default": "Kawaii", "maxLength": 12}, {"id": "photo4", "type": "string", "label": "Set 4 fotoğrafı", "default": "assets/products/set-4.jpg"}, {"id": "tag4", "type": "string", "label": "Set 4 etiketi", "default": "Junk Journal", "maxLength": 12}, {"id": "photo5", "type": "string", "label": "Set 5 fotoğrafı", "default": "assets/products/set-5.jpg"}, {"id": "tag5", "type": "string", "label": "Set 5 etiketi", "default": "Cute Duck", "maxLength": 12}, {"id": "photo6", "type": "string", "label": "Set 6 fotoğrafı", "default": "assets/products/set-6.jpg"}, {"id": "tag6", "type": "string", "label": "Set 6 etiketi", "default": "Lavanta", "maxLength": 12}, {"id": "price1", "type": "string", "label": "A5 · 1 set fiyatı", "default": "64,90"}, {"id": "price2", "type": "string", "label": "A5 · 2–4 set birim fiyatı", "default": "59,90"}, {"id": "price3", "type": "string", "label": "A5 · 5–9 set birim fiyatı", "default": "57,90"}]'>
+  <div
+    id="root"
+    data-composition-id="pile"
+    data-width="1080"
+    data-height="1920"
+    data-composition-variables='[{"id":"photo1","type":"string","label":"Set 1 fotoğrafı","default":"assets/products/set-1.jpg"},{"id":"tag1","type":"string","label":"Set 1 etiketi","default":"Van Gogh"},{"id":"photo2","type":"string","label":"Set 2 fotoğrafı","default":"assets/products/set-3.jpg"},{"id":"tag2","type":"string","label":"Set 2 etiketi","default":"Kawaii"},{"id":"photo3","type":"string","label":"Set 3 fotoğrafı","default":"assets/products/set-2.jpg"},{"id":"tag3","type":"string","label":"Set 3 etiketi","default":"Disco Pop"},{"id":"photo4","type":"string","label":"Set 4 fotoğrafı","default":"assets/products/set-4.jpg"},{"id":"tag4","type":"string","label":"Set 4 etiketi","default":"Junk Journal"},{"id":"photo5","type":"string","label":"Set 5 (bedava) fotoğrafı","default":"assets/products/set-5.jpg"},{"id":"tag5","type":"string","label":"Set 5 etiketi","default":"Cute Duck"},{"id":"price","type":"string","label":"A5 adet fiyatı","default":"64,90"}]'
+  >
     <div id="pile-cam" data-layout-allow-overflow>
-      <div class="pile-mat"></div>
+      <div id="pile-drift" data-layout-allow-overflow>
+        <div class="pile-mat"></div>
 
-      <div id="pile-s1" class="pile-slot clip" data-start="0" data-duration="12.5" data-track-index="1">
-        <div id="pile-c1" class="pile-card" style="left: 80px; top: 470px">
-          <img id="pile-img1" src="assets/products/set-1.jpg" data-var-src="photo1" alt="" />
-          <div id="pile-g1" class="pile-tag" data-layout-allow-overlap data-var-text="tag1">Van Gogh</div>
+        <!-- 1 · Van Gogh: the quality close-up; one sticker is peeled off it -->
+        <div id="pile-s1" class="pile-slot clip" data-start="0" data-duration="13.7" data-track-index="1">
+          <div id="pile-c1" class="pile-card" style="left: 80px; top: 470px">
+            <img id="pile-img1" src="assets/products/set-1.jpg" data-var-src="photo1" alt="" />
+            <div id="pile-hole" class="pile-hole" data-layout-ignore><img src="assets/cutouts/vg-portrait-hole.png" alt="" /></div>
+            <div class="pile-gloss" data-layout-ignore><div id="pile-b1" class="pile-band"></div></div>
+            <div id="pile-g1" class="pile-tag" data-layout-allow-overlap data-var-text="tag1">Van Gogh</div>
+            <div id="pile-d1" class="pile-dot" data-layout-allow-overlap>1</div>
+            <div id="pile-cut" class="pile-cut" data-layout-ignore><img src="assets/cutouts/vg-portrait.png" alt="" /></div>
+          </div>
         </div>
-      </div>
-      <div id="pile-s2" class="pile-slot clip" data-start="1.75" data-duration="10.75" data-track-index="2">
-        <div id="pile-c2" class="pile-card" style="left: 520px; top: 590px">
-          <img id="pile-img2" src="assets/products/set-2.jpg" data-var-src="photo2" alt="" />
-          <div id="pile-g2" class="pile-tag" data-layout-allow-overlap data-var-text="tag2">Disco Pop</div>
+        <div id="pile-s2" class="pile-slot clip" data-start="6.97" data-duration="6.73" data-track-index="2">
+          <div id="pile-c2" class="pile-card" style="left: 520px; top: 590px">
+            <img id="pile-img2" src="assets/products/set-3.jpg" data-var-src="photo2" alt="" />
+            <div class="pile-gloss" data-layout-ignore><div id="pile-b2" class="pile-band"></div></div>
+            <div id="pile-g2" class="pile-tag" data-layout-allow-overlap data-var-text="tag2">Kawaii</div>
+            <div id="pile-d2" class="pile-dot" data-layout-allow-overlap>2</div>
+          </div>
         </div>
-      </div>
-      <div id="pile-s3" class="pile-slot clip" data-start="3.65" data-duration="8.85" data-track-index="3">
-        <div id="pile-c3" class="pile-card" style="left: 260px; top: 720px">
-          <img id="pile-img3" src="assets/products/set-3.jpg" data-var-src="photo3" alt="" />
-          <div id="pile-g3" class="pile-tag" data-layout-allow-overlap data-var-text="tag3">Kawaii</div>
+        <div id="pile-s3" class="pile-slot clip" data-start="7.45" data-duration="6.25" data-track-index="3">
+          <div id="pile-c3" class="pile-card" style="left: 260px; top: 720px">
+            <img id="pile-img3" src="assets/products/set-2.jpg" data-var-src="photo3" alt="" />
+            <div class="pile-gloss" data-layout-ignore><div id="pile-b3" class="pile-band"></div></div>
+            <div id="pile-g3" class="pile-tag" data-layout-allow-overlap data-var-text="tag3">Disco Pop</div>
+            <div id="pile-d3" class="pile-dot" data-layout-allow-overlap>3</div>
+          </div>
         </div>
-      </div>
-      <div id="pile-s4" class="pile-slot clip" data-start="4.1" data-duration="8.4" data-track-index="4">
-        <div id="pile-c4" class="pile-card" style="left: 60px; top: 960px">
-          <img id="pile-img4" src="assets/products/set-4.jpg" data-var-src="photo4" alt="" />
-          <div id="pile-g4" class="pile-tag" data-layout-allow-overlap data-var-text="tag4">Junk Journal</div>
+        <div id="pile-s4" class="pile-slot clip" data-start="7.9" data-duration="5.8" data-track-index="4">
+          <div id="pile-c4" class="pile-card" style="left: 60px; top: 960px">
+            <img id="pile-img4" src="assets/products/set-4.jpg" data-var-src="photo4" alt="" />
+            <div class="pile-gloss" data-layout-ignore><div id="pile-b4" class="pile-band"></div></div>
+            <div id="pile-g4" class="pile-tag" data-layout-allow-overlap data-var-text="tag4">Junk Journal</div>
+            <div id="pile-d4" class="pile-dot" data-layout-allow-overlap>4</div>
+          </div>
         </div>
-      </div>
-      <div id="pile-s5" class="pile-slot clip" data-start="4.5" data-duration="8.0" data-track-index="5">
-        <div id="pile-c5" class="pile-card" style="left: 560px; top: 930px">
-          <img id="pile-img5" src="assets/products/set-5.jpg" data-var-src="photo5" alt="" />
-          <div id="pile-g5" class="pile-tag" data-layout-allow-overlap data-var-text="tag5">Cute Duck</div>
+        <div id="pile-s5" class="pile-slot clip" data-start="10.83" data-duration="2.87" data-track-index="5">
+          <div id="pile-c5" class="pile-card" style="left: 560px; top: 930px">
+            <img id="pile-img5" src="assets/products/set-5.jpg" data-var-src="photo5" alt="" />
+            <div class="pile-gloss" data-layout-ignore><div id="pile-b5" class="pile-band"></div></div>
+            <div id="pile-g5" class="pile-tag" data-layout-allow-overlap data-var-text="tag5">Cute Duck</div>
+            <div id="pile-d5" class="pile-dot" data-layout-allow-overlap>5</div>
+            <div id="pile-free" class="pile-free" data-layout-allow-overlap>BEDAVA</div>
+          </div>
         </div>
-      </div>
-      <div id="pile-s6" class="pile-slot clip" data-start="5.63" data-duration="6.87" data-track-index="6">
-        <div id="pile-c6" class="pile-card" style="left: 290px; top: 1080px">
-          <img id="pile-img6" src="assets/products/set-6.jpg" data-var-src="photo6" alt="" />
-          <div id="pile-g6" class="pile-tag" data-layout-allow-overlap data-var-text="tag6">Lavanta</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- price stickers: 1 set → 2–4 sets → 5–9 sets (brand price list) -->
-    <div id="pile-p1" class="pile-slot clip" data-start="0" data-duration="3.55" data-track-index="7">
-      <div id="pile-p1-st" data-layout-allow-overlap data-layout-allow-overflow data-layout-allow-occlusion class="pile-sticker">
-        <div class="pile-count"><span>1</span><span>SET</span></div>
-        <div class="pile-price" data-var-text="price1">64,90</div>
-        <div class="pile-unit">TL · A5 · tek set</div>
-      </div>
-    </div>
-    <div id="pile-p2" class="pile-slot clip" data-start="3.28" data-duration="1.62" data-track-index="8">
-      <div id="pile-p2-st" data-layout-allow-overlap data-layout-allow-overflow data-layout-allow-occlusion class="pile-sticker">
-        <div class="pile-count">
-          <span class="pile-strip" id="pile-p2-strip"><span>2</span><span>3</span><span>4</span></span><span>SET</span>
-        </div>
-        <div class="pile-price" data-var-text="price2">59,90</div>
-        <div class="pile-unit">TL · A5 · adet başı</div>
-      </div>
-    </div>
-    <div id="pile-p3" class="pile-slot clip" data-start="4.6" data-duration="7.9" data-track-index="9">
-      <div id="pile-p3-st" data-layout-allow-overlap data-layout-allow-overflow data-layout-allow-occlusion class="pile-sticker is-pink">
-        <div class="pile-count">
-          <span class="pile-strip" id="pile-p3-strip"><span>5</span><span>6</span></span><span>SET</span>
-        </div>
-        <div class="pile-price" data-var-text="price3">57,90</div>
-        <div class="pile-unit">TL · A5 · adet başı</div>
       </div>
     </div>
 
-    <h2 id="pile-t1" class="pile-title clip" data-start="0" data-duration="2.12" data-track-index="10">
-      <span class="w">Tek</span> <span class="w">set</span> <span class="w">mi?</span>
+    <!-- quality facts from the brand brief, in screen space during the close-up -->
+    <div id="pile-q1s" class="pile-slot clip" data-start="1.45" data-duration="4.75" data-track-index="6">
+      <div id="pile-q1" class="pile-qtag" style="left: 60px; top: 1170px" data-layout-allow-overlap>Parlak &amp; mat kâğıt</div>
+    </div>
+    <div id="pile-q2s" class="pile-slot clip" data-start="5.3" data-duration="0.9" data-track-index="7">
+      <div id="pile-q2" class="pile-qtag" style="left: 560px; top: 1236px" data-layout-allow-overlap>Hassas kesim</div>
+    </div>
+
+    <!-- price: fixed A5 unit price, then the 5-for-4 offer -->
+    <div id="pile-p1" class="pile-slot clip" data-start="8.3" data-duration="1.85" data-track-index="8">
+      <div id="pile-p1-st" data-layout-allow-overlap data-layout-allow-occlusion class="pile-sticker">
+        <div class="pile-size">A5</div>
+        <div class="pile-price" data-var-text="price">64,90</div>
+        <div class="pile-unit">TL · adet</div>
+      </div>
+    </div>
+    <div id="pile-p2" class="pile-slot clip" data-start="9.6" data-duration="4.1" data-track-index="9">
+      <div id="pile-p2-st" data-layout-allow-overlap data-layout-allow-occlusion class="pile-sticker is-offer">
+        <div class="pile-offer">5 AL</div>
+        <div class="pile-offer">4 ÖDE</div>
+      </div>
+    </div>
+
+    <h2 id="pile-t1" class="pile-title clip" data-start="0" data-duration="6.12" data-track-index="10">
+      <span class="w">Kalite</span><br /><span class="w">detayda</span>
     </h2>
-    <h2 id="pile-t2" class="pile-title clip" data-start="2.2" data-duration="2.52" data-track-index="11">
-      <span class="w">Ekledikçe</span>
-    </h2>
-    <h2 id="pile-t3" class="pile-title clip" data-start="4.95" data-duration="3.42" data-track-index="12">
-      <span class="w">birim</span> <span class="w">fiyat</span><br /><span class="w">düşer</span>
-    </h2>
-    <h2 id="pile-t4" class="pile-title clip" data-start="10.3" data-duration="1.72" data-track-index="13">
-      <span class="w">Tasarımları</span><br /><span class="w">karıştır</span>
+    <h2 id="pile-t2" class="pile-title clip" data-start="7.85" data-duration="1.6" data-track-index="11">
+      <span class="w">Hangi</span> <span class="w">tarz</span><br /><span class="w">senin?</span>
     </h2>
   </div>
 
   <script>
+    // The narration is the clock (assets/voice/vo-1..7.mp3, placed in index.html):
+    // VO1 0.20 "Şu kaliteye bir bak!" · VO2 1.50 "Parlak ve mat fotoğraf kâğıtlarına basılıyor,"
+    // VO3 3.85 "kendi ekipmanlarımızla hassasça (4.99) kesiliyor (5.43)." · VO4 6.55 "Van Gogh'tan (6.75) kawaii'ye (7.27), her tarzda set var (8.52)."
+    // VO5 9.35 "Üstelik şimdi beş (9.84) al, dört öde (10.34):" · VO6 11.10 "beşinci (11.13) set bedava (11.74)!"
     const tl = gsap.timeline({ paused: true });
-    const REST = { c1: -4, c2: 6, c3: -7, c4: 5, c5: -6, c6: 3 };
+    const REST = { c1: -4, c2: 6, c3: -7, c4: 5, c5: -6 };
     const AIR = "0 40px 60px rgba(0,0,0,0.35)";
     const LAND = "0 8px 14px rgba(0,0,0,0.22)";
 
-    // frame 0 is the thumbnail: set 1, its price and the hook are already resting
+    // ---- baselines (frame 0 is the thumbnail: the Van Gogh sheet up close, mid-shine)
     tl.set("#pile-c1", { rotation: REST.c1 }, 0);
-    tl.set("#pile-p1-st", { rotation: -6 }, 0);
-    // the camera opens tight on set 1 (the thumbnail), then pulls back as the pile grows
-    tl.set("#pile-cam", { scale: 1.25, x: 220, y: 270 }, 0);
-    tl.to("#pile-cam", { scale: 1, x: 0, y: 0, duration: 1.6, ease: "power2.inOut" }, 1.6);
+    tl.set("#pile-cam", { scale: 1.5, x: 220, y: 270 }, 0);
+    tl.set(["#pile-b2", "#pile-b3", "#pile-b4", "#pile-b5"], { xPercent: -160 }, 0);
+    tl.set("#pile-cut", { transformPerspective: 700, transformOrigin: "50% 100%" }, 0);
 
-    // a print falls onto the mat (a fall speeds up), then settles
+    function gloss(id, t, dur) {
+      tl.fromTo(id, { xPercent: -160 }, { xPercent: 300, duration: dur || 0.7, ease: "power1.inOut" }, t);
+    }
     function slap(id, t) {
+      const r = REST[id.slice(-2)];
       tl.fromTo(
         id,
-        { scale: 1.32, y: -160, rotation: REST[id.slice(-2)] + 9, boxShadow: AIR },
-        { scale: 1, y: 0, rotation: REST[id.slice(-2)], boxShadow: LAND, duration: 0.3, ease: "power3.in" },
+        { scale: 1.32, y: -160, rotation: r + 9, boxShadow: AIR },
+        { scale: 1, y: 0, rotation: r, boxShadow: LAND, duration: 0.3, ease: "power3.in" },
         t,
       );
       tl.to(id, { scale: 0.985, duration: 0.05, ease: "none" }, t + 0.3);
       tl.to(id, { scale: 1, duration: 0.12, ease: "power2.out" }, t + 0.35);
     }
-    // a print tossed in from the side
     function toss(id, t, fromX) {
+      const r = REST[id.slice(-2)];
       tl.fromTo(
         id,
-        { x: fromX, y: -60, scale: 1.12, rotation: REST[id.slice(-2)] + (fromX < 0 ? -24 : 24), boxShadow: AIR },
-        { x: 0, y: 0, scale: 1, rotation: REST[id.slice(-2)], boxShadow: LAND, duration: 0.32, ease: "power3.in" },
+        { x: fromX, y: -60, scale: 1.12, rotation: r + (fromX < 0 ? -24 : 24), boxShadow: AIR },
+        { x: 0, y: 0, scale: 1, rotation: r, boxShadow: LAND, duration: 0.32, ease: "power3.in" },
         t,
       );
       tl.to(id, { scale: 0.985, duration: 0.05, ease: "none" }, t + 0.32);
       tl.to(id, { scale: 1, duration: 0.12, ease: "power2.out" }, t + 0.37);
     }
-    // the old price sticker is peeled off and thrown up-right
-    function peel(id, t, rot) {
+    function peelOff(id, t, rot) {
       tl.to(id, { x: 260, y: -320, scale: 1.08, rotation: rot - 28, duration: 0.28, ease: "power3.in" }, t);
     }
-    // a new price sticker is slapped on
-    function stick(id, t, rot) {
-      tl.fromTo(id, { scale: 1.35, rotation: rot + 10 }, { scale: 1, rotation: rot, duration: 0.22, ease: "power3.in" }, t);
+    function stick(id, t, rot, from) {
+      tl.fromTo(id, { scale: from || 1.35, rotation: rot + 10 }, { scale: 1, rotation: rot, duration: 0.22, ease: "power3.in" }, t);
       tl.to(id, { scale: 0.97, duration: 0.04, ease: "none" }, t + 0.22);
       tl.to(id, { scale: 1, duration: 0.12, ease: "power2.out" }, t + 0.26);
+    }
+    function pop(sel, t) {
+      tl.to(sel, { scale: 1.28, rotation: -7, duration: 0.12, ease: "power2.out" }, t);
+      tl.to(sel, { scale: 1, rotation: 0, duration: 0.3, ease: "back.out(2)" }, t + 0.12);
+    }
+    function dot(sel, t) {
+      tl.fromTo(sel, { scale: 0, rotation: -10, opacity: 0 }, { scale: 1, rotation: 6, opacity: 1, duration: 0.22, ease: "back.out(2.2)" }, t);
     }
     function wordsIn(sel, t) {
       tl.fromTo(
@@ -266,50 +367,82 @@
     function wordsOut(sel, t) {
       tl.to(sel + " .w", { opacity: 0, filter: "blur(8px)", duration: 0.15, ease: "power2.in" }, t);
     }
-
-    // The narration is the clock (assets/voice/vo-1..5.mp3, placed in index.html).
-    // VO2 "Sepete" 2.05 · "ekledikçe" 2.29 · "düşüyor" 3.51
-    slap("#pile-c2", 1.75);
-    wordsOut("#pile-t1", 1.95);
-    wordsIn("#pile-t2", 2.25);
-    peel("#pile-p1-st", 3.25, -6);
-    stick("#pile-p2-st", 3.3, 5);
-
-    // sets 3 and 4: the count rolls
-    slap("#pile-c3", 3.65);
-    tl.fromTo("#pile-p2-strip", { y: 0 }, { y: -40, duration: 0.1, ease: "power2.out" }, 3.95);
-    slap("#pile-c4", 4.1);
-    tl.to("#pile-p2-strip", { y: -80, duration: 0.1, ease: "power2.out" }, 4.4);
-    wordsOut("#pile-t2", 4.55);
-
-    // payoff on VO3 "Elli yedi doksan!" (4.78): set 5 tossed in, 59,90 peels, salmon 57,90 lands, camera punch
-    toss("#pile-c5", 4.5, 760);
-    peel("#pile-p2-st", 4.6, 5);
-    stick("#pile-p3-st", 4.62, -4);
-    tl.to("#pile-cam", { scale: 1.05, duration: 0.35, ease: "expo.out" }, 4.84);
-    wordsIn("#pile-t3", 5.0);
-
-    // set 6 in the pause after "doksan!"
-    toss("#pile-c6", 5.63, -760);
-    tl.fromTo("#pile-p3-strip", { y: 0 }, { y: -40, duration: 0.1, ease: "power2.out" }, 5.95);
-    wordsOut("#pile-t3", 8.2);
-
-    // VO4: each named design's tag pops on its name, then every tag on "tasarımları"
-    function pop(sel, t) {
-      tl.to(sel, { scale: 1.28, rotation: -7, duration: 0.12, ease: "power2.out" }, t);
-      tl.to(sel, { scale: 1, rotation: 0, duration: 0.3, ease: "back.out(2)" }, t + 0.12);
+    function tagIn(id, t, rot) {
+      tl.fromTo(id, { scale: 1.4, rotation: rot + 8 }, { scale: 1, rotation: rot, duration: 0.2, ease: "power3.in" }, t);
+      tl.to(id, { scale: 0.97, duration: 0.04, ease: "none" }, t + 0.2);
+      tl.to(id, { scale: 1, duration: 0.12, ease: "power2.out" }, t + 0.24);
     }
-    pop("#pile-g1", 8.55); // "Van Gogh'dan"
-    pop("#pile-g3", 9.2); // "kawaii'ye"
-    ["#pile-g1", "#pile-g2", "#pile-g3", "#pile-g4", "#pile-g5", "#pile-g6"].forEach((g, i) => pop(g, 10.35 + i * 0.06));
-    wordsIn("#pile-t4", 10.33); // "tasarımları" 10.39
-    wordsOut("#pile-t4", 11.85);
+    function tagOut(id, t) {
+      tl.to(id, { scale: 0.85, opacity: 0, filter: "blur(6px)", duration: 0.18, ease: "power2.in" }, t);
+    }
 
-    // the pile is swept off the mat, downward
+    // ---- 1 · quality close-up
+    tl.fromTo("#pile-b1", { xPercent: -60 }, { xPercent: 300, duration: 1.1, ease: "power1.inOut" }, 0); // shine on "kaliteye"
+    // VO2: the camera pushes in toward the sticker that will be peeled
+    tl.to("#pile-cam", { scale: 1.75, x: 232, y: 291, duration: 2.2, ease: "power2.inOut" }, 1.5);
+    tagIn("#pile-q1", 1.5, -4); // "Parlak"
+    gloss("#pile-b1", 2.4, 0.9); // a second pass of light on "kâğıtlarına"
+    // VO3: the sticker peels off the sheet on "hassasça", free on "kesiliyor"
     tl.to(
-      ["#pile-p3-st", "#pile-c6", "#pile-c5", "#pile-c4", "#pile-c3", "#pile-c2", "#pile-c1"],
+      "#pile-cut",
+      { rotationX: -38, scale: 1.08, filter: "drop-shadow(0px 14px 12px rgba(0,0,0,0.28))", duration: 0.4, ease: "power2.out" },
+      4.95,
+    );
+    tl.to(
+      "#pile-cut",
+      { rotationX: 0, y: -80, scale: 1.5, rotation: 6, filter: "drop-shadow(0px 34px 26px rgba(0,0,0,0.32))", duration: 0.45, ease: "power3.out" },
+      5.35,
+    );
+    tagIn("#pile-q2", 5.38, 3); // "kesiliyor"
+    wordsOut("#pile-t1", 5.95);
+    tagOut("#pile-q1", 6.0);
+    tagOut("#pile-q2", 6.02);
+    // the peeled sticker is carried away as the camera pulls back to the mat
+    tl.to("#pile-cut", { x: 260, y: -1100, rotation: 28, scale: 1.7, duration: 0.5, ease: "power3.in" }, 6.12);
+    tl.to("#pile-cam", { scale: 1, x: 0, y: 0, duration: 1.2, ease: "power2.inOut" }, 6.1);
+    tl.to("#pile-hole", { opacity: 0, duration: 0.5, ease: "power1.inOut" }, 6.5);
+
+    // ---- 2 · variety: the mat drifts slowly while sets land on their names
+    tl.fromTo("#pile-drift", { rotation: 0, x: 0 }, { rotation: 1.2, x: -14, duration: 6.4, ease: "sine.inOut" }, 7.3);
+    pop("#pile-g1", 6.72); // "Van Gogh'tan"
+    slap("#pile-c2", 6.97); // Kawaii lands on "kawaii'ye"
+    gloss("#pile-b2", 7.35);
+    slap("#pile-c3", 7.45);
+    gloss("#pile-b3", 7.83);
+    wordsIn("#pile-t2", 7.88);
+    slap("#pile-c4", 7.9);
+    gloss("#pile-b4", 8.28);
+    stick("#pile-p1-st", 8.32, -6); // A5 · 64,90 on "var"
+    wordsOut("#pile-t2", 9.3);
+
+    // ---- 3 · the offer: 5 al 4 öde
+    peelOff("#pile-p1-st", 9.58, -6);
+    stick("#pile-p2-st", 9.62, 5); // on "beş"
+    dot("#pile-d1", 10.02); // counting 1-2-3-4 over "dört öde"
+    dot("#pile-d2", 10.17);
+    dot("#pile-d3", 10.32);
+    dot("#pile-d4", 10.47);
+    toss("#pile-c5", 10.83, 760); // the 5th set lands on "beşinci"
+    dot("#pile-d5", 11.25);
+    // BEDAVA is stamped on "bedava": payoff, camera punch
+    tl.fromTo(
+      "#pile-free",
+      { scale: 1.6, rotation: -2, opacity: 0 },
+      { scale: 1, rotation: -12, opacity: 1, duration: 0.22, ease: "power3.in" },
+      11.52,
+    );
+    tl.to("#pile-free", { scale: 0.96, duration: 0.04, ease: "none" }, 11.74);
+    tl.to("#pile-free", { scale: 1, duration: 0.14, ease: "power2.out" }, 11.78);
+    tl.to("#pile-cam", { scale: 1.05, x: -20, y: -12, duration: 0.35, ease: "expo.out" }, 11.74);
+    gloss("#pile-b5", 11.85);
+    // a last ripple of light across every sheet
+    ["#pile-b1", "#pile-b2", "#pile-b3", "#pile-b4"].forEach((b, i) => gloss(b, 12.4 + i * 0.09, 0.6));
+
+    // ---- the pile is swept off the mat, downward
+    tl.to(
+      ["#pile-p2-st", "#pile-c5", "#pile-c4", "#pile-c3", "#pile-c2", "#pile-c1"],
       { y: "+=1500", rotation: "+=14", duration: 0.4, stagger: 0.03, ease: "power3.in" },
-      11.9,
+      13.12,
     );
 
     window.__timelines["pile"] = tl;

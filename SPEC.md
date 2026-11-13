@@ -1,5 +1,9 @@
 # SPEC — "Sepet Büyüdükçe" (Storyline B)
 
+> **Current cut (see REVIEW.md):** quality opening + "5 al 4 öde" campaign, 18.7 s, timed to a 7-line voiceover.
+> A5 price is fixed at 64,90 TL (no price ladder). The shot list below is the earlier price-ladder version, kept for reference.
+
+
 PRICES:  A5 size only (brand catalog): 1 = 64,90 TL, 2–4 = 59,90 TL, 5–9 = 57,90 TL per sheet; mixed designs allowed
          ("Çoklu perakende siparişlerde farklı tasarımlar seçilebilir"). Wholesale tiers are single-design and not shown.
 GOAL:    The viewer sees the variety and that the unit price drops with every set added, then goes to Shopier to buy several sets at once.
