@@ -4,7 +4,7 @@ PRICES:  A5 size only (brand catalog): 1 = 64,90 TL, 2–4 = 59,90 TL, 5–9 = 5
          ("Çoklu perakende siparişlerde farklı tasarımlar seçilebilir"). Wholesale tiers are single-design and not shown.
 GOAL:    The viewer sees the variety and that the unit price drops with every set added, then goes to Shopier to buy several sets at once.
 OUTPUT:  HyperFrames, 1080 x 1920 (9:16 Reels), 30 fps
-TIME:    11.5 s x 30 = 345 frames. Beat grid 120 BPM = 15 frames per beat (for a trending audio the user adds in Instagram).
+TIME:    17.3 s x 30 = 519 frames, timed to the voiceover (see REVIEW.md); the shot list below is the pre-voice 11.5 s cut. Beat grid 120 BPM = 15 frames per beat (for a trending audio the user adds in Instagram).
 
 LOOK:
   ground  = a craft cutting mat, top-down: #A8DCC6 with a white grid

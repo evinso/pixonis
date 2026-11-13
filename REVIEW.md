@@ -1,6 +1,6 @@
 # REVIEW — Malibu Craft Reels "Sepet Büyüdükçe"
 
-Render: `renders/malibucraft-a5-reels.mp4` (1080x1920, 30 fps, 11.5 s, H.264 + AAC). Not committed (renders/ is ignored).
+Render: `renders/malibucraft-a5-reels-seslendirme.mp4` (1080x1920, 30 fps, 17.3 s, H.264 + AAC, Turkish voiceover). Not committed (renders/ is ignored).
 
 ## Creative calls
 
@@ -20,6 +20,19 @@ Render: `renders/malibucraft-a5-reels.mp4` (1080x1920, 30 fps, 11.5 s, H.264 + A
 - Not used: Vintage art supplies, Kırmızı Taşlar ve Kalpler, Beyaz ve Krem Çiçekler (space; candidates for a second Reel),
   and Sarkastik Tepkiler (real people's likeness and an obscene gesture are risky in an ad).
 
+## Voiceover
+
+- ElevenLabs, voice Jessica (`cgSgspJ2msm6clMCkdW9`, playful/bright/warm), `eleven_multilingual_v2`, normal speed, one clip per line
+  in `assets/voice/vo-1..5.mp3` (silence-trimmed, loudness-normalised to -16 LUFS). Picked over Laura and Liam because Whisper
+  read Jessica's Turkish back word for word; a 1.1x speed take was rejected (slurred words).
+- Script (never repeats the screen word for word): "Sadece bir set mi alacaksın?" / "Sepete ekledikçe her setin fiyatı düşüyor." /
+  "Elli yedi doksan! Beş set alınca tanesi bu kadar." / "Van Gogh'tan kawaii'ye, dilediğin tasarımları bir arada seç." /
+  "Malibu Craft, Shopier mağazamızda seni bekliyor."
+- The narration is the clock: set 2 on "Sepete", 59,90 on "düşüyor", the 57,90 payoff on "Elli yedi doksan", tags pop on
+  "Van Gogh" / "kawaii" / "tasarımları", the wordmark on "Malibu Craft", the Shopier label on "Shopier". Film runs 17.3 s.
+- No burned-in captions: the on-screen titles and prices carry the pitch muted; Instagram's automatic captions can be switched on.
+- Final mix measured: -16.1 LUFS, -1.0 dBTP; Whisper on the rendered file returns all five lines in order.
+
 ## Measured vs looked at
 
 - `hyperframes check`: 0 errors, 0 warnings; 57/57 text checks pass WCAG AA.
@@ -29,6 +42,5 @@ Render: `renders/malibucraft-a5-reels.mp4` (1080x1920, 30 fps, 11.5 s, H.264 + A
 
 ## Weakest shot
 
-- 3.6–6.8 s: the pile is complete and still while only the title changes (~3 s). With real photos this reads as a showcase;
-  with more time, a slow push across the pile or one print lifting per title would keep it alive.
+- 8.2–10.3 s has no title while the voice names designs (tags pop instead); a viewer watching muted gets only the tag pops there.
 - The end card is text on the mat; a real logo and one product print peeking in would make it stronger.
