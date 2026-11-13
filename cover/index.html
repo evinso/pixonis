@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #a8dcc6;
+      }
+      #root {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        font-family: "Nunito", sans-serif;
+        color: #29314b;
+      }
+      .mat {
+        position: absolute;
+        inset: 0;
+        background-color: #a8dcc6;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.55) 3px, transparent 3px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.55) 3px, transparent 3px),
+          linear-gradient(rgba(255, 255, 255, 0.3) 2px, transparent 2px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.3) 2px, transparent 2px);
+        background-size:
+          180px 180px,
+          180px 180px,
+          45px 45px,
+          45px 45px;
+        background-position: 0 40px;
+      }
+      .headline {
+        position: absolute;
+        left: 72px;
+        top: 282px;
+        font-family: "Archivo Black", sans-serif;
+        font-size: 104px;
+        line-height: 1;
+        letter-spacing: -0.02em;
+        white-space: nowrap;
+      }
+      .sub {
+        position: absolute;
+        left: 66px;
+        top: 418px;
+        padding: 12px 26px 14px;
+        background: #d8b38a;
+        border: 9px solid #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        font-weight: 900;
+        font-size: 42px;
+        line-height: 1;
+        white-space: nowrap;
+        transform: rotate(-2deg);
+      }
+      .card {
+        position: absolute;
+        width: 440px;
+        height: 440px;
+        padding: 15px;
+        background: #ffffff;
+        border-radius: 6px;
+        box-shadow: 0 10px 18px rgba(0, 0, 0, 0.24);
+      }
+      .card img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .dot {
+        position: absolute;
+        right: 36px;
+        top: -24px;
+        width: 78px;
+        height: 78px;
+        border-radius: 50%;
+        background: #d8b38a;
+        border: 7px solid #ffffff;
+        box-shadow: 0 5px 8px rgba(0, 0, 0, 0.18);
+        font-family: "Archivo Black", sans-serif;
+        font-size: 38px;
+        line-height: 64px;
+        text-align: center;
+      }
+      .free {
+        position: absolute;
+        left: 18px;
+        top: 150px;
+        padding: 12px 28px 16px;
+        background: #e1a8a4;
+        border: 12px solid #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 8px 14px rgba(0, 0, 0, 0.24);
+        font-family: "Archivo Black", sans-serif;
+        font-size: 68px;
+        line-height: 1;
+        white-space: nowrap;
+        transform: rotate(-12deg);
+      }
+      .badge {
+        position: absolute;
+        left: 652px;
+        top: 500px;
+        width: 370px;
+        height: 370px;
+        border-radius: 50%;
+        background: #e1a8a4;
+        border: 14px solid #ffffff;
+        box-shadow: 0 8px 14px rgba(0, 0, 0, 0.22);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: "Archivo Black", sans-serif;
+        font-size: 92px;
+        line-height: 0.98;
+        text-align: center;
+        transform: rotate(6deg);
+      }
+      .mark {
+        position: absolute;
+        left: 66px;
+        top: 1460px;
+        padding: 26px 40px 30px;
+        background: #29314b;
+        border: 13px solid #ffffff;
+        border-radius: 26px;
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        font-family: "Lato", sans-serif;
+        font-weight: 900;
+        font-size: 80px;
+        line-height: 1;
+        white-space: nowrap;
+        transform: rotate(-3deg);
+      }
+      .mark .a {
+        color: #e8bcac;
+      }
+      .mark .b {
+        color: #ffffff;
+      }
+      .cut {
+        position: absolute;
+        filter: drop-shadow(0px 10px 12px rgba(0, 0, 0, 0.25));
+      }
+      .cut img {
+        display: block;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="1" data-width="1080" data-height="1920" data-no-timeline>
+      <div class="mat"></div>
+
+      <div class="card" style="left: 70px; top: 572px; transform: rotate(-6deg)">
+        <img src="assets/products/set-1.jpg" alt="" />
+      </div>
+      <div class="card" style="left: 556px; top: 640px; transform: rotate(7deg)">
+        <img src="assets/products/set-3.jpg" alt="" />
+      </div>
+      <div class="card" style="left: 300px; top: 770px; transform: rotate(-3deg)">
+        <img src="assets/products/set-2.jpg" alt="" />
+      </div>
+      <div class="card" style="left: 62px; top: 968px; transform: rotate(5deg)">
+        <img src="assets/products/set-4.jpg" alt="" />
+      </div>
+      <div class="card" style="left: 542px; top: 950px; transform: rotate(-5deg)">
+        <img src="assets/products/set-5.jpg" alt="" />
+        <div class="free">BEDAVA</div>
+      </div>
+
+      <div class="badge"><span>5 AL</span><span>4 ÖDE</span></div>
+
+      <h1 class="headline">5. set bedava!</h1>
+      <div class="sub">A5 sticker seti · 64,90 TL</div>
+
+      <div class="mark"><span class="a">MALIBU</span> <span class="b">CRAFT</span></div>
+      <div class="cut" style="left: 812px; top: 1408px; width: 210px; transform: rotate(8deg)"><img src="assets/cutouts/vg-portrait.png" alt="" /></div>
+      <div class="cut" style="left: 864px; top: 238px; width: 150px; transform: rotate(-10deg)"><img src="assets/cutouts/disco-heart.png" alt="" /></div>
+      <!-- outside the 3:4 grid crop: seen only full-screen -->
+      <div class="cut" style="left: 70px; top: 40px; width: 250px; transform: rotate(-8deg)"><img src="assets/cutouts/vg-starry.png" alt="" /></div>
+      <div class="cut" style="left: 120px; top: 1700px; width: 220px; transform: rotate(6deg)"><img src="assets/cutouts/kawaii-laptop.png" alt="" /></div>
+    </div>
+  </body>
+</html>
