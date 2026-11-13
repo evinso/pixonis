@@ -1,46 +1,46 @@
-# REVIEW — Malibu Craft Reels "Sepet Büyüdükçe"
+# REVIEW — Malibu Craft Reels "Kalite + 5 al 4 öde"
 
-Render: `renders/malibucraft-a5-reels-seslendirme.mp4` (1080x1920, 30 fps, 17.3 s, H.264 + AAC, Turkish voiceover). Not committed (renders/ is ignored).
+Render: `renders/malibucraft-5al4ode-reels.mp4` (1080x1920, 30 fps, 18.7 s, H.264 + AAC, Turkish voiceover). Not committed (renders/ is ignored).
 
-## Creative calls
+## Facts on screen (from the brand)
 
-- Built storyline **B** (price ladder) instead of the recommended A: A needs production footage (printing, Cricut, packing)
-  that has not arrived; B works from the product photos the brand already has. A and C remain in `STORYLINES.md`.
-- Shortened from the planned 13 s to 11.5 s; theme tags ride on each print (read as it lands) instead of a separate tag beat.
-- Frame 0 opens tight on set 1 (camera 1.45x) and pulls back as the pile grows — a strong thumbnail instead of a small photo in an empty frame.
-- Free shipping left out (the brand confirmed it is not offered). Prices are the brand's own tiers: 64,90 / 59,90 / 57,90 TL.
-- The wordmark is typeset (MALIBU salmon / CRAFT white on a navy die-cut sticker, Lato 900 — the brand's own style from its price catalog).
+- A5 unit price is fixed: 64,90 TL. Campaign: 5 al 4 öde — the 5th sticker set is free. No price ladder, no free shipping.
+- Quality claims only from the brief: glossy and matte photo paper; cut on the brand's own equipment ("hassas kesim").
+- Mixing designs is allowed (price catalog: "Çoklu perakende siparişlerde farklı tasarımlar seçilebilir").
 
-## Product images
+## Structure (the narration is the clock)
 
-- `assets/products/set-1..6.jpg` are the brand's own sheet images (sent in chat): 1 Van Gogh, 2 Disco Kalpler ve Pop Stil,
-  3 Kawaii Sticker Sheet, 4 Junk Journal, 5 Cute Duck, 6 Lavanta ve Mor Çiçekler. Tags match (variables `tag1..tag6`).
-- Sources arrived at 458x458 px (chat compression), upscaled to 1080 with Lanczos; the opening zoom was lowered from 1.45x
-  to 1.25x to keep set 1 sharp. Higher-resolution originals dropped in with the same names would look crisper.
-- Not used: Vintage art supplies, Kırmızı Taşlar ve Kalpler, Beyaz ve Krem Çiçekler (space; candidates for a second Reel),
-  and Sarkastik Tepkiler (real people's likeness and an obscene gesture are risky in an ad).
+| Time | Voice (Jessica, ElevenLabs) | Picture |
+| --- | --- | --- |
+| 0.2 | Şu kaliteye bir bak! | Van Gogh sheet up close (frame 0 = thumbnail), light streak crosses it; title "Kalite detayda" |
+| 1.5 | Parlak ve mat fotoğraf kâğıtlarına basılıyor, | camera pushes in; tag "Parlak & mat kâğıt"; second light pass |
+| 3.85 | kendi ekipmanlarımızla hassasça kesiliyor. | the Van Gogh portrait sticker peels off the sheet (3D lift, the empty spot shows); tag "Hassas kesim" |
+| 6.1 | — | the sticker is carried away, the camera pulls back to the mat |
+| 6.55 | Van Gogh'tan kawaii'ye, her tarzda set var. | Van Gogh tag pops; Kawaii, Disco Pop, Junk Journal land on their beats, each with a shine; "Hangi tarz senin?"; A5 · 64,90 TL sticker |
+| 9.35 | Üstelik şimdi beş al, dört öde: | 64,90 peels, salmon "5 AL 4 ÖDE" lands on "beş"; counters 1-2-3-4 pop on the sheets |
+| 11.1 | beşinci set bedava! | Cute Duck tossed in with counter 5; "BEDAVA" stamp on "bedava" + camera punch; light ripple over all sheets |
+| 13.1 | — | pile swept off the mat |
+| 14.0 | Malibu Craft, Shopier mağazamızda seni bekliyor. | MALIBU CRAFT wordmark, CTA, Shopier label on "Shopier", 5 AL 4 ÖDE badge, DM line, three real stickers stuck on the mat |
 
-## Voiceover
+Continuous motion so no product image sits still: shine passes, the camera push and pull, a slow drift of the mat (1.2° over 6.4 s),
+tag pops on spoken names, counters, the stamp, and the final light ripple.
 
-- ElevenLabs, voice Jessica (`cgSgspJ2msm6clMCkdW9`, playful/bright/warm), `eleven_multilingual_v2`, normal speed, one clip per line
-  in `assets/voice/vo-1..5.mp3` (silence-trimmed, loudness-normalised to -16 LUFS). Picked over Laura and Liam because Whisper
-  read Jessica's Turkish back word for word; a 1.1x speed take was rejected (slurred words).
-- Script (never repeats the screen word for word): "Sadece bir set mi alacaksın?" / "Sepete ekledikçe her setin fiyatı düşüyor." /
-  "Elli yedi doksan! Beş set alınca tanesi bu kadar." / "Van Gogh'tan kawaii'ye, dilediğin tasarımları bir arada seç." /
-  "Malibu Craft, Shopier mağazamızda seni bekliyor."
-- The narration is the clock: set 2 on "Sepete", 59,90 on "düşüyor", the 57,90 payoff on "Elli yedi doksan", tags pop on
-  "Van Gogh" / "kawaii" / "tasarımları", the wordmark on "Malibu Craft", the Shopier label on "Shopier". Film runs 17.3 s.
-- No burned-in captions: the on-screen titles and prices carry the pitch muted; Instagram's automatic captions can be switched on.
-- Final mix measured: -16.1 LUFS, -1.0 dBTP; Whisper on the rendered file returns all five lines in order.
+## Assets
+
+- Sheets: `assets/products/set-1..5.jpg` (Van Gogh, Disco Pop, Kawaii, Junk Journal, Cute Duck; set-6 Lavanta unused). Sources were
+  458 px from chat, upscaled 2.36x — the close-up at 1.5–1.75x is soft; original high-res files would make the quality shot crisper.
+- Cutouts: `assets/cutouts/*.png` cut from the sheets (background removed, white die-cut edge rebuilt) + matching "hole" images.
+- Voice: `assets/voice/vo-1..7.mp3`, Jessica (`cgSgspJ2msm6clMCkdW9`), `eleven_multilingual_v2`, each line checked with Whisper
+  and regenerated until it read back word for word ("Şu kaliteye bak!" and "her tarza bir set" were rephrased because they slurred).
+- SFX: HyperFrames bundled library (Pixabay licence, `assets/sfx/CREDITS.md`).
 
 ## Measured vs looked at
 
-- `hyperframes check`: 0 errors, 0 warnings; 57/57 text checks pass WCAG AA.
-- Snapshots at 0, 0.9, 1.3, 1.8, 2.4, 3.4, 4.5, 5.6, 7.0, 8.0, 10.5, 11.25 s and one frame of the rendered MP4 (3.5 s) were inspected.
-- Audio measured, not heard: -17.3 LUFS integrated, -3.2 dBTP true peak; hits at 1.0, 1.5, 2.0, 3.0, 3.22, 3.6, 7.0, 7.6, 8.4 s.
-  SFX are the HyperFrames bundled library (Pixabay licence, see `assets/sfx/CREDITS.md`). No music bed by design.
+- `hyperframes check`: 0 errors, 0 warnings. Snapshots at 0, 2.6, 3.6, 5.2, 5.6, 5.85, 5.95, 6.6, 7.4, 8.1, 8.7, 10.6, 11.4, 12.0, 12.1, 18.45 s inspected.
+- Audio measured, not heard: -17.4 LUFS, -1.1 dBTP; Whisper on the rendered file returns all seven lines in order.
 
-## Weakest shot
+## Weakest points
 
-- 8.2–10.3 s has no title while the voice names designs (tags pop instead); a viewer watching muted gets only the tag pops there.
-- The end card is text on the mat; a real logo and one product print peeking in would make it stronger.
+- Soft close-up (source resolution, see above).
+- During the camera punch (11.7–13.1 s) the left tags sit just outside the 90% action-safe box; they stay in frame.
+- No burned-in captions; titles, tags and the offer badge carry the message muted.
