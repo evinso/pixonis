@@ -2,7 +2,9 @@
 
 Dikey 1080×1920, 30 fps, Türkçe ekran yazıları. Amaç: izleyiciyi Shopier'den (malibucraftshop) satın almaya yönlendirmek.
 Ekrandaki her fiyat ve iddia markanın verdiği bilgiden: 39,90 TL / 2–4 adet 37,90 TL / 5–9 adet 35,90 TL.
-Ücretsiz kargo (349 TL+) şu an "planlanan" bir uygulama; yayında olduğu teyit edilmeden ekrana yazılmaz.
+Ücretsiz kargo yok (marka teyit etti); videoda yer almaz.
+
+**Seçilen:** B — Sepet Büyüdükçe (A için üretim videoları gerekiyor; B mevcut ürün fotoğraflarıyla yapılabiliyor). Bkz. `SPEC.md`, `REVIEW.md`.
 
 ---
 
