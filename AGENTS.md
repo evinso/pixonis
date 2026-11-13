@@ -112,3 +112,11 @@ Then look at what you changed: `npx hyperframes snapshot --at <seconds>` (or `--
 4. A video with sound keeps it on the `<video>` (`data-has-audio="true"`, no `muted`). Use a separate `<audio>` for music, voiceover, replacement audio, J/L cuts, or audio detached in Studio. Silent footage and b-roll: `muted`.
 5. Sub-compositions use `data-composition-src="compositions/file.html"` to reference other HTML files
 6. Only deterministic logic — no `Date.now()`, no `Math.random()`, no network fetches
+
+## Pixonis environment notes
+
+- Cloud environment `pixonis` allows `api.elevenlabs.io` and `cdn.jsdelivr.net` (GSAP); its setup script installs the `elevenlabs` Python package (ffmpeg is preinstalled).
+- The ElevenLabs API key is injected by the network proxy as `xi-api-key`. Code that reads `$ELEVENLABS_API_KEY` only needs a placeholder (`ELEVENLABS_API_KEY=proxy-injected`).
+- The account is on the ElevenLabs free plan: library voices (e.g. Rachel `21m00Tcm4TlvDq8ikWAM`) return 402. Default voices work — use George `JBFqnCBsd6RMkjVDRZzb` with `eleven_multilingual_v2` (Turkish OK). The key lacks `voices_read`, so voices cannot be listed.
+- Whisper: the environment setup script builds whisper.cpp into `/opt/whisper.cpp` and links `/usr/local/bin/whisper-cli`. Models download from Hugging Face (`huggingface.co`, `us.aws.cdn.hf.co` are allowed).
+- HyperFrames' Node downloader ignores `HTTPS_PROXY` unless `NODE_USE_ENV_PROXY=1` is set; without it model downloads fail with `getaddrinfo ENOTFOUND huggingface.co`. Use `npm run transcribe -- <file> -m small -l tr` for Turkish (the `.en` models are English-only), or prefix any `hyperframes` command that downloads models with `NODE_USE_ENV_PROXY=1`.
