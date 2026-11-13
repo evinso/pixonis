@@ -6,22 +6,26 @@
       overflow: hidden;
       font-family: "Nunito", sans-serif;
       color: #29314b;
+      /* background gradient, shifted per scene by the timeline (brand pastels) */
+      --c1: #ffe6d8;
+      --c2: #f6c3c8;
     }
     .mat {
       position: absolute;
       inset: 0;
-      background-color: #a8dcc6;
       background-image:
-        linear-gradient(rgba(255, 255, 255, 0.55) 3px, transparent 3px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.55) 3px, transparent 3px),
-        linear-gradient(rgba(255, 255, 255, 0.3) 2px, transparent 2px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.3) 2px, transparent 2px);
+        linear-gradient(rgba(255, 255, 255, 0.45) 3px, transparent 3px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.45) 3px, transparent 3px),
+        linear-gradient(rgba(255, 255, 255, 0.22) 2px, transparent 2px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.22) 2px, transparent 2px),
+        linear-gradient(165deg, var(--c1) 0%, var(--c2) 100%);
       background-size:
         180px 180px,
         180px 180px,
         45px 45px,
-        45px 45px;
-      background-position: 0 40px;
+        45px 45px,
+        100% 100%;
+      background-position: 0 40px, 0 40px, 0 40px, 0 40px, 0 0;
     }
     .slot {
       position: absolute;
@@ -630,6 +634,11 @@
       tl.set("#ph-ring", { x: x - 42, y: y - 42, scale: 0.7, opacity: 0.9 }, t + 0.04);
       tl.to("#ph-ring", { scale: 1.9, opacity: 0, duration: 0.2, ease: "power2.out" }, t + 0.041);
     }
+
+    // ---- background gradient shifts with each scene (0.6 s colour flood)
+    tl.to("#root", { "--c1": "#e9e0fa", "--c2": "#f7cfd6", duration: 0.6, ease: "power2.inOut" }, 4.6);
+    tl.to("#root", { "--c1": "#fff0d6", "--c2": "#f8c9c3", duration: 0.6, ease: "power2.inOut" }, 11.38);
+    tl.to("#root", { "--c1": "#ffe6d8", "--c2": "#e9d9f7", duration: 0.6, ease: "power2.inOut" }, 17.88);
 
     // ---- 1 · the gift: frame 0 = wrapped package with the ÇEKİLİŞ sticker and the headline
     tl.to("#g-lid", { y: -22, scale: 1.04, duration: 0.1, ease: "power2.out" }, 0.68);

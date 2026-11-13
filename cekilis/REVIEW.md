@@ -16,6 +16,11 @@ ends 20 Kasım 2026, winners announced the same day. Size of the sheets not stat
 - 17.9–24.9 date: "KASIM 2026 / 20" calendar on "yirmi Kasım'da", "Son katılım günü", "Kazananlar aynı gün", MALIBU CRAFT + @malibucraft_,
   real stickers burst out of the package.
 
+## Background
+Brand-pastel gradient (165°) under a softened cutting-mat grid, driven by CSS variables `--c1/--c2` on the scene root and shifted per scene
+with a 0.6 s colour flood: gift peach→salmon-pink, phone lavender→pink (4.6 s), prize warm cream→salmon (11.38 s), date peach→lavender (17.88 s).
+Gradients are on the banned-by-default list; used here because the owner asked for one, kept to the brand catalog's pastels.
+
 ## Measured vs looked at
 - `hyperframes check`: 0 errors, 1 warning kept on purpose (rotation_pivot_drift on sheets that rotate while they travel — intended).
 - Snapshots at 0, 1.7, 3.8, 5.0, 7.3, 8.45, 10.4, 12.9, 15.4, 17.5, 21.3, 24.6 s + one frame of the render (9.9 s) inspected.
