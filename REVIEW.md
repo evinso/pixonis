@@ -1,6 +1,6 @@
 # REVIEW — Malibu Craft Reels "Sepet Büyüdükçe"
 
-Render: `renders/malibucraft-sepet-buyudukce.mp4` (1080x1920, 30 fps, 11.5 s, H.264 + AAC). Not committed (renders/ is ignored).
+Render: `renders/malibucraft-a5-reels.mp4` (1080x1920, 30 fps, 11.5 s, H.264 + AAC). Not committed (renders/ is ignored).
 
 ## Creative calls
 
@@ -11,12 +11,14 @@ Render: `renders/malibucraft-sepet-buyudukce.mp4` (1080x1920, 30 fps, 11.5 s, H.
 - Free shipping left out (the brand confirmed it is not offered). Prices are the brand's own tiers: 64,90 / 59,90 / 57,90 TL.
 - The wordmark is typeset (MALIBU salmon / CRAFT white on a navy die-cut sticker, Lato 900 — the brand's own style from its price catalog).
 
-## PLACEHOLDERS — must be replaced before posting
+## Product images
 
-- `assets/products/set-1.jpg` … `set-6.jpg` are labelled placeholders ("FOTOĞRAF YERİ"). Replace each with a real
-  product photo of that set (square crop works best; any size, `object-fit: cover`), keep the file names, re-render.
-- Tag names are variables `tag1..tag6` in `compositions/pile.html`; change them if the photos are different themes.
-- Logo: when supplied, replace the typeset wordmark in `compositions/endcard.html`.
+- `assets/products/set-1..6.jpg` are the brand's own sheet images (sent in chat): 1 Van Gogh, 2 Disco Kalpler ve Pop Stil,
+  3 Kawaii Sticker Sheet, 4 Junk Journal, 5 Cute Duck, 6 Lavanta ve Mor Çiçekler. Tags match (variables `tag1..tag6`).
+- Sources arrived at 458x458 px (chat compression), upscaled to 1080 with Lanczos; the opening zoom was lowered from 1.45x
+  to 1.25x to keep set 1 sharp. Higher-resolution originals dropped in with the same names would look crisper.
+- Not used: Vintage art supplies, Kırmızı Taşlar ve Kalpler, Beyaz ve Krem Çiçekler (space; candidates for a second Reel),
+  and Sarkastik Tepkiler (real people's likeness and an obscene gesture are risky in an ad).
 
 ## Measured vs looked at
 
