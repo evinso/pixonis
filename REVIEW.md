@@ -1,6 +1,6 @@
 # REVIEW — Malibu Craft Reels "Kalite + 5 al 4 öde"
 
-Render: `renders/malibucraft-5al4ode-reels.mp4` (1080x1920, 30 fps, 18.7 s, H.264 + AAC, Turkish voiceover). Not committed (renders/ is ignored).
+Render: `renders/malibucraft-reels-dogal-ses.mp4` (1080x1920, 30 fps, 21.6 s, H.264 + AAC, Turkish voiceover). Not committed (renders/ is ignored).
 
 ## Facts on screen (from the brand)
 
@@ -8,7 +8,17 @@ Render: `renders/malibucraft-5al4ode-reels.mp4` (1080x1920, 30 fps, 18.7 s, H.26
 - Quality claims only from the brief: glossy and matte photo paper; cut on the brand's own equipment ("hassas kesim").
 - Mixing designs is allowed (price catalog: "Çoklu perakende siparişlerde farklı tasarımlar seçilebilir").
 
-## Structure (the narration is the clock)
+## Voice (current)
+
+- First person plural, the brand speaking ("basıyoruz", "kesiyoruz", "setimiz var", "bizden", "seni bekliyoruz"), per the owner.
+- One continuous Eleven v4 take, voice Laura (`FGY2WhTYpPnrIDTdsKH5`), split only at two true silences (7.115 s, 14.95 s) into
+  `assets/voice/vo-1..3.mp3` placed at 0.20 / 7.75 / 16.57 s, so the pull-back and the sweep get room without breaking the flow.
+- TTS spelling for pronunciation: "kavayiye" (kawaii'ye), "Şopiyer" (Shopier); the screen keeps the original spelling.
+- Anchors: push-in on "Parlak" 1.74, peel on "hassasça" 5.97, Kawaii on "kawaii'ye" 8.55, 64,90 on "var" 10.55, offer on "beş" 11.93,
+  counters over "al, dört öde", 5th set on "beşinci" 13.28, BEDAVA on "bedava" 14.83, wordmark on "Malibu" 16.6, Shopier label 17.62.
+- Final mix: -14.1 LUFS, -1.1 dBTP; Whisper on the render returns the full script in order. Jessica take of the same script kept as an alternative.
+
+## Structure (earlier 7-clip version; timings superseded by the anchors above)
 
 | Time | Voice (Jessica, ElevenLabs) | Picture |
 | --- | --- | --- |

@@ -128,34 +128,34 @@
   >
     <div class="end-mat" data-layout-allow-overflow></div>
 
-    <div id="end-m" class="end-slot clip" data-start="0.05" data-duration="4.95" data-track-index="1">
+    <div id="end-m" class="end-slot clip" data-start="0.05" data-duration="5.25" data-track-index="1">
       <div id="end-mark" class="end-mark"><span class="end-mark-a">MALIBU</span> <span class="end-mark-b">CRAFT</span></div>
     </div>
 
-    <h2 id="end-cta" class="end-cta clip" data-start="0.5" data-duration="4.5" data-track-index="2">
+    <h2 id="end-cta" class="end-cta clip" data-start="0.5" data-duration="4.8" data-track-index="2">
       <span class="w">Sepetini</span> <span class="w">Shopier'de</span> <span class="w">doldur</span>
     </h2>
 
-    <div id="end-u" class="end-slot clip" data-start="0.8" data-duration="4.2" data-track-index="3">
+    <div id="end-u" class="end-slot clip" data-start="1.1" data-duration="4.2" data-track-index="3">
       <div id="end-url" class="end-url" data-var-text="url">shopier.com/malibucraftshop</div>
     </div>
 
-    <p id="end-dm" class="end-dm clip" data-start="1.6" data-duration="3.4" data-track-index="4">
+    <p id="end-dm" class="end-dm clip" data-start="2.05" data-duration="3.25" data-track-index="4">
       <span class="w">Kişiye</span> <span class="w">özel</span> <span class="w">tasarımlar</span> <span class="w">için</span>
       <span class="w">DM</span>
     </p>
-    <div id="end-b" class="end-slot clip" data-start="1.25" data-duration="3.75" data-track-index="5">
+    <div id="end-b" class="end-slot clip" data-start="1.75" data-duration="3.55" data-track-index="5">
       <div id="end-badge" class="end-badge"><span>5 AL</span><span>4 ÖDE</span></div>
     </div>
 
     <!-- real stickers cut from the sheets, stuck on the mat below the safe band (decoration) -->
-    <div id="end-k1" class="end-slot clip" data-start="2" data-duration="3" data-track-index="6">
+    <div id="end-k1" class="end-slot clip" data-start="2.45" data-duration="2.85" data-track-index="6">
       <div id="end-cut1" class="end-cut" style="left: 64px; top: 1390px; width: 300px" data-layout-ignore><img src="assets/cutouts/vg-starry.png" alt="" /></div>
     </div>
-    <div id="end-k2" class="end-slot clip" data-start="2.25" data-duration="2.75" data-track-index="7">
+    <div id="end-k2" class="end-slot clip" data-start="2.7" data-duration="2.6" data-track-index="7">
       <div id="end-cut2" class="end-cut" style="left: 410px; top: 1450px; width: 250px" data-layout-ignore><img src="assets/cutouts/disco-heart.png" alt="" /></div>
     </div>
-    <div id="end-k3" class="end-slot clip" data-start="2.5" data-duration="2.5" data-track-index="8">
+    <div id="end-k3" class="end-slot clip" data-start="2.95" data-duration="2.35" data-track-index="8">
       <div id="end-cut3" class="end-cut" style="left: 710px; top: 1390px; width: 260px" data-layout-ignore><img src="assets/cutouts/kawaii-laptop.png" alt="" /></div>
     </div>
   </div>
@@ -184,16 +184,16 @@
       "#end-url",
       { scale: 1.3, rotation: 5, transformOrigin: "20% 50%" },
       { scale: 1, rotation: -2, duration: 0.2, ease: "power3.in" },
-      0.8,
+      1.12,
     );
-    tl.to("#end-url", { scale: 0.97, duration: 0.04, ease: "none" }, 1.0);
-    tl.to("#end-url", { scale: 1, duration: 0.12, ease: "power2.out" }, 1.04);
+    tl.to("#end-url", { scale: 0.97, duration: 0.04, ease: "none" }, 1.32);
+    tl.to("#end-url", { scale: 1, duration: 0.12, ease: "power2.out" }, 1.36);
 
     tl.fromTo(
       "#end-dm .w",
       { opacity: 0, color: "#7d9a8d" },
       { opacity: 1, color: "#29314b", duration: 0.12, stagger: 0.08, ease: "power2.out" },
-      1.6,
+      2.05,
     );
 
     // the offer badge and three real stickers are slapped on
@@ -202,10 +202,10 @@
       tl.to(id, { scale: 0.97, duration: 0.04, ease: "none" }, t + 0.2);
       tl.to(id, { scale: 1, duration: 0.12, ease: "power2.out" }, t + 0.24);
     }
-    slapOn("#end-badge", 1.25, 8);
-    slapOn("#end-cut1", 2.0, -8);
-    slapOn("#end-cut2", 2.25, 6);
-    slapOn("#end-cut3", 2.5, -4);
+    slapOn("#end-badge", 1.75, 8);
+    slapOn("#end-cut1", 2.45, -8);
+    slapOn("#end-cut2", 2.7, 6);
+    slapOn("#end-cut3", 2.95, -4);
 
     window.__timelines["endcard"] = tl;
   </script>
