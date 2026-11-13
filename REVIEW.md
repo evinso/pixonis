@@ -1,6 +1,6 @@
 # REVIEW — Malibu Craft Reels "Kalite + 5 al 4 öde"
 
-Render: `renders/malibucraft-reels-dogal-ses.mp4` (1080x1920, 30 fps, 21.6 s, H.264 + AAC, Turkish voiceover). Not committed (renders/ is ignored).
+Render: `renders/malibucraft-reels.mp4` (1080x1920, 30 fps, 21.8 s, H.264 + AAC, Turkish voiceover). Not committed (renders/ is ignored).
 
 ## Facts on screen (from the brand)
 
@@ -13,10 +13,12 @@ Render: `renders/malibucraft-reels-dogal-ses.mp4` (1080x1920, 30 fps, 21.6 s, H.
 - First person plural, the brand speaking ("basıyoruz", "kesiyoruz", "setimiz var", "bizden", "seni bekliyoruz"), per the owner.
 - One continuous Eleven v4 take, voice Laura (`FGY2WhTYpPnrIDTdsKH5`), split only at two true silences (7.115 s, 14.95 s) into
   `assets/voice/vo-1..3.mp3` placed at 0.20 / 7.75 / 16.57 s, so the pull-back and the sweep get room without breaking the flow.
-- TTS spelling for pronunciation: "kavayiye" (kawaii'ye), "Şopiyer" (Shopier); the screen keeps the original spelling.
+- TTS spelling for pronunciation: "Van Gog'dan" (Van Gogh'tan; heard as "Vangok'tan", the everyday Turkish form — the owner flagged the
+  earlier "Van Gogh'tan" as mispronounced, so part 2 was re-recorded alone), "kavayiye" (kawaii'ye), "Şopiyer" (Shopier).
 - Anchors: push-in on "Parlak" 1.74, peel on "hassasça" 5.97, Kawaii on "kawaii'ye" 8.55, 64,90 on "var" 10.55, offer on "beş" 11.93,
   counters over "al, dört öde", 5th set on "beşinci" 13.28, BEDAVA on "bedava" 14.83, wordmark on "Malibu" 16.6, Shopier label 17.62.
-- Final mix: -14.1 LUFS, -1.1 dBTP; Whisper on the render returns the full script in order. Jessica take of the same script kept as an alternative.
+- Part 2 re-take placed at 7.75 s; later anchors moved +0.1–0.2 s (BEDAVA 14.97, sweep 15.96, end card 16.51, film 21.81 s).
+- Final mix: -14.3 LUFS, -1.0 dBTP; Whisper on the render returns the full script in order. Jessica take of the same script kept as an alternative.
 
 ## Structure (earlier 7-clip version; timings superseded by the anchors above)
 
