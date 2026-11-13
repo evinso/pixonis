@@ -1,7 +1,7 @@
 # Malibu Craft — Reels storylines
 
 Dikey 1080×1920, 30 fps, Türkçe ekran yazıları. Amaç: izleyiciyi Shopier'den (malibucraftshop) satın almaya yönlendirmek.
-Ekrandaki her fiyat ve iddia markanın verdiği bilgiden: 39,90 TL / 2–4 adet 37,90 TL / 5–9 adet 35,90 TL.
+Ekrandaki her fiyat ve iddia markanın verdiği bilgiden: 64,90 TL / 2–4 adet 59,90 TL / 5–9 adet 57,90 TL.
 Ücretsiz kargo yok (marka teyit etti); videoda yer almaz.
 
 **Seçilen:** B — Sepet Büyüdükçe (A için üretim videoları gerekiyor; B mevcut ürün fotoğraflarıyla yapılabiliyor). Bkz. `SPEC.md`, `REVIEW.md`.
@@ -32,9 +32,9 @@ Ekrandaki her fiyat ve iddia markanın verdiği bilgiden: 39,90 TL / 2–4 adet 
 
 Kuşbakışı bir masaya müziğin vuruşlarıyla sticker setleri birer birer düşer: vintage, Y2K, kawaii, manifest, scrapbook. Her düşüşte köşedeki fiyat etiketi soyulup yenisi yapışır. Masa bir kolaja dönerken izleyici hem çeşidi hem de indirimi aynı anda görür.
 
-**İlk 2 saniye:** Kare 0'da masada tek bir renkli set ve büyük bir fiyat etiketi: **"39,90 TL"**. 0,5. saniyede ikinci set "pat" diye düşer, etiket soyulur ve **"37,90 TL"** yapışır.
+**İlk 2 saniye:** Kare 0'da masada tek bir renkli set ve büyük bir fiyat etiketi: **"64,90 TL"**. 0,5. saniyede ikinci set "pat" diye düşer, etiket soyulur ve **"59,90 TL"** yapışır.
 
-**Akış:** 1 set · 39,90 → 2–4 set · 37,90 (setler vuruşlarla düşer) → 5–9 set · 35,90 (masa tamamen dolu) → **"Çoğalt, birim fiyat düşsün"** → kapanış kartı: Shopier
+**Akış:** 1 set · 64,90 → 2–4 set · 59,90 (setler vuruşlarla düşer) → 5–9 set · 57,90 (masa tamamen dolu) → **"Çoğalt, birim fiyat düşsün"** → kapanış kartı: Shopier
 
 **Görünüm:** Açık ahşap masa ya da ızgaralı kesim matı. Fiyatlar yuvarlak kraft kâğıdı etiketlerde, büyük ve kalın rakamlarla. Vurgu rengi (logodan alınacak) yalnızca fiyat etiketinde.
 

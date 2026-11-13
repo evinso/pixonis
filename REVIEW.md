@@ -8,8 +8,8 @@ Render: `renders/malibucraft-sepet-buyudukce.mp4` (1080x1920, 30 fps, 11.5 s, H.
   that has not arrived; B works from the product photos the brand already has. A and C remain in `STORYLINES.md`.
 - Shortened from the planned 13 s to 11.5 s; theme tags ride on each print (read as it lands) instead of a separate tag beat.
 - Frame 0 opens tight on set 1 (camera 1.45x) and pulls back as the pile grows — a strong thumbnail instead of a small photo in an empty frame.
-- Free shipping left out (the brand confirmed it is not offered). Prices are the brand's own tiers: 39,90 / 37,90 / 35,90 TL.
-- The wordmark is typeset (Archivo Black as a die-cut sticker) until the real logo arrives.
+- Free shipping left out (the brand confirmed it is not offered). Prices are the brand's own tiers: 64,90 / 59,90 / 57,90 TL.
+- The wordmark is typeset (MALIBU salmon / CRAFT white on a navy die-cut sticker, Lato 900 — the brand's own style from its price catalog).
 
 ## PLACEHOLDERS — must be replaced before posting
 

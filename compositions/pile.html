@@ -5,7 +5,7 @@
       inset: 0;
       overflow: hidden;
       font-family: "Nunito", sans-serif;
-      color: #1f1a2e;
+      color: #29314b;
     }
     #pile-cam {
       position: absolute;
@@ -81,7 +81,7 @@
       text-align: center;
     }
     .pile-sticker.is-pink {
-      background: #ff4d94;
+      background: #e1a8a4;
     }
     .pile-count {
       font-weight: 900;
@@ -109,16 +109,16 @@
     }
     .pile-unit {
       font-weight: 800;
-      font-size: 32px;
+      font-size: 28px;
       line-height: 1.1;
     }
     .pile-title {
       position: absolute;
       left: 72px;
       top: 196px;
-      width: 580px;
+      width: 600px;
       font-family: "Archivo Black", sans-serif;
-      font-size: 88px;
+      font-size: 84px;
       line-height: 0.98;
       letter-spacing: -0.01em;
     }
@@ -127,7 +127,7 @@
     }
   </style>
 
-  <div id="root" data-composition-id="pile" data-width="1080" data-height="1920" data-composition-variables='[{"id": "photo1", "type": "string", "label": "Set 1 fotoğrafı", "default": "assets/products/set-1.jpg"}, {"id": "tag1", "type": "string", "label": "Set 1 etiketi", "default": "Vintage", "maxLength": 12}, {"id": "photo2", "type": "string", "label": "Set 2 fotoğrafı", "default": "assets/products/set-2.jpg"}, {"id": "tag2", "type": "string", "label": "Set 2 etiketi", "default": "Y2K", "maxLength": 12}, {"id": "photo3", "type": "string", "label": "Set 3 fotoğrafı", "default": "assets/products/set-3.jpg"}, {"id": "tag3", "type": "string", "label": "Set 3 etiketi", "default": "Kawaii", "maxLength": 12}, {"id": "photo4", "type": "string", "label": "Set 4 fotoğrafı", "default": "assets/products/set-4.jpg"}, {"id": "tag4", "type": "string", "label": "Set 4 etiketi", "default": "Manifest", "maxLength": 12}, {"id": "photo5", "type": "string", "label": "Set 5 fotoğrafı", "default": "assets/products/set-5.jpg"}, {"id": "tag5", "type": "string", "label": "Set 5 etiketi", "default": "Scrapbook", "maxLength": 12}, {"id": "photo6", "type": "string", "label": "Set 6 fotoğrafı", "default": "assets/products/set-6.jpg"}, {"id": "tag6", "type": "string", "label": "Set 6 etiketi", "default": "Sanatsal", "maxLength": 12}, {"id": "price1", "type": "string", "label": "1 set fiyatı", "default": "39,90"}, {"id": "price2", "type": "string", "label": "2–4 set birim fiyatı", "default": "37,90"}, {"id": "price3", "type": "string", "label": "5–9 set birim fiyatı", "default": "35,90"}]'>
+  <div id="root" data-composition-id="pile" data-width="1080" data-height="1920" data-composition-variables='[{"id": "photo1", "type": "string", "label": "Set 1 fotoğrafı", "default": "assets/products/set-1.jpg"}, {"id": "tag1", "type": "string", "label": "Set 1 etiketi", "default": "Vintage", "maxLength": 12}, {"id": "photo2", "type": "string", "label": "Set 2 fotoğrafı", "default": "assets/products/set-2.jpg"}, {"id": "tag2", "type": "string", "label": "Set 2 etiketi", "default": "Y2K", "maxLength": 12}, {"id": "photo3", "type": "string", "label": "Set 3 fotoğrafı", "default": "assets/products/set-3.jpg"}, {"id": "tag3", "type": "string", "label": "Set 3 etiketi", "default": "Kawaii", "maxLength": 12}, {"id": "photo4", "type": "string", "label": "Set 4 fotoğrafı", "default": "assets/products/set-4.jpg"}, {"id": "tag4", "type": "string", "label": "Set 4 etiketi", "default": "Manifest", "maxLength": 12}, {"id": "photo5", "type": "string", "label": "Set 5 fotoğrafı", "default": "assets/products/set-5.jpg"}, {"id": "tag5", "type": "string", "label": "Set 5 etiketi", "default": "Scrapbook", "maxLength": 12}, {"id": "photo6", "type": "string", "label": "Set 6 fotoğrafı", "default": "assets/products/set-6.jpg"}, {"id": "tag6", "type": "string", "label": "Set 6 etiketi", "default": "Sanatsal", "maxLength": 12}, {"id": "price1", "type": "string", "label": "A5 · 1 set fiyatı", "default": "64,90"}, {"id": "price2", "type": "string", "label": "A5 · 2–4 set birim fiyatı", "default": "59,90"}, {"id": "price3", "type": "string", "label": "A5 · 5–9 set birim fiyatı", "default": "57,90"}]'>
     <div id="pile-cam" data-layout-allow-overflow>
       <div class="pile-mat"></div>
 
@@ -173,8 +173,8 @@
     <div id="pile-p1" class="pile-slot clip" data-start="0" data-duration="1.25" data-track-index="7">
       <div id="pile-p1-st" data-layout-allow-overlap data-layout-allow-overflow class="pile-sticker">
         <div class="pile-count"><span>1</span><span>SET</span></div>
-        <div class="pile-price" data-var-text="price1">39,90</div>
-        <div class="pile-unit">TL · tek set</div>
+        <div class="pile-price" data-var-text="price1">64,90</div>
+        <div class="pile-unit">TL · A5 · tek set</div>
       </div>
     </div>
     <div id="pile-p2" class="pile-slot clip" data-start="0.98" data-duration="2.3" data-track-index="8">
@@ -182,8 +182,8 @@
         <div class="pile-count">
           <span class="pile-strip" id="pile-p2-strip"><span>2</span><span>3</span><span>4</span></span><span>SET</span>
         </div>
-        <div class="pile-price" data-var-text="price2">37,90</div>
-        <div class="pile-unit">TL · adet başı</div>
+        <div class="pile-price" data-var-text="price2">59,90</div>
+        <div class="pile-unit">TL · A5 · adet başı</div>
       </div>
     </div>
     <div id="pile-p3" class="pile-slot clip" data-start="2.98" data-duration="4.32" data-track-index="9">
@@ -191,8 +191,8 @@
         <div class="pile-count">
           <span class="pile-strip" id="pile-p3-strip"><span>5</span><span>6</span></span><span>SET</span>
         </div>
-        <div class="pile-price" data-var-text="price3">35,90</div>
-        <div class="pile-unit">TL · adet başı</div>
+        <div class="pile-price" data-var-text="price3">57,90</div>
+        <div class="pile-unit">TL · A5 · adet başı</div>
       </div>
     </div>
 
@@ -206,7 +206,7 @@
       <span class="w">birim</span> <span class="w">fiyat</span><br /><span class="w">düşer</span>
     </h2>
     <h2 id="pile-t4" class="pile-title clip" data-start="5.1" data-duration="1.82" data-track-index="13">
-      <span class="w">Her</span> <span class="w">tarza</span><br /><span class="w">bir</span> <span class="w">set</span>
+      <span class="w">Tasarımları</span><br /><span class="w">karıştır</span>
     </h2>
   </div>
 

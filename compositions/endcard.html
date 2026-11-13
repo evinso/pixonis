@@ -5,7 +5,7 @@
       inset: 0;
       overflow: hidden;
       font-family: "Nunito", sans-serif;
-      color: #1f1a2e;
+      color: #29314b;
     }
     .end-mat {
       position: absolute;
@@ -29,30 +29,28 @@
       position: absolute;
       inset: 0;
     }
-    /* the wordmark as a die-cut sticker: a white outline copy behind the ink copy */
+    /* the brand wordmark as on the price catalog: MALIBU salmon, CRAFT white, on navy; die-cut white border */
     .end-mark {
       position: absolute;
-      left: 84px;
-      top: 400px;
-      font-family: "Archivo Black", sans-serif;
-      font-size: 150px;
-      line-height: 0.92;
-      letter-spacing: -0.02em;
-      filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.2));
-    }
-    .end-mark span {
-      display: block;
-    }
-    .end-mark-back,
-    .end-mark-front {
-      position: absolute;
-      left: 0;
-      top: 0;
+      left: 72px;
+      top: 470px;
+      padding: 34px 46px 38px;
+      background: #29314b;
+      border: 14px solid #ffffff;
+      border-radius: 28px;
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+      font-family: "Lato", sans-serif;
+      font-weight: 900;
+      font-size: 96px;
+      line-height: 1;
+      letter-spacing: 0.01em;
       white-space: nowrap;
     }
-    .end-mark-back {
-      color: transparent;
-      -webkit-text-stroke: 36px #ffffff;
+    .end-mark-a {
+      color: #e8bcac;
+    }
+    .end-mark-b {
+      color: #ffffff;
     }
     .end-cta {
       position: absolute;
@@ -72,7 +70,7 @@
       left: 72px;
       top: 980px;
       padding: 18px 30px 20px;
-      background: #ff4d94;
+      background: #e1a8a4;
       border: 12px solid #ffffff;
       border-radius: 18px;
       box-shadow: 0 6px 10px rgba(0, 0, 0, 0.18);
@@ -104,10 +102,7 @@
     <div class="end-mat" data-layout-allow-overflow></div>
 
     <div id="end-m" class="end-slot clip" data-start="0.05" data-duration="4.15" data-track-index="1">
-      <div id="end-mark" class="end-mark" data-layout-allow-overlap>
-        <div class="end-mark-back" aria-hidden="true"><span>Malibu</span><span>Craft</span></div>
-        <div class="end-mark-front"><span>Malibu</span><span>Craft</span></div>
-      </div>
+      <div id="end-mark" class="end-mark"><span class="end-mark-a">MALIBU</span> <span class="end-mark-b">CRAFT</span></div>
     </div>
 
     <h2 id="end-cta" class="end-cta clip" data-start="0.5" data-duration="3.7" data-track-index="2">
@@ -156,7 +151,7 @@
     tl.fromTo(
       "#end-dm .w",
       { opacity: 0, color: "#7d9a8d" },
-      { opacity: 1, color: "#1f1a2e", duration: 0.12, stagger: 0.08, ease: "power2.out" },
+      { opacity: 1, color: "#29314b", duration: 0.12, stagger: 0.08, ease: "power2.out" },
       1.25,
     );
 
