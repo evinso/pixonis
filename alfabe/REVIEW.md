@@ -1,6 +1,6 @@
 # REVIEW — English with Piko: İngilizce Alfabe (A–Z)
 
-Render: `renders/piko-ingilizce-alfabe.mp4` (1920x1080, 30 fps, 2:33). Storyline A (Piko's picture book) from `STORYLINES.md`.
+Render: `renders/piko-ingilizce-alfabe.mp4` (1920x1080, 30 fps, 2:32). Storyline A (Piko's picture book) from `STORYLINES.md`.
 Thumbnail: `youtube/kapak.png` (frame 1.9 s). Description draft: `youtube/aciklama.txt`.
 
 - 0–4.5 yellow ident: Piko waves, hops on "Ben Piko", banner "English with Piko / Piko İle İngilizce"; voice intro.
@@ -15,4 +15,7 @@ Whisper before processing, used at natural pitch: the +4 semitone child-like ver
 Pictures: 26 original SVG drawings (`alpha_art.py` in the session scratchpad, embedded in the composition).
 
 Measured: check passes (55/55 contrast); warnings kept: file length (generated) and the repeated Piko image. Mix -15.3 LUFS, -1.0 dBTP.
+Turkish words with ö/ü/ı (ördek, üzüm, balık, gökkuşağı, güneş) and the outro were re-voiced with eleven_turbo_v2_5 and
+language_code="tr" after the owner heard the vowels mispronounced and picked this method from two samples. Whisper mis-hears these
+short isolated words ("Erdi", "İzim") even on the approved raw takes, so they were judged by the owner's ear, not by Whisper.
 Not heard: the voice was only transcribed, never listened to. A real child voice needs a paid ElevenLabs plan or a recording.
