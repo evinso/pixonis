@@ -1,0 +1,787 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      font-family: "Nunito", sans-serif;
+      color: #2d3561;
+    }
+    .slot {
+      position: absolute;
+      inset: 0;
+    }
+    .k-sky {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, #8fd3ff 0%, #c8ecff 55%, #e6f7ff 100%);
+    }
+    #k-sun {
+      position: absolute;
+      left: 872px;
+      top: 70px;
+      width: 160px;
+      height: 160px;
+    }
+    #k-sunrays {
+      position: absolute;
+      inset: -40px;
+    }
+    .k-cloud {
+      position: absolute;
+      height: 90px;
+      border-radius: 60px;
+      background: #ffffff;
+      box-shadow: 0 6px 0 rgba(160, 200, 230, 0.35);
+    }
+    .k-cloud::before,
+    .k-cloud::after {
+      content: "";
+      position: absolute;
+      background: #ffffff;
+      border-radius: 50%;
+    }
+    .k-cloud::before {
+      left: 22%;
+      top: -45px;
+      width: 110px;
+      height: 110px;
+    }
+    .k-cloud::after {
+      left: 52%;
+      top: -28px;
+      width: 80px;
+      height: 80px;
+    }
+    .k-hills {
+      position: absolute;
+      left: 0;
+      width: 1080px;
+    }
+    .k-ground {
+      position: absolute;
+      left: 0;
+      top: 1384px;
+      width: 1080px;
+      height: 536px;
+      background: linear-gradient(180deg, #7ccb6a 0%, #5fb55a 100%);
+    }
+    .k-rail {
+      position: absolute;
+      left: 0;
+      top: 1350px;
+      width: 1080px;
+      height: 34px;
+      background:
+        linear-gradient(180deg, #6b4f3a 0px, #6b4f3a 9px, transparent 9px),
+        repeating-linear-gradient(90deg, #a1785c 0px, #a1785c 26px, transparent 26px, transparent 70px);
+    }
+    #k-strip {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 9100px;
+      height: 1920px;
+    }
+    .k-wagon {
+      position: absolute;
+      top: 0;
+      width: 760px;
+      height: 1920px;
+    }
+    .k-obj {
+      position: absolute;
+      overflow: visible;
+    }
+    .k-body {
+      position: absolute;
+      left: 0;
+      top: 1060px;
+      width: 760px;
+      height: 230px;
+      border-radius: 26px;
+      border-top: 22px solid;
+      box-shadow: inset 0 -18px 0 rgba(0, 0, 0, 0.12), 0 10px 18px rgba(0, 0, 0, 0.18);
+    }
+    .k-wbadge {
+      position: absolute;
+      left: 300px;
+      top: 1104px;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 4px 0 rgba(0, 0, 0, 0.12);
+      font-weight: 900;
+      font-size: 112px;
+      line-height: 160px;
+      text-align: center;
+    }
+    .k-wheel {
+      position: absolute;
+      transform-origin: 50% 50%;
+      overflow: visible;
+    }
+    .k-coupler {
+      position: absolute;
+      top: 1226px;
+      width: 80px;
+      height: 18px;
+      border-radius: 9px;
+      background: #2b2d42;
+    }
+    .k-badge {
+      position: absolute;
+      left: 390px;
+      top: 176px;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      border: 14px solid #ffffff;
+      box-shadow: 0 10px 0 rgba(45, 53, 97, 0.15);
+      font-weight: 900;
+      font-size: 210px;
+      line-height: 272px;
+      text-align: center;
+    }
+    .k-word {
+      position: absolute;
+      left: 0;
+      top: 498px;
+      width: 1080px;
+      text-align: center;
+      font-weight: 900;
+      font-size: 132px;
+      line-height: 1.05;
+      letter-spacing: 0.02em;
+    }
+    .k-l {
+      display: inline-block;
+    }
+    .k-tr {
+      position: absolute;
+      left: 0;
+      top: 650px;
+      width: 1080px;
+      text-align: center;
+      font-weight: 800;
+      font-size: 58px;
+      line-height: 1;
+      color: #3d4a7a;
+    }
+    .k-title {
+      position: absolute;
+      left: 0;
+      width: 1080px;
+      text-align: center;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .k-title .w {
+      display: inline-block;
+    }
+    .k-puff {
+      position: absolute;
+      left: 140px;
+      top: 900px;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: #ffffff;
+      opacity: 0;
+    }
+    .k-star {
+      position: absolute;
+      width: 110px;
+      height: 110px;
+      opacity: 0;
+      overflow: visible;
+    }
+    /* locomotive */
+    .k-lp {
+      position: absolute;
+    }
+  </style>
+
+  <div id="root" data-composition-id="train" data-width="1080" data-height="1920">
+    <svg width="0" height="0" style="position:absolute"><defs><symbol id="k-sym-apple" viewBox="0 0 100 100"><path d="M50 28 C 30 14, 8 26, 10 52 C 12 80, 32 96, 50 89 C 68 96, 88 80, 90 52 C 92 26, 70 14, 50 28 Z" fill="#ff5a5f"/><rect x="47" y="10" width="6" height="20" rx="3" fill="#8a5a3b"/><ellipse cx="64" cy="17" rx="13" ry="6" transform="rotate(-25 64 17)" fill="#4cc26b"/><ellipse cx="30" cy="38" rx="7" ry="11" fill="#fff" opacity="0.35"/><circle cx="38" cy="52" r="5.5" fill="#2d3561"/><circle cx="62" cy="52" r="5.5" fill="#2d3561"/><circle cx="36.5" cy="50.5" r="1.8" fill="#fff"/><circle cx="60.5" cy="50.5" r="1.8" fill="#fff"/><path d="M41 63 Q50 71 59 63" fill="none" stroke="#2d3561" stroke-width="4" stroke-linecap="round"/><circle cx="29" cy="62" r="5" fill="#ff8fa3" opacity="0.7"/><circle cx="71" cy="62" r="5" fill="#ff8fa3" opacity="0.7"/></symbol><symbol id="k-sym-ball" viewBox="0 0 100 100"><circle cx="50" cy="52" r="42" fill="#4d96ff"/><path d="M12 42 Q50 26 88 42" fill="none" stroke="#fff" stroke-width="8"/><path d="M12 66 Q50 82 88 66" fill="none" stroke="#ffd23f" stroke-width="8"/><circle cx="38" cy="52" r="5.5" fill="#2d3561"/><circle cx="62" cy="52" r="5.5" fill="#2d3561"/><circle cx="36.5" cy="50.5" r="1.8" fill="#fff"/><circle cx="60.5" cy="50.5" r="1.8" fill="#fff"/><path d="M41 63 Q50 71 59 63" fill="none" stroke="#2d3561" stroke-width="4" stroke-linecap="round"/><circle cx="29" cy="62" r="5" fill="#ff8fa3" opacity="0.7"/><circle cx="71" cy="62" r="5" fill="#ff8fa3" opacity="0.7"/></symbol><symbol id="k-sym-icecream" viewBox="0 0 100 100"><polygon points="28,56 72,56 50,98" fill="#f4b266"/><path d="M34 64 L60 90 M66 64 L40 90" stroke="#d98f43" stroke-width="3"/><circle cx="50" cy="44" r="27" fill="#ff8fb1"/><circle cx="50" cy="14" r="7" fill="#ff3b3b"/><circle cx="38" cy="42" r="5.5" fill="#2d3561"/><circle cx="62" cy="42" r="5.5" fill="#2d3561"/><circle cx="36.5" cy="40.5" r="1.8" fill="#fff"/><circle cx="60.5" cy="40.5" r="1.8" fill="#fff"/><path d="M42 52 Q50 58 58 52" fill="none" stroke="#2d3561" stroke-width="4" stroke-linecap="round"/><circle cx="29" cy="50" r="5" fill="#ff8fa3" opacity="0.7"/><circle cx="71" cy="50" r="5" fill="#ff8fa3" opacity="0.7"/></symbol><symbol id="k-sym-balloon" viewBox="0 0 100 100"><path d="M50 80 Q44 90 53 99" fill="none" stroke="#7a7a8c" stroke-width="2.5"/><polygon points="45,82 55,82 50,74" fill="#7b2cbf"/><ellipse cx="50" cy="42" rx="31" ry="37" fill="#9b5de5"/><ellipse cx="36" cy="28" rx="6" ry="10" fill="#fff" opacity="0.4"/><circle cx="38" cy="44" r="5.5" fill="#2d3561"/><circle cx="62" cy="44" r="5.5" fill="#2d3561"/><circle cx="36.5" cy="42.5" r="1.8" fill="#fff"/><circle cx="60.5" cy="42.5" r="1.8" fill="#fff"/><path d="M42 55 Q50 62 58 55" fill="none" stroke="#2d3561" stroke-width="4" stroke-linecap="round"/><circle cx="29" cy="53" r="5" fill="#ff8fa3" opacity="0.7"/><circle cx="71" cy="53" r="5" fill="#ff8fa3" opacity="0.7"/></symbol><symbol id="k-sym-fish" viewBox="0 0 100 100"><polygon points="74,52 98,32 98,72" fill="#0096c7"/><ellipse cx="46" cy="52" rx="38" ry="27" fill="#00bbf9"/><path d="M40 30 Q50 18 60 30" fill="#0096c7"/><circle cx="30" cy="47" r="6" fill="#2d3561"/><circle cx="28.5" cy="45.5" r="2" fill="#fff"/><path d="M18 60 Q25 65 32 60" fill="none" stroke="#2d3561" stroke-width="3.5" stroke-linecap="round"/><circle cx="40" cy="60" r="4.5" fill="#ff8fa3" opacity="0.7"/></symbol><symbol id="k-sym-flower" viewBox="0 0 100 100"><circle cx="50.0" cy="20.0" r="20" fill="#ff70a6"/><circle cx="78.5" cy="40.7" r="20" fill="#ff70a6"/><circle cx="67.6" cy="74.3" r="20" fill="#ff70a6"/><circle cx="32.4" cy="74.3" r="20" fill="#ff70a6"/><circle cx="21.5" cy="40.7" r="20" fill="#ff70a6"/><circle cx="50" cy="50" r="24" fill="#ffd23f"/><circle cx="38" cy="47" r="5.5" fill="#2d3561"/><circle cx="62" cy="47" r="5.5" fill="#2d3561"/><circle cx="36.5" cy="45.5" r="1.8" fill="#fff"/><circle cx="60.5" cy="45.5" r="1.8" fill="#fff"/><path d="M43 56 Q50 61 57 56" fill="none" stroke="#2d3561" stroke-width="4" stroke-linecap="round"/></symbol><symbol id="k-sym-heart" viewBox="0 0 100 100"><path d="M50 92 C 16 68, 4 46, 14 28 C 24 12, 44 14, 50 30 C 56 14, 76 12, 86 28 C 96 46, 84 68, 50 92 Z" fill="#ff477e"/><circle cx="38" cy="44" r="5.5" fill="#2d3561"/><circle cx="62" cy="44" r="5.5" fill="#2d3561"/><circle cx="36.5" cy="42.5" r="1.8" fill="#fff"/><circle cx="60.5" cy="42.5" r="1.8" fill="#fff"/><path d="M42 56 Q50 63 58 56" fill="none" stroke="#2d3561" stroke-width="4" stroke-linecap="round"/><circle cx="29" cy="54" r="5" fill="#ff8fa3" opacity="0.7"/><circle cx="71" cy="54" r="5" fill="#ff8fa3" opacity="0.7"/></symbol><symbol id="k-sym-duck" viewBox="0 0 100 100"><ellipse cx="56" cy="66" rx="36" ry="25" fill="#ffd23f"/><path d="M58 60 Q74 52 82 66 Q70 72 58 66 Z" fill="#f4b400"/><circle cx="36" cy="38" r="22" fill="#ffd23f"/><path d="M6 40 Q14 32 22 38 Q14 46 6 40 Z" fill="#ff9f1c"/><circle cx="32" cy="33" r="5" fill="#2d3561"/><circle cx="30.5" cy="31.5" r="1.8" fill="#fff"/><circle cx="44" cy="45" r="5" fill="#ff8fa3" opacity="0.7"/></symbol><symbol id="k-sym-cupcake" viewBox="0 0 100 100"><polygon points="24,58 76,58 68,96 32,96" fill="#4cc9f0"/><path d="M36 60 L39 94 M50 60 L50 94 M64 60 L61 94" stroke="#2fa8cf" stroke-width="3"/><path d="M18 60 C 14 42, 30 36, 36 40 C 38 24, 62 24, 64 40 C 72 34, 88 42, 82 60 Z" fill="#ffc2d1"/><circle cx="50" cy="20" r="7" fill="#ff3b3b"/><circle cx="38" cy="47" r="5.5" fill="#2d3561"/><circle cx="62" cy="47" r="5.5" fill="#2d3561"/><circle cx="36.5" cy="45.5" r="1.8" fill="#fff"/><circle cx="60.5" cy="45.5" r="1.8" fill="#fff"/><path d="M43 54 Q50 59 57 54" fill="none" stroke="#2d3561" stroke-width="4" stroke-linecap="round"/></symbol><symbol id="k-sym-star" viewBox="0 0 100 100"><polygon points="50,6 62,36 95,38 69,58 78,92 50,73 22,92 31,58 5,38 38,36" fill="#ffd23f" stroke="#f4a300" stroke-width="3" stroke-linejoin="round"/><circle cx="38" cy="50" r="5.5" fill="#2d3561"/><circle cx="62" cy="50" r="5.5" fill="#2d3561"/><circle cx="36.5" cy="48.5" r="1.8" fill="#fff"/><circle cx="60.5" cy="48.5" r="1.8" fill="#fff"/><path d="M43 59 Q50 65 57 59" fill="none" stroke="#2d3561" stroke-width="4" stroke-linecap="round"/><circle cx="29" cy="60" r="5" fill="#ff8fa3" opacity="0.7"/><circle cx="71" cy="60" r="5" fill="#ff8fa3" opacity="0.7"/></symbol></defs></svg>
+    <div class="k-sky"></div>
+    <div id="k-sun" data-layout-ignore>
+      <svg id="k-sunrays" viewBox="-150 -150 300 300"><rect x="-9" y="-150" width="18" height="44" rx="9" fill="#ffd23f" transform="rotate(0)"/><rect x="-9" y="-150" width="18" height="44" rx="9" fill="#ffd23f" transform="rotate(30)"/><rect x="-9" y="-150" width="18" height="44" rx="9" fill="#ffd23f" transform="rotate(60)"/><rect x="-9" y="-150" width="18" height="44" rx="9" fill="#ffd23f" transform="rotate(90)"/><rect x="-9" y="-150" width="18" height="44" rx="9" fill="#ffd23f" transform="rotate(120)"/><rect x="-9" y="-150" width="18" height="44" rx="9" fill="#ffd23f" transform="rotate(150)"/><rect x="-9" y="-150" width="18" height="44" rx="9" fill="#ffd23f" transform="rotate(180)"/><rect x="-9" y="-150" width="18" height="44" rx="9" fill="#ffd23f" transform="rotate(210)"/><rect x="-9" y="-150" width="18" height="44" rx="9" fill="#ffd23f" transform="rotate(240)"/><rect x="-9" y="-150" width="18" height="44" rx="9" fill="#ffd23f" transform="rotate(270)"/><rect x="-9" y="-150" width="18" height="44" rx="9" fill="#ffd23f" transform="rotate(300)"/><rect x="-9" y="-150" width="18" height="44" rx="9" fill="#ffd23f" transform="rotate(330)"/></svg>
+      <svg style="position:absolute;inset:0" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#ffd23f"/><circle cx="38" cy="52" r="5.5" fill="#2d3561"/><circle cx="62" cy="52" r="5.5" fill="#2d3561"/><circle cx="36.5" cy="50.5" r="1.8" fill="#fff"/><circle cx="60.5" cy="50.5" r="1.8" fill="#fff"/><path d="M41 63 Q50 71 59 63" fill="none" stroke="#2d3561" stroke-width="4" stroke-linecap="round"/><circle cx="29" cy="62" r="5" fill="#ff8fa3" opacity="0.7"/><circle cx="71" cy="62" r="5" fill="#ff8fa3" opacity="0.7"/></svg>
+    </div>
+    <div id="k-cloud1" class="k-cloud" style="left: 70px; top: 760px; width: 240px" data-layout-ignore></div>
+    <div id="k-cloud2" class="k-cloud" style="left: 760px; top: 830px; width: 200px" data-layout-ignore></div>
+    <div id="k-cloud3" class="k-cloud" style="left: 380px; top: 110px; width: 180px; opacity: 0.85" data-layout-ignore></div>
+    <svg class="k-hills" style="top: 1000px; height: 400px" viewBox="0 0 1080 400" preserveAspectRatio="none" data-layout-ignore>
+      <path d="M0 220 C 160 120, 300 120, 440 200 C 560 270, 680 110, 820 130 C 940 150, 1010 200, 1080 180 L1080 400 L0 400 Z" fill="#b5e8a8"/>
+      <path d="M0 300 C 140 230, 260 240, 380 290 C 520 350, 640 230, 800 250 C 920 265, 1000 300, 1080 290 L1080 400 L0 400 Z" fill="#8fd97f"/>
+    </svg>
+    <div class="k-ground"></div>
+    <div class="k-rail"></div>
+
+    <div id="k-strip" data-layout-allow-overflow>
+      <!-- locomotive (front faces left) -->
+      <div id="k-loco">
+        <div id="k-p0" class="k-puff" style="opacity: 0.8; top: 800px; left: 150px; width: 96px; height: 96px" data-layout-ignore></div>
+        <div id="k-p1" class="k-puff" data-layout-ignore></div>
+        <div id="k-p2" class="k-puff" data-layout-ignore></div>
+        <div id="k-p3" class="k-puff" data-layout-ignore></div>
+        <div id="k-p4" class="k-puff" data-layout-ignore></div>
+        <div class="k-lp" style="left: 134px; top: 950px; width: 96px; height: 40px; border-radius: 12px; background: #073b4c"></div>
+        <div class="k-lp" style="left: 150px; top: 980px; width: 64px; height: 140px; background: #073b4c"></div>
+        <div class="k-lp" style="left: 360px; top: 900px; width: 260px; height: 46px; border-radius: 16px; background: #073b4c"></div>
+        <div class="k-lp" style="left: 380px; top: 930px; width: 220px; height: 360px; border-radius: 18px; background: #118ab2"></div>
+        <div class="k-lp" style="left: 420px; top: 980px; width: 140px; height: 110px; border-radius: 14px; background: #cdefff; border: 8px solid #ffffff"></div>
+        <div class="k-lp" style="left: 60px; top: 1110px; width: 340px; height: 180px; border-radius: 90px; background: #ef476f"></div>
+        <div class="k-lp" style="left: 170px; top: 1110px; width: 26px; height: 180px; background: #ffd166"></div>
+        <div class="k-lp" style="left: 280px; top: 1110px; width: 26px; height: 180px; background: #ffd166"></div>
+        <div class="k-lp" style="left: 40px; top: 1280px; width: 580px; height: 34px; border-radius: 10px; background: #073b4c"></div>
+        <svg class="k-lp" style="left: -40px; top: 1090px; width: 230px; height: 230px" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="46" fill="#ffe8d6" stroke="#ef476f" stroke-width="6"/>
+          <circle cx="36" cy="44" r="7" fill="#2d3561"/><circle cx="64" cy="44" r="7" fill="#2d3561"/>
+          <circle cx="34" cy="42" r="2.4" fill="#fff"/><circle cx="62" cy="42" r="2.4" fill="#fff"/>
+          <rect id="k-lidL" x="27" y="35" width="18" height="18" rx="4" fill="#ffe8d6" opacity="0"/>
+          <rect id="k-lidR" x="55" y="35" width="18" height="18" rx="4" fill="#ffe8d6" opacity="0"/>
+          <path d="M34 62 Q50 78 66 62" fill="#ff6b6b" stroke="#2d3561" stroke-width="4" stroke-linecap="round"/>
+          <circle cx="24" cy="60" r="6" fill="#ff8fa3" opacity="0.8"/><circle cx="76" cy="60" r="6" fill="#ff8fa3" opacity="0.8"/>
+        </svg>
+        <svg id="k-whl1" class="k-wheel" style="left:88px;top:1248px;width:124px;height:124px" viewBox="-50 -50 100 100"><circle r="48" fill="#2b2d42"/><circle r="36" fill="#8d99ae"/><path d="M0 -36V36M-36 0H36M-25 -25L25 25M25 -25L-25 25" stroke="#2b2d42" stroke-width="7"/><circle r="11" fill="#2b2d42"/></svg><svg id="k-whl2" class="k-wheel" style="left:238px;top:1248px;width:124px;height:124px" viewBox="-50 -50 100 100"><circle r="48" fill="#2b2d42"/><circle r="36" fill="#8d99ae"/><path d="M0 -36V36M-36 0H36M-25 -25L25 25M25 -25L-25 25" stroke="#2b2d42" stroke-width="7"/><circle r="11" fill="#2b2d42"/></svg><svg id="k-whl3" class="k-wheel" style="left:414px;top:1222px;width:152px;height:152px" viewBox="-50 -50 100 100"><circle r="48" fill="#2b2d42"/><circle r="36" fill="#8d99ae"/><path d="M0 -36V36M-36 0H36M-25 -25L25 25M25 -25L-25 25" stroke="#2b2d42" stroke-width="7"/><circle r="11" fill="#2b2d42"/></svg>
+      </div>
+        <div class="k-coupler" style="left:560px"></div>
+        <div id="k-wg1" class="k-wagon" style="left:640px">
+          <svg id="k-o1-1" class="k-obj" style="left:255.0px;top:828.0px;width:250px;height:250px" viewBox="0 0 100 100"><use href="#k-sym-apple"/></svg>
+          <div class="k-body" style="background:#ff6b6b;border-top-color:#d94f4f"></div>
+          <div id="k-wb1" class="k-wbadge">1</div>
+          <svg id="k-wh1a" class="k-wheel" style="left:95px;top:1245px;width:110px;height:110px" viewBox="-50 -50 100 100"><circle r="48" fill="#2b2d42"/><circle r="36" fill="#8d99ae"/><path d="M0 -36V36M-36 0H36M-25 -25L25 25M25 -25L-25 25" stroke="#2b2d42" stroke-width="7"/><circle r="11" fill="#2b2d42"/></svg><svg id="k-wh1b" class="k-wheel" style="left:555px;top:1245px;width:110px;height:110px" viewBox="-50 -50 100 100"><circle r="48" fill="#2b2d42"/><circle r="36" fill="#8d99ae"/><path d="M0 -36V36M-36 0H36M-25 -25L25 25M25 -25L-25 25" stroke="#2b2d42" stroke-width="7"/><circle r="11" fill="#2b2d42"/></svg>
+        </div>
+        <div class="k-coupler" style="left:1400px"></div>
+        <div id="k-wg2" class="k-wagon" style="left:1480px">
+          <svg id="k-o2-1" class="k-obj" style="left:165.8px;top:868.0px;width:210px;height:210px" viewBox="0 0 100 100"><use href="#k-sym-ball"/></svg><svg id="k-o2-2" class="k-obj" style="left:384.2px;top:868.0px;width:210px;height:210px" viewBox="0 0 100 100"><use href="#k-sym-ball"/></svg>
+          <div class="k-body" style="background:#ff9f43;border-top-color:#d97e25"></div>
+          <div id="k-wb2" class="k-wbadge">2</div>
+          <svg id="k-wh2a" class="k-wheel" style="left:95px;top:1245px;width:110px;height:110px" viewBox="-50 -50 100 100"><circle r="48" fill="#2b2d42"/><circle r="36" fill="#8d99ae"/><path d="M0 -36V36M-36 0H36M-25 -25L25 25M25 -25L-25 25" stroke="#2b2d42" stroke-width="7"/><circle r="11" fill="#2b2d42"/></svg><svg id="k-wh2b" class="k-wheel" style="left:555px;top:1245px;width:110px;height:110px" viewBox="-50 -50 100 100"><circle r="48" fill="#2b2d42"/><circle r="36" fill="#8d99ae"/><path d="M0 -36V36M-36 0H36M-25 -25L25 25M25 -25L-25 25" stroke="#2b2d42" stroke-width="7"/><circle r="11" fill="#2b2d42"/></svg>
+        </div>
+        <div class="k-coupler" style="left:2240px"></div>
+        <div id="k-wg3" class="k-wagon" style="left:2320px">
+          <svg id="k-o3-1" class="k-obj" style="left:93.6px;top:892.0px;width:186px;height:186px" viewBox="0 0 100 100"><use href="#k-sym-icecream"/></svg><svg id="k-o3-2" class="k-obj" style="left:287.0px;top:892.0px;width:186px;height:186px" viewBox="0 0 100 100"><use href="#k-sym-icecream"/></svg><svg id="k-o3-3" class="k-obj" style="left:480.4px;top:892.0px;width:186px;height:186px" viewBox="0 0 100 100"><use href="#k-sym-icecream"/></svg>
+          <div class="k-body" style="background:#feca57;border-top-color:#d9a73a"></div>
+          <div id="k-wb3" class="k-wbadge">3</div>
+          <svg id="k-wh3a" class="k-wheel" style="left:95px;top:1245px;width:110px;height:110px" viewBox="-50 -50 100 100"><circle r="48" fill="#2b2d42"/><circle r="36" fill="#8d99ae"/><path d="M0 -36V36M-36 0H36M-25 -25L25 25M25 -25L-25 25" stroke="#2b2d42" stroke-width="7"/><circle r="11" fill="#2b2d42"/></svg><svg id="k-wh3b" class="k-wheel" style="left:555px;top:1245px;width:110px;height:110px" viewBox="-50 -50 100 100"><circle r="48" fill="#2b2d42"/><circle r="36" fill="#8d99ae"/><path d="M0 -36V36M-36 0H36M-25 -25L25 25M25 -25L-25 25" stroke="#2b2d42" stroke-width="7"/><circle r="11" fill="#2b2d42"/></svg>
+        </div>
+        <div class="k-coupler" style="left:3080px"></div>
+        <div id="k-wg4" class="k-wagon" style="left:3160px">
+          <svg id="k-o4-1" class="k-obj" style="left:38.2px;top:912.0px;width:166px;height:166px" viewBox="0 0 100 100"><use href="#k-sym-balloon"/></svg><svg id="k-o4-2" class="k-obj" style="left:210.8px;top:912.0px;width:166px;height:166px" viewBox="0 0 100 100"><use href="#k-sym-balloon"/></svg><svg id="k-o4-3" class="k-obj" style="left:383.2px;top:912.0px;width:166px;height:166px" viewBox="0 0 100 100"><use href="#k-sym-balloon"/></svg><svg id="k-o4-4" class="k-obj" style="left:555.8px;top:912.0px;width:166px;height:166px" viewBox="0 0 100 100"><use href="#k-sym-balloon"/></svg>
+          <div class="k-body" style="background:#1dd1a1;border-top-color:#14a882"></div>
+          <div id="k-wb4" class="k-wbadge">4</div>
+          <svg id="k-wh4a" class="k-wheel" style="left:95px;top:1245px;width:110px;height:110px" viewBox="-50 -50 100 100"><circle r="48" fill="#2b2d42"/><circle r="36" fill="#8d99ae"/><path d="M0 -36V36M-36 0H36M-25 -25L25 25M25 -25L-25 25" stroke="#2b2d42" stroke-width="7"/><circle r="11" fill="#2b2d42"/></svg><svg id="k-wh4b" class="k-wheel" style="left:555px;top:1245px;width:110px;height:110px" viewBox="-50 -50 100 100"><circle r="48" fill="#2b2d42"/><circle r="36" fill="#8d99ae"/><path d="M0 -36V36M-36 0H36M-25 -25L25 25M25 -25L-25 25" stroke="#2b2d42" stroke-width="7"/><circle r="11" fill="#2b2d42"/></svg>
+        </div>
+        <div class="k-coupler" style="left:3920px"></div>
+        <div id="k-wg5" class="k-wagon" style="left:4000px">
+          <svg id="k-o5-1" class="k-obj" style="left:34.0px;top:938.0px;width:140px;height:140px" viewBox="0 0 100 100"><use href="#k-sym-fish"/></svg><svg id="k-o5-2" class="k-obj" style="left:172.0px;top:938.0px;width:140px;height:140px" viewBox="0 0 100 100"><use href="#k-sym-fish"/></svg><svg id="k-o5-3" class="k-obj" style="left:310.0px;top:938.0px;width:140px;height:140px" viewBox="0 0 100 100"><use href="#k-sym-fish"/></svg><svg id="k-o5-4" class="k-obj" style="left:448.0px;top:938.0px;width:140px;height:140px" viewBox="0 0 100 100"><use href="#k-sym-fish"/></svg><svg id="k-o5-5" class="k-obj" style="left:586.0px;top:938.0px;width:140px;height:140px" viewBox="0 0 100 100"><use href="#k-sym-fish"/></svg>
+          <div class="k-body" style="background:#48dbfb;border-top-color:#2bb6d6"></div>
+          <div id="k-wb5" class="k-wbadge">5</div>
+          <svg id="k-wh5a" class="k-wheel" style="left:95px;top:1245px;width:110px;height:110px" viewBox="-50 -50 100 100"><circle r="48" fill="#2b2d42"/><circle r="36" fill="#8d99ae"/><path d="M0 -36V36M-36 0H36M-25 -25L25 25M25 -25L-25 25" stroke="#2b2d42" stroke-width="7"/><circle r="11" fill="#2b2d42"/></svg><svg id="k-wh5b" class="k-wheel" style="left:555px;top:1245px;width:110px;height:110px" viewBox="-50 -50 100 100"><circle r="48" fill="#2b2d42"/><circle r="36" fill="#8d99ae"/><path d="M0 -36V36M-36 0H36M-25 -25L25 25M25 -25L-25 25" stroke="#2b2d42" stroke-width="7"/><circle r="11" fill="#2b2d42"/></svg>
+        </div>
+        <div class="k-coupler" style="left:4760px"></div>
+        <div id="k-wg6" class="k-wagon" style="left:4840px">
+          <svg id="k-o6-1" class="k-obj" style="left:155.2px;top:841.5px;width:146px;height:146px" viewBox="0 0 100 100"><use href="#k-sym-flower"/></svg><svg id="k-o6-2" class="k-obj" style="left:307.0px;top:841.5px;width:146px;height:146px" viewBox="0 0 100 100"><use href="#k-sym-flower"/></svg><svg id="k-o6-3" class="k-obj" style="left:458.8px;top:841.5px;width:146px;height:146px" viewBox="0 0 100 100"><use href="#k-sym-flower"/></svg><svg id="k-o6-4" class="k-obj" style="left:155.2px;top:932.0px;width:146px;height:146px" viewBox="0 0 100 100"><use href="#k-sym-flower"/></svg><svg id="k-o6-5" class="k-obj" style="left:307.0px;top:932.0px;width:146px;height:146px" viewBox="0 0 100 100"><use href="#k-sym-flower"/></svg><svg id="k-o6-6" class="k-obj" style="left:458.8px;top:932.0px;width:146px;height:146px" viewBox="0 0 100 100"><use href="#k-sym-flower"/></svg>
+          <div class="k-body" style="background:#54a0ff;border-top-color:#3a7fd6"></div>
+          <div id="k-wb6" class="k-wbadge">6</div>
+          <svg id="k-wh6a" class="k-wheel" style="left:95px;top:1245px;width:110px;height:110px" viewBox="-50 -50 100 100"><circle r="48" fill="#2b2d42"/><circle r="36" fill="#8d99ae"/><path d="M0 -36V36M-36 0H36M-25 -25L25 25M25 -25L-25 25" stroke="#2b2d42" stroke-width="7"/><circle r="11" fill="#2b2d42"/></svg><svg id="k-wh6b" class="k-wheel" style="left:555px;top:1245px;width:110px;height:110px" viewBox="-50 -50 100 100"><circle r="48" fill="#2b2d42"/><circle r="36" fill="#8d99ae"/><path d="M0 -36V36M-36 0H36M-25 -25L25 25M25 -25L-25 25" stroke="#2b2d42" stroke-width="7"/><circle r="11" fill="#2b2d42"/></svg>
+        </div>
+        <div class="k-coupler" style="left:5600px"></div>
+        <div id="k-wg7" class="k-wagon" style="left:5680px">
+          <svg id="k-o7-1" class="k-obj" style="left:207.1px;top:860.9px;width:134px;height:134px" viewBox="0 0 100 100"><use href="#k-sym-heart"/></svg><svg id="k-o7-2" class="k-obj" style="left:346.5px;top:860.9px;width:134px;height:134px" viewBox="0 0 100 100"><use href="#k-sym-heart"/></svg><svg id="k-o7-3" class="k-obj" style="left:485.9px;top:860.9px;width:134px;height:134px" viewBox="0 0 100 100"><use href="#k-sym-heart"/></svg><svg id="k-o7-4" class="k-obj" style="left:104.0px;top:944.0px;width:134px;height:134px" viewBox="0 0 100 100"><use href="#k-sym-heart"/></svg><svg id="k-o7-5" class="k-obj" style="left:243.3px;top:944.0px;width:134px;height:134px" viewBox="0 0 100 100"><use href="#k-sym-heart"/></svg><svg id="k-o7-6" class="k-obj" style="left:382.7px;top:944.0px;width:134px;height:134px" viewBox="0 0 100 100"><use href="#k-sym-heart"/></svg><svg id="k-o7-7" class="k-obj" style="left:522.0px;top:944.0px;width:134px;height:134px" viewBox="0 0 100 100"><use href="#k-sym-heart"/></svg>
+          <div class="k-body" style="background:#a29bfe;border-top-color:#7f78d6"></div>
+          <div id="k-wb7" class="k-wbadge">7</div>
+          <svg id="k-wh7a" class="k-wheel" style="left:95px;top:1245px;width:110px;height:110px" viewBox="-50 -50 100 100"><circle r="48" fill="#2b2d42"/><circle r="36" fill="#8d99ae"/><path d="M0 -36V36M-36 0H36M-25 -25L25 25M25 -25L-25 25" stroke="#2b2d42" stroke-width="7"/><circle r="11" fill="#2b2d42"/></svg><svg id="k-wh7b" class="k-wheel" style="left:555px;top:1245px;width:110px;height:110px" viewBox="-50 -50 100 100"><circle r="48" fill="#2b2d42"/><circle r="36" fill="#8d99ae"/><path d="M0 -36V36M-36 0H36M-25 -25L25 25M25 -25L-25 25" stroke="#2b2d42" stroke-width="7"/><circle r="11" fill="#2b2d42"/></svg>
+        </div>
+        <div class="k-coupler" style="left:6440px"></div>
+        <div id="k-wg8" class="k-wagon" style="left:6520px">
+          <svg id="k-o8-1" class="k-obj" style="left:112.2px;top:867.4px;width:130px;height:130px" viewBox="0 0 100 100"><use href="#k-sym-duck"/></svg><svg id="k-o8-2" class="k-obj" style="left:247.4px;top:867.4px;width:130px;height:130px" viewBox="0 0 100 100"><use href="#k-sym-duck"/></svg><svg id="k-o8-3" class="k-obj" style="left:382.6px;top:867.4px;width:130px;height:130px" viewBox="0 0 100 100"><use href="#k-sym-duck"/></svg><svg id="k-o8-4" class="k-obj" style="left:517.8px;top:867.4px;width:130px;height:130px" viewBox="0 0 100 100"><use href="#k-sym-duck"/></svg><svg id="k-o8-5" class="k-obj" style="left:112.2px;top:948.0px;width:130px;height:130px" viewBox="0 0 100 100"><use href="#k-sym-duck"/></svg><svg id="k-o8-6" class="k-obj" style="left:247.4px;top:948.0px;width:130px;height:130px" viewBox="0 0 100 100"><use href="#k-sym-duck"/></svg><svg id="k-o8-7" class="k-obj" style="left:382.6px;top:948.0px;width:130px;height:130px" viewBox="0 0 100 100"><use href="#k-sym-duck"/></svg><svg id="k-o8-8" class="k-obj" style="left:517.8px;top:948.0px;width:130px;height:130px" viewBox="0 0 100 100"><use href="#k-sym-duck"/></svg>
+          <div class="k-body" style="background:#ff9ff3;border-top-color:#d97ccd"></div>
+          <div id="k-wb8" class="k-wbadge">8</div>
+          <svg id="k-wh8a" class="k-wheel" style="left:95px;top:1245px;width:110px;height:110px" viewBox="-50 -50 100 100"><circle r="48" fill="#2b2d42"/><circle r="36" fill="#8d99ae"/><path d="M0 -36V36M-36 0H36M-25 -25L25 25M25 -25L-25 25" stroke="#2b2d42" stroke-width="7"/><circle r="11" fill="#2b2d42"/></svg><svg id="k-wh8b" class="k-wheel" style="left:555px;top:1245px;width:110px;height:110px" viewBox="-50 -50 100 100"><circle r="48" fill="#2b2d42"/><circle r="36" fill="#8d99ae"/><path d="M0 -36V36M-36 0H36M-25 -25L25 25M25 -25L-25 25" stroke="#2b2d42" stroke-width="7"/><circle r="11" fill="#2b2d42"/></svg>
+        </div>
+        <div class="k-coupler" style="left:7280px"></div>
+        <div id="k-wg9" class="k-wagon" style="left:7360px">
+          <svg id="k-o9-1" class="k-obj" style="left:155.6px;top:877.1px;width:124px;height:124px" viewBox="0 0 100 100"><use href="#k-sym-cupcake"/></svg><svg id="k-o9-2" class="k-obj" style="left:284.5px;top:877.1px;width:124px;height:124px" viewBox="0 0 100 100"><use href="#k-sym-cupcake"/></svg><svg id="k-o9-3" class="k-obj" style="left:413.5px;top:877.1px;width:124px;height:124px" viewBox="0 0 100 100"><use href="#k-sym-cupcake"/></svg><svg id="k-o9-4" class="k-obj" style="left:542.4px;top:877.1px;width:124px;height:124px" viewBox="0 0 100 100"><use href="#k-sym-cupcake"/></svg><svg id="k-o9-5" class="k-obj" style="left:60.1px;top:954.0px;width:124px;height:124px" viewBox="0 0 100 100"><use href="#k-sym-cupcake"/></svg><svg id="k-o9-6" class="k-obj" style="left:189.0px;top:954.0px;width:124px;height:124px" viewBox="0 0 100 100"><use href="#k-sym-cupcake"/></svg><svg id="k-o9-7" class="k-obj" style="left:318.0px;top:954.0px;width:124px;height:124px" viewBox="0 0 100 100"><use href="#k-sym-cupcake"/></svg><svg id="k-o9-8" class="k-obj" style="left:447.0px;top:954.0px;width:124px;height:124px" viewBox="0 0 100 100"><use href="#k-sym-cupcake"/></svg><svg id="k-o9-9" class="k-obj" style="left:575.9px;top:954.0px;width:124px;height:124px" viewBox="0 0 100 100"><use href="#k-sym-cupcake"/></svg>
+          <div class="k-body" style="background:#f78fb3;border-top-color:#d26f93"></div>
+          <div id="k-wb9" class="k-wbadge">9</div>
+          <svg id="k-wh9a" class="k-wheel" style="left:95px;top:1245px;width:110px;height:110px" viewBox="-50 -50 100 100"><circle r="48" fill="#2b2d42"/><circle r="36" fill="#8d99ae"/><path d="M0 -36V36M-36 0H36M-25 -25L25 25M25 -25L-25 25" stroke="#2b2d42" stroke-width="7"/><circle r="11" fill="#2b2d42"/></svg><svg id="k-wh9b" class="k-wheel" style="left:555px;top:1245px;width:110px;height:110px" viewBox="-50 -50 100 100"><circle r="48" fill="#2b2d42"/><circle r="36" fill="#8d99ae"/><path d="M0 -36V36M-36 0H36M-25 -25L25 25M25 -25L-25 25" stroke="#2b2d42" stroke-width="7"/><circle r="11" fill="#2b2d42"/></svg>
+        </div>
+        <div class="k-coupler" style="left:8120px"></div>
+        <div id="k-wg10" class="k-wagon" style="left:8200px">
+          <svg id="k-o10-1" class="k-obj" style="left:60.1px;top:877.1px;width:124px;height:124px" viewBox="0 0 100 100"><use href="#k-sym-star"/></svg><svg id="k-o10-2" class="k-obj" style="left:189.0px;top:877.1px;width:124px;height:124px" viewBox="0 0 100 100"><use href="#k-sym-star"/></svg><svg id="k-o10-3" class="k-obj" style="left:318.0px;top:877.1px;width:124px;height:124px" viewBox="0 0 100 100"><use href="#k-sym-star"/></svg><svg id="k-o10-4" class="k-obj" style="left:447.0px;top:877.1px;width:124px;height:124px" viewBox="0 0 100 100"><use href="#k-sym-star"/></svg><svg id="k-o10-5" class="k-obj" style="left:575.9px;top:877.1px;width:124px;height:124px" viewBox="0 0 100 100"><use href="#k-sym-star"/></svg><svg id="k-o10-6" class="k-obj" style="left:60.1px;top:954.0px;width:124px;height:124px" viewBox="0 0 100 100"><use href="#k-sym-star"/></svg><svg id="k-o10-7" class="k-obj" style="left:189.0px;top:954.0px;width:124px;height:124px" viewBox="0 0 100 100"><use href="#k-sym-star"/></svg><svg id="k-o10-8" class="k-obj" style="left:318.0px;top:954.0px;width:124px;height:124px" viewBox="0 0 100 100"><use href="#k-sym-star"/></svg><svg id="k-o10-9" class="k-obj" style="left:447.0px;top:954.0px;width:124px;height:124px" viewBox="0 0 100 100"><use href="#k-sym-star"/></svg><svg id="k-o10-10" class="k-obj" style="left:575.9px;top:954.0px;width:124px;height:124px" viewBox="0 0 100 100"><use href="#k-sym-star"/></svg>
+          <div class="k-body" style="background:#ffd32a;border-top-color:#d9b012"></div>
+          <div id="k-wb10" class="k-wbadge">10</div>
+          <svg id="k-wh10a" class="k-wheel" style="left:95px;top:1245px;width:110px;height:110px" viewBox="-50 -50 100 100"><circle r="48" fill="#2b2d42"/><circle r="36" fill="#8d99ae"/><path d="M0 -36V36M-36 0H36M-25 -25L25 25M25 -25L-25 25" stroke="#2b2d42" stroke-width="7"/><circle r="11" fill="#2b2d42"/></svg><svg id="k-wh10b" class="k-wheel" style="left:555px;top:1245px;width:110px;height:110px" viewBox="-50 -50 100 100"><circle r="48" fill="#2b2d42"/><circle r="36" fill="#8d99ae"/><path d="M0 -36V36M-36 0H36M-25 -25L25 25M25 -25L-25 25" stroke="#2b2d42" stroke-width="7"/><circle r="11" fill="#2b2d42"/></svg>
+        </div>
+    </div>
+
+    <!-- intro, per-number and closing titles -->
+    <div id="k-ts" class="slot clip" data-start="0" data-duration="3.85" data-track-index="2">
+      <div id="k-title">
+        <div class="k-title" style="top: 236px; font-size: 190px"><span class="w">1</span> <span class="w">-</span> <span class="w">10</span></div>
+        <div class="k-title" style="top: 450px; font-size: 76px"><span class="w">İngilizce</span> <span class="w">sayılar</span></div>
+      </div>
+    </div>
+    <div id="k-t1" class="slot clip" data-start="4.75" data-duration="1.83" data-track-index="11">
+      <div id="k-b1" class="k-badge" style="background:#ff6b6b">1</div>
+      <div id="k-w1" class="k-word"><span class="k-l">O</span><span class="k-l">N</span><span class="k-l">E</span></div>
+      <div id="k-r1" class="k-tr">bir</div>
+    </div>
+    <div id="k-t2" class="slot clip" data-start="6.95" data-duration="1.83" data-track-index="12">
+      <div id="k-b2" class="k-badge" style="background:#ff9f43">2</div>
+      <div id="k-w2" class="k-word"><span class="k-l">T</span><span class="k-l">W</span><span class="k-l">O</span></div>
+      <div id="k-r2" class="k-tr">iki</div>
+    </div>
+    <div id="k-t3" class="slot clip" data-start="9.15" data-duration="1.83" data-track-index="13">
+      <div id="k-b3" class="k-badge" style="background:#feca57">3</div>
+      <div id="k-w3" class="k-word"><span class="k-l">T</span><span class="k-l">H</span><span class="k-l">R</span><span class="k-l">E</span><span class="k-l">E</span></div>
+      <div id="k-r3" class="k-tr">üç</div>
+    </div>
+    <div id="k-t4" class="slot clip" data-start="11.35" data-duration="1.83" data-track-index="14">
+      <div id="k-b4" class="k-badge" style="background:#1dd1a1">4</div>
+      <div id="k-w4" class="k-word"><span class="k-l">F</span><span class="k-l">O</span><span class="k-l">U</span><span class="k-l">R</span></div>
+      <div id="k-r4" class="k-tr">dört</div>
+    </div>
+    <div id="k-t5" class="slot clip" data-start="13.55" data-duration="1.83" data-track-index="15">
+      <div id="k-b5" class="k-badge" style="background:#48dbfb">5</div>
+      <div id="k-w5" class="k-word"><span class="k-l">F</span><span class="k-l">I</span><span class="k-l">V</span><span class="k-l">E</span></div>
+      <div id="k-r5" class="k-tr">beş</div>
+    </div>
+    <div id="k-t6" class="slot clip" data-start="15.75" data-duration="1.83" data-track-index="16">
+      <div id="k-b6" class="k-badge" style="background:#54a0ff">6</div>
+      <div id="k-w6" class="k-word"><span class="k-l">S</span><span class="k-l">I</span><span class="k-l">X</span></div>
+      <div id="k-r6" class="k-tr">altı</div>
+    </div>
+    <div id="k-t7" class="slot clip" data-start="17.95" data-duration="1.83" data-track-index="17">
+      <div id="k-b7" class="k-badge" style="background:#a29bfe">7</div>
+      <div id="k-w7" class="k-word"><span class="k-l">S</span><span class="k-l">E</span><span class="k-l">V</span><span class="k-l">E</span><span class="k-l">N</span></div>
+      <div id="k-r7" class="k-tr">yedi</div>
+    </div>
+    <div id="k-t8" class="slot clip" data-start="20.15" data-duration="1.83" data-track-index="18">
+      <div id="k-b8" class="k-badge" style="background:#ff9ff3">8</div>
+      <div id="k-w8" class="k-word"><span class="k-l">E</span><span class="k-l">I</span><span class="k-l">G</span><span class="k-l">H</span><span class="k-l">T</span></div>
+      <div id="k-r8" class="k-tr">sekiz</div>
+    </div>
+    <div id="k-t9" class="slot clip" data-start="22.35" data-duration="1.83" data-track-index="19">
+      <div id="k-b9" class="k-badge" style="background:#f78fb3">9</div>
+      <div id="k-w9" class="k-word"><span class="k-l">N</span><span class="k-l">I</span><span class="k-l">N</span><span class="k-l">E</span></div>
+      <div id="k-r9" class="k-tr">dokuz</div>
+    </div>
+    <div id="k-t10" class="slot clip" data-start="24.55" data-duration="1.80" data-track-index="20">
+      <div id="k-b10" class="k-badge" style="background:#ffd32a">10</div>
+      <div id="k-w10" class="k-word"><span class="k-l">T</span><span class="k-l">E</span><span class="k-l">N</span></div>
+      <div id="k-r10" class="k-tr">on</div>
+    </div>
+    <div id="k-hs" class="slot clip" data-start="26.4" data-duration="9.25" data-track-index="22">
+      <div id="k-hep" class="k-title" style="top: 300px; font-size: 118px"><span class="w">Hep</span> <span class="w">birlikte!</span></div>
+    </div>
+    <div id="k-es" class="slot clip" data-start="35.65" data-duration="2.95" data-track-index="23">
+      <div id="k-end" class="k-title" style="top: 360px; font-size: 190px"><span class="w">Aferin!</span></div>
+      <svg id="k-s1" class="k-star" style="left:95px;top:175px" viewBox="0 0 100 100"><use href="#k-sym-star"/></svg><svg id="k-s2" class="k-star" style="left:685px;top:135px" viewBox="0 0 100 100"><use href="#k-sym-star"/></svg><svg id="k-s3" class="k-star" style="left:55px;top:505px" viewBox="0 0 100 100"><use href="#k-sym-star"/></svg><svg id="k-s4" class="k-star" style="left:905px;top:505px" viewBox="0 0 100 100"><use href="#k-sym-star"/></svg><svg id="k-s5" class="k-star" style="left:205px;top:665px" viewBox="0 0 100 100"><use href="#k-sym-star"/></svg><svg id="k-s6" class="k-star" style="left:765px;top:665px" viewBox="0 0 100 100"><use href="#k-sym-star"/></svg><svg id="k-s7" class="k-star" style="left:485px;top:95px" viewBox="0 0 100 100"><use href="#k-sym-star"/></svg><svg id="k-s8" class="k-star" style="left:485px;top:705px" viewBox="0 0 100 100"><use href="#k-sym-star"/></svg>
+    </div>
+  </div>
+
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#k-sunrays", { rotation: 0 }, { rotation: 90, duration: 38.6, ease: "none" }, 0);
+    tl.fromTo("#k-cloud1", { x: 0 }, { x: -140, duration: 38.6, ease: "none" }, 0);
+    tl.fromTo("#k-cloud2", { x: 0 }, { x: -90, duration: 38.6, ease: "none" }, 0);
+    tl.fromTo("#k-cloud3", { x: 0 }, { x: -60, duration: 38.6, ease: "none" }, 0);
+    tl.set("#k-strip", { x: 200 }, 0);
+    tl.to("#k-p0", { y: -260, x: 40, scale: 1.7, opacity: 0, duration: 1.0, ease: "power1.out" }, 0);
+    tl.set("#k-p1", { x: 0, y: 0, scale: 0.35, opacity: 0.95 }, 0.25);
+    tl.to("#k-p1", { x: 40, y: -240, scale: 1.6, opacity: 0, duration: 1.3, ease: "power1.out" }, 0.251);
+    tl.set("#k-p2", { x: 0, y: 0, scale: 0.35, opacity: 0.95 }, 0.67);
+    tl.to("#k-p2", { x: 70, y: -240, scale: 1.6, opacity: 0, duration: 1.3, ease: "power1.out" }, 0.671);
+    tl.set("#k-p3", { x: 0, y: 0, scale: 0.35, opacity: 0.95 }, 1.09);
+    tl.to("#k-p3", { x: 40, y: -240, scale: 1.6, opacity: 0, duration: 1.3, ease: "power1.out" }, 1.091);
+    tl.set("#k-p4", { x: 0, y: 0, scale: 0.35, opacity: 0.95 }, 1.51);
+    tl.to("#k-p4", { x: 70, y: -240, scale: 1.6, opacity: 0, duration: 1.3, ease: "power1.out" }, 1.511);
+    tl.set("#k-p1", { x: 0, y: 0, scale: 0.35, opacity: 0.95 }, 1.93);
+    tl.to("#k-p1", { x: 40, y: -240, scale: 1.6, opacity: 0, duration: 1.3, ease: "power1.out" }, 1.931);
+    tl.set("#k-p2", { x: 0, y: 0, scale: 0.35, opacity: 0.95 }, 2.35);
+    tl.to("#k-p2", { x: 70, y: -240, scale: 1.6, opacity: 0, duration: 1.3, ease: "power1.out" }, 2.351);
+    tl.set("#k-p3", { x: 0, y: 0, scale: 0.35, opacity: 0.95 }, 2.77);
+    tl.to("#k-p3", { x: 40, y: -240, scale: 1.6, opacity: 0, duration: 1.3, ease: "power1.out" }, 2.771);
+    tl.set("#k-p4", { x: 0, y: 0, scale: 0.35, opacity: 0.95 }, 3.19);
+    tl.to("#k-p4", { x: 70, y: -240, scale: 1.6, opacity: 0, duration: 1.3, ease: "power1.out" }, 3.191);
+    tl.set("#k-p1", { x: 0, y: 0, scale: 0.35, opacity: 0.95 }, 3.61);
+    tl.to("#k-p1", { x: 40, y: -240, scale: 1.6, opacity: 0, duration: 1.3, ease: "power1.out" }, 3.611);
+    tl.set("#k-p2", { x: 0, y: 0, scale: 0.35, opacity: 0.95 }, 4.03);
+    tl.to("#k-p2", { x: 70, y: -240, scale: 1.6, opacity: 0, duration: 1.3, ease: "power1.out" }, 4.031);
+    tl.to(["#k-lidL", "#k-lidR"], { opacity: 1, duration: 0.04, ease: "none" }, 1.45);
+    tl.to(["#k-lidL", "#k-lidR"], { opacity: 0, duration: 0.05, ease: "none" }, 1.57);
+    tl.to(["#k-lidL", "#k-lidR"], { opacity: 1, duration: 0.04, ease: "none" }, 3.05);
+    tl.to(["#k-lidL", "#k-lidR"], { opacity: 0, duration: 0.05, ease: "none" }, 3.17);
+    tl.to("#k-title .w", { scale: 0.6, opacity: 0, duration: 0.18, stagger: 0.04, ease: "power2.in" }, 3.62);
+    tl.to("#k-strip", { x: 218, duration: 0.12, ease: "power2.out" }, 3.78);
+    tl.to("#k-strip", { x: -480, duration: 0.9, ease: "power2.inOut" }, 3.9);
+    tl.to(".k-wheel", { rotation: "-=875", duration: 0.9, ease: "power2.inOut" }, 3.9);
+    // 1 · ONE (voice at 4.90)
+    tl.fromTo("#k-b1", { scale: 0, rotation: -20 }, { scale: 1, rotation: 0, duration: 0.32, ease: "back.out(2.2)" }, 4.80);
+    tl.fromTo("#k-w1 .k-l", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.22, stagger: 0.045, ease: "back.out(2.5)" }, 4.90);
+    tl.fromTo("#k-r1", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power1.out" }, 5.25);
+    tl.to("#k-o1-1", { y: -34, duration: 0.14, ease: "power2.out" }, 5.10);
+    tl.to("#k-o1-1", { y: 0, duration: 0.22, ease: "power2.in" }, 5.24);
+    tl.to(["#k-b1", "#k-w1", "#k-r1"], { scale: 0.85, opacity: 0, duration: 0.16, ease: "power2.in" }, 6.38);
+    tl.to("#k-strip", { x: -1320, duration: 0.6, ease: "power2.inOut" }, 6.40);
+    tl.to(".k-wheel", { rotation: "-=875", duration: 0.6, ease: "power2.inOut" }, 6.40);
+    // 2 · TWO (voice at 7.10)
+    tl.fromTo("#k-b2", { scale: 0, rotation: -20 }, { scale: 1, rotation: 0, duration: 0.32, ease: "back.out(2.2)" }, 7.00);
+    tl.fromTo("#k-w2 .k-l", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.22, stagger: 0.045, ease: "back.out(2.5)" }, 7.10);
+    tl.fromTo("#k-r2", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power1.out" }, 7.45);
+    tl.to("#k-o2-1", { y: -34, duration: 0.14, ease: "power2.out" }, 7.30);
+    tl.to("#k-o2-1", { y: 0, duration: 0.22, ease: "power2.in" }, 7.44);
+    tl.to("#k-o2-2", { y: -34, duration: 0.14, ease: "power2.out" }, 7.37);
+    tl.to("#k-o2-2", { y: 0, duration: 0.22, ease: "power2.in" }, 7.51);
+    tl.to(["#k-b2", "#k-w2", "#k-r2"], { scale: 0.85, opacity: 0, duration: 0.16, ease: "power2.in" }, 8.58);
+    tl.to("#k-strip", { x: -2160, duration: 0.6, ease: "power2.inOut" }, 8.60);
+    tl.to(".k-wheel", { rotation: "-=875", duration: 0.6, ease: "power2.inOut" }, 8.60);
+    // 3 · THREE (voice at 9.30)
+    tl.fromTo("#k-b3", { scale: 0, rotation: -20 }, { scale: 1, rotation: 0, duration: 0.32, ease: "back.out(2.2)" }, 9.20);
+    tl.fromTo("#k-w3 .k-l", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.22, stagger: 0.045, ease: "back.out(2.5)" }, 9.30);
+    tl.fromTo("#k-r3", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power1.out" }, 9.65);
+    tl.to("#k-o3-1", { y: -34, duration: 0.14, ease: "power2.out" }, 9.50);
+    tl.to("#k-o3-1", { y: 0, duration: 0.22, ease: "power2.in" }, 9.64);
+    tl.to("#k-o3-2", { y: -34, duration: 0.14, ease: "power2.out" }, 9.57);
+    tl.to("#k-o3-2", { y: 0, duration: 0.22, ease: "power2.in" }, 9.71);
+    tl.to("#k-o3-3", { y: -34, duration: 0.14, ease: "power2.out" }, 9.64);
+    tl.to("#k-o3-3", { y: 0, duration: 0.22, ease: "power2.in" }, 9.78);
+    tl.to(["#k-b3", "#k-w3", "#k-r3"], { scale: 0.85, opacity: 0, duration: 0.16, ease: "power2.in" }, 10.78);
+    tl.to("#k-strip", { x: -3000, duration: 0.6, ease: "power2.inOut" }, 10.80);
+    tl.to(".k-wheel", { rotation: "-=875", duration: 0.6, ease: "power2.inOut" }, 10.80);
+    // 4 · FOUR (voice at 11.50)
+    tl.fromTo("#k-b4", { scale: 0, rotation: -20 }, { scale: 1, rotation: 0, duration: 0.32, ease: "back.out(2.2)" }, 11.40);
+    tl.fromTo("#k-w4 .k-l", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.22, stagger: 0.045, ease: "back.out(2.5)" }, 11.50);
+    tl.fromTo("#k-r4", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power1.out" }, 11.85);
+    tl.to("#k-o4-1", { y: -34, duration: 0.14, ease: "power2.out" }, 11.70);
+    tl.to("#k-o4-1", { y: 0, duration: 0.22, ease: "power2.in" }, 11.84);
+    tl.to("#k-o4-2", { y: -34, duration: 0.14, ease: "power2.out" }, 11.77);
+    tl.to("#k-o4-2", { y: 0, duration: 0.22, ease: "power2.in" }, 11.91);
+    tl.to("#k-o4-3", { y: -34, duration: 0.14, ease: "power2.out" }, 11.84);
+    tl.to("#k-o4-3", { y: 0, duration: 0.22, ease: "power2.in" }, 11.98);
+    tl.to("#k-o4-4", { y: -34, duration: 0.14, ease: "power2.out" }, 11.91);
+    tl.to("#k-o4-4", { y: 0, duration: 0.22, ease: "power2.in" }, 12.05);
+    tl.to(["#k-b4", "#k-w4", "#k-r4"], { scale: 0.85, opacity: 0, duration: 0.16, ease: "power2.in" }, 12.98);
+    tl.to("#k-strip", { x: -3840, duration: 0.6, ease: "power2.inOut" }, 13.00);
+    tl.to(".k-wheel", { rotation: "-=875", duration: 0.6, ease: "power2.inOut" }, 13.00);
+    // 5 · FIVE (voice at 13.70)
+    tl.fromTo("#k-b5", { scale: 0, rotation: -20 }, { scale: 1, rotation: 0, duration: 0.32, ease: "back.out(2.2)" }, 13.60);
+    tl.fromTo("#k-w5 .k-l", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.22, stagger: 0.045, ease: "back.out(2.5)" }, 13.70);
+    tl.fromTo("#k-r5", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power1.out" }, 14.05);
+    tl.to("#k-o5-1", { y: -34, duration: 0.14, ease: "power2.out" }, 13.90);
+    tl.to("#k-o5-1", { y: 0, duration: 0.22, ease: "power2.in" }, 14.04);
+    tl.to("#k-o5-2", { y: -34, duration: 0.14, ease: "power2.out" }, 13.97);
+    tl.to("#k-o5-2", { y: 0, duration: 0.22, ease: "power2.in" }, 14.11);
+    tl.to("#k-o5-3", { y: -34, duration: 0.14, ease: "power2.out" }, 14.04);
+    tl.to("#k-o5-3", { y: 0, duration: 0.22, ease: "power2.in" }, 14.18);
+    tl.to("#k-o5-4", { y: -34, duration: 0.14, ease: "power2.out" }, 14.11);
+    tl.to("#k-o5-4", { y: 0, duration: 0.22, ease: "power2.in" }, 14.25);
+    tl.to("#k-o5-5", { y: -34, duration: 0.14, ease: "power2.out" }, 14.18);
+    tl.to("#k-o5-5", { y: 0, duration: 0.22, ease: "power2.in" }, 14.32);
+    tl.to(["#k-b5", "#k-w5", "#k-r5"], { scale: 0.85, opacity: 0, duration: 0.16, ease: "power2.in" }, 15.18);
+    tl.to("#k-strip", { x: -4680, duration: 0.6, ease: "power2.inOut" }, 15.20);
+    tl.to(".k-wheel", { rotation: "-=875", duration: 0.6, ease: "power2.inOut" }, 15.20);
+    // 6 · SIX (voice at 15.90)
+    tl.fromTo("#k-b6", { scale: 0, rotation: -20 }, { scale: 1, rotation: 0, duration: 0.32, ease: "back.out(2.2)" }, 15.80);
+    tl.fromTo("#k-w6 .k-l", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.22, stagger: 0.045, ease: "back.out(2.5)" }, 15.90);
+    tl.fromTo("#k-r6", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power1.out" }, 16.25);
+    tl.to("#k-o6-1", { y: -34, duration: 0.14, ease: "power2.out" }, 16.10);
+    tl.to("#k-o6-1", { y: 0, duration: 0.22, ease: "power2.in" }, 16.24);
+    tl.to("#k-o6-2", { y: -34, duration: 0.14, ease: "power2.out" }, 16.17);
+    tl.to("#k-o6-2", { y: 0, duration: 0.22, ease: "power2.in" }, 16.31);
+    tl.to("#k-o6-3", { y: -34, duration: 0.14, ease: "power2.out" }, 16.24);
+    tl.to("#k-o6-3", { y: 0, duration: 0.22, ease: "power2.in" }, 16.38);
+    tl.to("#k-o6-4", { y: -34, duration: 0.14, ease: "power2.out" }, 16.31);
+    tl.to("#k-o6-4", { y: 0, duration: 0.22, ease: "power2.in" }, 16.45);
+    tl.to("#k-o6-5", { y: -34, duration: 0.14, ease: "power2.out" }, 16.38);
+    tl.to("#k-o6-5", { y: 0, duration: 0.22, ease: "power2.in" }, 16.52);
+    tl.to("#k-o6-6", { y: -34, duration: 0.14, ease: "power2.out" }, 16.45);
+    tl.to("#k-o6-6", { y: 0, duration: 0.22, ease: "power2.in" }, 16.59);
+    tl.to(["#k-b6", "#k-w6", "#k-r6"], { scale: 0.85, opacity: 0, duration: 0.16, ease: "power2.in" }, 17.38);
+    tl.to("#k-strip", { x: -5520, duration: 0.6, ease: "power2.inOut" }, 17.40);
+    tl.to(".k-wheel", { rotation: "-=875", duration: 0.6, ease: "power2.inOut" }, 17.40);
+    // 7 · SEVEN (voice at 18.10)
+    tl.fromTo("#k-b7", { scale: 0, rotation: -20 }, { scale: 1, rotation: 0, duration: 0.32, ease: "back.out(2.2)" }, 18.00);
+    tl.fromTo("#k-w7 .k-l", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.22, stagger: 0.045, ease: "back.out(2.5)" }, 18.10);
+    tl.fromTo("#k-r7", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power1.out" }, 18.45);
+    tl.to("#k-o7-1", { y: -34, duration: 0.14, ease: "power2.out" }, 18.30);
+    tl.to("#k-o7-1", { y: 0, duration: 0.22, ease: "power2.in" }, 18.44);
+    tl.to("#k-o7-2", { y: -34, duration: 0.14, ease: "power2.out" }, 18.37);
+    tl.to("#k-o7-2", { y: 0, duration: 0.22, ease: "power2.in" }, 18.51);
+    tl.to("#k-o7-3", { y: -34, duration: 0.14, ease: "power2.out" }, 18.44);
+    tl.to("#k-o7-3", { y: 0, duration: 0.22, ease: "power2.in" }, 18.58);
+    tl.to("#k-o7-4", { y: -34, duration: 0.14, ease: "power2.out" }, 18.51);
+    tl.to("#k-o7-4", { y: 0, duration: 0.22, ease: "power2.in" }, 18.65);
+    tl.to("#k-o7-5", { y: -34, duration: 0.14, ease: "power2.out" }, 18.58);
+    tl.to("#k-o7-5", { y: 0, duration: 0.22, ease: "power2.in" }, 18.72);
+    tl.to("#k-o7-6", { y: -34, duration: 0.14, ease: "power2.out" }, 18.65);
+    tl.to("#k-o7-6", { y: 0, duration: 0.22, ease: "power2.in" }, 18.79);
+    tl.to("#k-o7-7", { y: -34, duration: 0.14, ease: "power2.out" }, 18.72);
+    tl.to("#k-o7-7", { y: 0, duration: 0.22, ease: "power2.in" }, 18.86);
+    tl.to(["#k-b7", "#k-w7", "#k-r7"], { scale: 0.85, opacity: 0, duration: 0.16, ease: "power2.in" }, 19.58);
+    tl.to("#k-strip", { x: -6360, duration: 0.6, ease: "power2.inOut" }, 19.60);
+    tl.to(".k-wheel", { rotation: "-=875", duration: 0.6, ease: "power2.inOut" }, 19.60);
+    // 8 · EIGHT (voice at 20.30)
+    tl.fromTo("#k-b8", { scale: 0, rotation: -20 }, { scale: 1, rotation: 0, duration: 0.32, ease: "back.out(2.2)" }, 20.20);
+    tl.fromTo("#k-w8 .k-l", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.22, stagger: 0.045, ease: "back.out(2.5)" }, 20.30);
+    tl.fromTo("#k-r8", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power1.out" }, 20.65);
+    tl.to("#k-o8-1", { y: -34, duration: 0.14, ease: "power2.out" }, 20.50);
+    tl.to("#k-o8-1", { y: 0, duration: 0.22, ease: "power2.in" }, 20.64);
+    tl.to("#k-o8-2", { y: -34, duration: 0.14, ease: "power2.out" }, 20.57);
+    tl.to("#k-o8-2", { y: 0, duration: 0.22, ease: "power2.in" }, 20.71);
+    tl.to("#k-o8-3", { y: -34, duration: 0.14, ease: "power2.out" }, 20.64);
+    tl.to("#k-o8-3", { y: 0, duration: 0.22, ease: "power2.in" }, 20.78);
+    tl.to("#k-o8-4", { y: -34, duration: 0.14, ease: "power2.out" }, 20.71);
+    tl.to("#k-o8-4", { y: 0, duration: 0.22, ease: "power2.in" }, 20.85);
+    tl.to("#k-o8-5", { y: -34, duration: 0.14, ease: "power2.out" }, 20.78);
+    tl.to("#k-o8-5", { y: 0, duration: 0.22, ease: "power2.in" }, 20.92);
+    tl.to("#k-o8-6", { y: -34, duration: 0.14, ease: "power2.out" }, 20.85);
+    tl.to("#k-o8-6", { y: 0, duration: 0.22, ease: "power2.in" }, 20.99);
+    tl.to("#k-o8-7", { y: -34, duration: 0.14, ease: "power2.out" }, 20.92);
+    tl.to("#k-o8-7", { y: 0, duration: 0.22, ease: "power2.in" }, 21.06);
+    tl.to("#k-o8-8", { y: -34, duration: 0.14, ease: "power2.out" }, 20.99);
+    tl.to("#k-o8-8", { y: 0, duration: 0.22, ease: "power2.in" }, 21.13);
+    tl.to(["#k-b8", "#k-w8", "#k-r8"], { scale: 0.85, opacity: 0, duration: 0.16, ease: "power2.in" }, 21.78);
+    tl.to("#k-strip", { x: -7200, duration: 0.6, ease: "power2.inOut" }, 21.80);
+    tl.to(".k-wheel", { rotation: "-=875", duration: 0.6, ease: "power2.inOut" }, 21.80);
+    // 9 · NINE (voice at 22.50)
+    tl.fromTo("#k-b9", { scale: 0, rotation: -20 }, { scale: 1, rotation: 0, duration: 0.32, ease: "back.out(2.2)" }, 22.40);
+    tl.fromTo("#k-w9 .k-l", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.22, stagger: 0.045, ease: "back.out(2.5)" }, 22.50);
+    tl.fromTo("#k-r9", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power1.out" }, 22.85);
+    tl.to("#k-o9-1", { y: -34, duration: 0.14, ease: "power2.out" }, 22.70);
+    tl.to("#k-o9-1", { y: 0, duration: 0.22, ease: "power2.in" }, 22.84);
+    tl.to("#k-o9-2", { y: -34, duration: 0.14, ease: "power2.out" }, 22.77);
+    tl.to("#k-o9-2", { y: 0, duration: 0.22, ease: "power2.in" }, 22.91);
+    tl.to("#k-o9-3", { y: -34, duration: 0.14, ease: "power2.out" }, 22.84);
+    tl.to("#k-o9-3", { y: 0, duration: 0.22, ease: "power2.in" }, 22.98);
+    tl.to("#k-o9-4", { y: -34, duration: 0.14, ease: "power2.out" }, 22.91);
+    tl.to("#k-o9-4", { y: 0, duration: 0.22, ease: "power2.in" }, 23.05);
+    tl.to("#k-o9-5", { y: -34, duration: 0.14, ease: "power2.out" }, 22.98);
+    tl.to("#k-o9-5", { y: 0, duration: 0.22, ease: "power2.in" }, 23.12);
+    tl.to("#k-o9-6", { y: -34, duration: 0.14, ease: "power2.out" }, 23.05);
+    tl.to("#k-o9-6", { y: 0, duration: 0.22, ease: "power2.in" }, 23.19);
+    tl.to("#k-o9-7", { y: -34, duration: 0.14, ease: "power2.out" }, 23.12);
+    tl.to("#k-o9-7", { y: 0, duration: 0.22, ease: "power2.in" }, 23.26);
+    tl.to("#k-o9-8", { y: -34, duration: 0.14, ease: "power2.out" }, 23.19);
+    tl.to("#k-o9-8", { y: 0, duration: 0.22, ease: "power2.in" }, 23.33);
+    tl.to("#k-o9-9", { y: -34, duration: 0.14, ease: "power2.out" }, 23.26);
+    tl.to("#k-o9-9", { y: 0, duration: 0.22, ease: "power2.in" }, 23.40);
+    tl.to(["#k-b9", "#k-w9", "#k-r9"], { scale: 0.85, opacity: 0, duration: 0.16, ease: "power2.in" }, 23.98);
+    tl.to("#k-strip", { x: -8040, duration: 0.6, ease: "power2.inOut" }, 24.00);
+    tl.to(".k-wheel", { rotation: "-=875", duration: 0.6, ease: "power2.inOut" }, 24.00);
+    // 10 · TEN (voice at 24.70)
+    tl.fromTo("#k-b10", { scale: 0, rotation: -20 }, { scale: 1, rotation: 0, duration: 0.32, ease: "back.out(2.2)" }, 24.60);
+    tl.fromTo("#k-w10 .k-l", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.22, stagger: 0.045, ease: "back.out(2.5)" }, 24.70);
+    tl.fromTo("#k-r10", { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power1.out" }, 25.05);
+    tl.to("#k-o10-1", { y: -34, duration: 0.14, ease: "power2.out" }, 24.90);
+    tl.to("#k-o10-1", { y: 0, duration: 0.22, ease: "power2.in" }, 25.04);
+    tl.to("#k-o10-2", { y: -34, duration: 0.14, ease: "power2.out" }, 24.97);
+    tl.to("#k-o10-2", { y: 0, duration: 0.22, ease: "power2.in" }, 25.11);
+    tl.to("#k-o10-3", { y: -34, duration: 0.14, ease: "power2.out" }, 25.04);
+    tl.to("#k-o10-3", { y: 0, duration: 0.22, ease: "power2.in" }, 25.18);
+    tl.to("#k-o10-4", { y: -34, duration: 0.14, ease: "power2.out" }, 25.11);
+    tl.to("#k-o10-4", { y: 0, duration: 0.22, ease: "power2.in" }, 25.25);
+    tl.to("#k-o10-5", { y: -34, duration: 0.14, ease: "power2.out" }, 25.18);
+    tl.to("#k-o10-5", { y: 0, duration: 0.22, ease: "power2.in" }, 25.32);
+    tl.to("#k-o10-6", { y: -34, duration: 0.14, ease: "power2.out" }, 25.25);
+    tl.to("#k-o10-6", { y: 0, duration: 0.22, ease: "power2.in" }, 25.39);
+    tl.to("#k-o10-7", { y: -34, duration: 0.14, ease: "power2.out" }, 25.32);
+    tl.to("#k-o10-7", { y: 0, duration: 0.22, ease: "power2.in" }, 25.46);
+    tl.to("#k-o10-8", { y: -34, duration: 0.14, ease: "power2.out" }, 25.39);
+    tl.to("#k-o10-8", { y: 0, duration: 0.22, ease: "power2.in" }, 25.53);
+    tl.to("#k-o10-9", { y: -34, duration: 0.14, ease: "power2.out" }, 25.46);
+    tl.to("#k-o10-9", { y: 0, duration: 0.22, ease: "power2.in" }, 25.60);
+    tl.to("#k-o10-10", { y: -34, duration: 0.14, ease: "power2.out" }, 25.53);
+    tl.to("#k-o10-10", { y: 0, duration: 0.22, ease: "power2.in" }, 25.67);
+    tl.to(["#k-b10", "#k-w10", "#k-r10"], { scale: 0.85, opacity: 0, duration: 0.16, ease: "power2.in" }, 26.10);
+    // recap: "Şimdi hep birlikte!" (26.5) — the train rewinds to wagon 1
+    tl.fromTo("#k-hep .w", { scale: 0.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.25, stagger: 0.08, ease: "back.out(2)" }, 26.45);
+    tl.to("#k-strip", { x: -480, duration: 1.4, ease: "power3.inOut" }, 26.55);
+    tl.to(".k-wheel", { rotation: "+=7875", duration: 1.4, ease: "power3.inOut" }, 26.55);
+    tl.to("#k-wb1", { scale: 1.35, duration: 0.1, ease: "power2.out" }, 28.22);
+    tl.to("#k-wb1", { scale: 1, duration: 0.25, ease: "back.out(2)" }, 28.32);
+    tl.to("#k-o1-1", { y: -26, duration: 0.1, ease: "power2.out" }, 28.22);
+    tl.to("#k-o1-1", { y: 0, duration: 0.16, ease: "power2.in" }, 28.32);
+    tl.to("#k-strip", { x: -1320, duration: 0.3, ease: "power2.inOut" }, 28.56);
+    tl.to(".k-wheel", { rotation: "-=875", duration: 0.3, ease: "power2.inOut" }, 28.56);
+    tl.to("#k-wb2", { scale: 1.35, duration: 0.1, ease: "power2.out" }, 28.88);
+    tl.to("#k-wb2", { scale: 1, duration: 0.25, ease: "back.out(2)" }, 28.98);
+    tl.to("#k-o2-1", { y: -26, duration: 0.1, ease: "power2.out" }, 28.88);
+    tl.to("#k-o2-1", { y: 0, duration: 0.16, ease: "power2.in" }, 28.98);
+    tl.to("#k-o2-2", { y: -26, duration: 0.1, ease: "power2.out" }, 28.90);
+    tl.to("#k-o2-2", { y: 0, duration: 0.16, ease: "power2.in" }, 29.00);
+    tl.to("#k-strip", { x: -2160, duration: 0.3, ease: "power2.inOut" }, 29.36);
+    tl.to(".k-wheel", { rotation: "-=875", duration: 0.3, ease: "power2.inOut" }, 29.36);
+    tl.to("#k-wb3", { scale: 1.35, duration: 0.1, ease: "power2.out" }, 29.68);
+    tl.to("#k-wb3", { scale: 1, duration: 0.25, ease: "back.out(2)" }, 29.78);
+    tl.to("#k-o3-1", { y: -26, duration: 0.1, ease: "power2.out" }, 29.68);
+    tl.to("#k-o3-1", { y: 0, duration: 0.16, ease: "power2.in" }, 29.78);
+    tl.to("#k-o3-2", { y: -26, duration: 0.1, ease: "power2.out" }, 29.70);
+    tl.to("#k-o3-2", { y: 0, duration: 0.16, ease: "power2.in" }, 29.80);
+    tl.to("#k-o3-3", { y: -26, duration: 0.1, ease: "power2.out" }, 29.72);
+    tl.to("#k-o3-3", { y: 0, duration: 0.16, ease: "power2.in" }, 29.82);
+    tl.to("#k-strip", { x: -3000, duration: 0.3, ease: "power2.inOut" }, 30.17);
+    tl.to(".k-wheel", { rotation: "-=875", duration: 0.3, ease: "power2.inOut" }, 30.17);
+    tl.to("#k-wb4", { scale: 1.35, duration: 0.1, ease: "power2.out" }, 30.49);
+    tl.to("#k-wb4", { scale: 1, duration: 0.25, ease: "back.out(2)" }, 30.59);
+    tl.to("#k-o4-1", { y: -26, duration: 0.1, ease: "power2.out" }, 30.49);
+    tl.to("#k-o4-1", { y: 0, duration: 0.16, ease: "power2.in" }, 30.59);
+    tl.to("#k-o4-2", { y: -26, duration: 0.1, ease: "power2.out" }, 30.51);
+    tl.to("#k-o4-2", { y: 0, duration: 0.16, ease: "power2.in" }, 30.61);
+    tl.to("#k-o4-3", { y: -26, duration: 0.1, ease: "power2.out" }, 30.53);
+    tl.to("#k-o4-3", { y: 0, duration: 0.16, ease: "power2.in" }, 30.63);
+    tl.to("#k-o4-4", { y: -26, duration: 0.1, ease: "power2.out" }, 30.55);
+    tl.to("#k-o4-4", { y: 0, duration: 0.16, ease: "power2.in" }, 30.65);
+    tl.to("#k-strip", { x: -3840, duration: 0.3, ease: "power2.inOut" }, 30.95);
+    tl.to(".k-wheel", { rotation: "-=875", duration: 0.3, ease: "power2.inOut" }, 30.95);
+    tl.to("#k-wb5", { scale: 1.35, duration: 0.1, ease: "power2.out" }, 31.27);
+    tl.to("#k-wb5", { scale: 1, duration: 0.25, ease: "back.out(2)" }, 31.37);
+    tl.to("#k-o5-1", { y: -26, duration: 0.1, ease: "power2.out" }, 31.27);
+    tl.to("#k-o5-1", { y: 0, duration: 0.16, ease: "power2.in" }, 31.37);
+    tl.to("#k-o5-2", { y: -26, duration: 0.1, ease: "power2.out" }, 31.29);
+    tl.to("#k-o5-2", { y: 0, duration: 0.16, ease: "power2.in" }, 31.39);
+    tl.to("#k-o5-3", { y: -26, duration: 0.1, ease: "power2.out" }, 31.31);
+    tl.to("#k-o5-3", { y: 0, duration: 0.16, ease: "power2.in" }, 31.41);
+    tl.to("#k-o5-4", { y: -26, duration: 0.1, ease: "power2.out" }, 31.33);
+    tl.to("#k-o5-4", { y: 0, duration: 0.16, ease: "power2.in" }, 31.43);
+    tl.to("#k-o5-5", { y: -26, duration: 0.1, ease: "power2.out" }, 31.35);
+    tl.to("#k-o5-5", { y: 0, duration: 0.16, ease: "power2.in" }, 31.45);
+    tl.to("#k-strip", { x: -4680, duration: 0.3, ease: "power2.inOut" }, 31.56);
+    tl.to(".k-wheel", { rotation: "-=875", duration: 0.3, ease: "power2.inOut" }, 31.56);
+    tl.to("#k-wb6", { scale: 1.35, duration: 0.1, ease: "power2.out" }, 31.88);
+    tl.to("#k-wb6", { scale: 1, duration: 0.25, ease: "back.out(2)" }, 31.98);
+    tl.to("#k-o6-1", { y: -26, duration: 0.1, ease: "power2.out" }, 31.88);
+    tl.to("#k-o6-1", { y: 0, duration: 0.16, ease: "power2.in" }, 31.98);
+    tl.to("#k-o6-2", { y: -26, duration: 0.1, ease: "power2.out" }, 31.90);
+    tl.to("#k-o6-2", { y: 0, duration: 0.16, ease: "power2.in" }, 32.00);
+    tl.to("#k-o6-3", { y: -26, duration: 0.1, ease: "power2.out" }, 31.92);
+    tl.to("#k-o6-3", { y: 0, duration: 0.16, ease: "power2.in" }, 32.02);
+    tl.to("#k-o6-4", { y: -26, duration: 0.1, ease: "power2.out" }, 31.94);
+    tl.to("#k-o6-4", { y: 0, duration: 0.16, ease: "power2.in" }, 32.04);
+    tl.to("#k-o6-5", { y: -26, duration: 0.1, ease: "power2.out" }, 31.96);
+    tl.to("#k-o6-5", { y: 0, duration: 0.16, ease: "power2.in" }, 32.06);
+    tl.to("#k-o6-6", { y: -26, duration: 0.1, ease: "power2.out" }, 31.98);
+    tl.to("#k-o6-6", { y: 0, duration: 0.16, ease: "power2.in" }, 32.08);
+    tl.to("#k-strip", { x: -5520, duration: 0.3, ease: "power2.inOut" }, 32.44);
+    tl.to(".k-wheel", { rotation: "-=875", duration: 0.3, ease: "power2.inOut" }, 32.44);
+    tl.to("#k-wb7", { scale: 1.35, duration: 0.1, ease: "power2.out" }, 32.76);
+    tl.to("#k-wb7", { scale: 1, duration: 0.25, ease: "back.out(2)" }, 32.86);
+    tl.to("#k-o7-1", { y: -26, duration: 0.1, ease: "power2.out" }, 32.76);
+    tl.to("#k-o7-1", { y: 0, duration: 0.16, ease: "power2.in" }, 32.86);
+    tl.to("#k-o7-2", { y: -26, duration: 0.1, ease: "power2.out" }, 32.78);
+    tl.to("#k-o7-2", { y: 0, duration: 0.16, ease: "power2.in" }, 32.88);
+    tl.to("#k-o7-3", { y: -26, duration: 0.1, ease: "power2.out" }, 32.80);
+    tl.to("#k-o7-3", { y: 0, duration: 0.16, ease: "power2.in" }, 32.90);
+    tl.to("#k-o7-4", { y: -26, duration: 0.1, ease: "power2.out" }, 32.82);
+    tl.to("#k-o7-4", { y: 0, duration: 0.16, ease: "power2.in" }, 32.92);
+    tl.to("#k-o7-5", { y: -26, duration: 0.1, ease: "power2.out" }, 32.84);
+    tl.to("#k-o7-5", { y: 0, duration: 0.16, ease: "power2.in" }, 32.94);
+    tl.to("#k-o7-6", { y: -26, duration: 0.1, ease: "power2.out" }, 32.86);
+    tl.to("#k-o7-6", { y: 0, duration: 0.16, ease: "power2.in" }, 32.96);
+    tl.to("#k-o7-7", { y: -26, duration: 0.1, ease: "power2.out" }, 32.88);
+    tl.to("#k-o7-7", { y: 0, duration: 0.16, ease: "power2.in" }, 32.98);
+    tl.to("#k-strip", { x: -6360, duration: 0.3, ease: "power2.inOut" }, 32.88);
+    tl.to(".k-wheel", { rotation: "-=875", duration: 0.3, ease: "power2.inOut" }, 32.88);
+    tl.to("#k-wb8", { scale: 1.35, duration: 0.1, ease: "power2.out" }, 33.20);
+    tl.to("#k-wb8", { scale: 1, duration: 0.25, ease: "back.out(2)" }, 33.30);
+    tl.to("#k-o8-1", { y: -26, duration: 0.1, ease: "power2.out" }, 33.20);
+    tl.to("#k-o8-1", { y: 0, duration: 0.16, ease: "power2.in" }, 33.30);
+    tl.to("#k-o8-2", { y: -26, duration: 0.1, ease: "power2.out" }, 33.22);
+    tl.to("#k-o8-2", { y: 0, duration: 0.16, ease: "power2.in" }, 33.32);
+    tl.to("#k-o8-3", { y: -26, duration: 0.1, ease: "power2.out" }, 33.24);
+    tl.to("#k-o8-3", { y: 0, duration: 0.16, ease: "power2.in" }, 33.34);
+    tl.to("#k-o8-4", { y: -26, duration: 0.1, ease: "power2.out" }, 33.26);
+    tl.to("#k-o8-4", { y: 0, duration: 0.16, ease: "power2.in" }, 33.36);
+    tl.to("#k-o8-5", { y: -26, duration: 0.1, ease: "power2.out" }, 33.28);
+    tl.to("#k-o8-5", { y: 0, duration: 0.16, ease: "power2.in" }, 33.38);
+    tl.to("#k-o8-6", { y: -26, duration: 0.1, ease: "power2.out" }, 33.30);
+    tl.to("#k-o8-6", { y: 0, duration: 0.16, ease: "power2.in" }, 33.40);
+    tl.to("#k-o8-7", { y: -26, duration: 0.1, ease: "power2.out" }, 33.32);
+    tl.to("#k-o8-7", { y: 0, duration: 0.16, ease: "power2.in" }, 33.42);
+    tl.to("#k-o8-8", { y: -26, duration: 0.1, ease: "power2.out" }, 33.34);
+    tl.to("#k-o8-8", { y: 0, duration: 0.16, ease: "power2.in" }, 33.44);
+    tl.to("#k-strip", { x: -7200, duration: 0.3, ease: "power2.inOut" }, 33.74);
+    tl.to(".k-wheel", { rotation: "-=875", duration: 0.3, ease: "power2.inOut" }, 33.74);
+    tl.to("#k-wb9", { scale: 1.35, duration: 0.1, ease: "power2.out" }, 34.06);
+    tl.to("#k-wb9", { scale: 1, duration: 0.25, ease: "back.out(2)" }, 34.16);
+    tl.to("#k-o9-1", { y: -26, duration: 0.1, ease: "power2.out" }, 34.06);
+    tl.to("#k-o9-1", { y: 0, duration: 0.16, ease: "power2.in" }, 34.16);
+    tl.to("#k-o9-2", { y: -26, duration: 0.1, ease: "power2.out" }, 34.08);
+    tl.to("#k-o9-2", { y: 0, duration: 0.16, ease: "power2.in" }, 34.18);
+    tl.to("#k-o9-3", { y: -26, duration: 0.1, ease: "power2.out" }, 34.10);
+    tl.to("#k-o9-3", { y: 0, duration: 0.16, ease: "power2.in" }, 34.20);
+    tl.to("#k-o9-4", { y: -26, duration: 0.1, ease: "power2.out" }, 34.12);
+    tl.to("#k-o9-4", { y: 0, duration: 0.16, ease: "power2.in" }, 34.22);
+    tl.to("#k-o9-5", { y: -26, duration: 0.1, ease: "power2.out" }, 34.14);
+    tl.to("#k-o9-5", { y: 0, duration: 0.16, ease: "power2.in" }, 34.24);
+    tl.to("#k-o9-6", { y: -26, duration: 0.1, ease: "power2.out" }, 34.16);
+    tl.to("#k-o9-6", { y: 0, duration: 0.16, ease: "power2.in" }, 34.26);
+    tl.to("#k-o9-7", { y: -26, duration: 0.1, ease: "power2.out" }, 34.18);
+    tl.to("#k-o9-7", { y: 0, duration: 0.16, ease: "power2.in" }, 34.28);
+    tl.to("#k-o9-8", { y: -26, duration: 0.1, ease: "power2.out" }, 34.20);
+    tl.to("#k-o9-8", { y: 0, duration: 0.16, ease: "power2.in" }, 34.30);
+    tl.to("#k-o9-9", { y: -26, duration: 0.1, ease: "power2.out" }, 34.22);
+    tl.to("#k-o9-9", { y: 0, duration: 0.16, ease: "power2.in" }, 34.32);
+    tl.to("#k-strip", { x: -8040, duration: 0.3, ease: "power2.inOut" }, 34.10);
+    tl.to(".k-wheel", { rotation: "-=875", duration: 0.3, ease: "power2.inOut" }, 34.10);
+    tl.to("#k-wb10", { scale: 1.35, duration: 0.1, ease: "power2.out" }, 34.42);
+    tl.to("#k-wb10", { scale: 1, duration: 0.25, ease: "back.out(2)" }, 34.52);
+    tl.to("#k-o10-1", { y: -26, duration: 0.1, ease: "power2.out" }, 34.42);
+    tl.to("#k-o10-1", { y: 0, duration: 0.16, ease: "power2.in" }, 34.52);
+    tl.to("#k-o10-2", { y: -26, duration: 0.1, ease: "power2.out" }, 34.44);
+    tl.to("#k-o10-2", { y: 0, duration: 0.16, ease: "power2.in" }, 34.54);
+    tl.to("#k-o10-3", { y: -26, duration: 0.1, ease: "power2.out" }, 34.46);
+    tl.to("#k-o10-3", { y: 0, duration: 0.16, ease: "power2.in" }, 34.56);
+    tl.to("#k-o10-4", { y: -26, duration: 0.1, ease: "power2.out" }, 34.48);
+    tl.to("#k-o10-4", { y: 0, duration: 0.16, ease: "power2.in" }, 34.58);
+    tl.to("#k-o10-5", { y: -26, duration: 0.1, ease: "power2.out" }, 34.50);
+    tl.to("#k-o10-5", { y: 0, duration: 0.16, ease: "power2.in" }, 34.60);
+    tl.to("#k-o10-6", { y: -26, duration: 0.1, ease: "power2.out" }, 34.52);
+    tl.to("#k-o10-6", { y: 0, duration: 0.16, ease: "power2.in" }, 34.62);
+    tl.to("#k-o10-7", { y: -26, duration: 0.1, ease: "power2.out" }, 34.54);
+    tl.to("#k-o10-7", { y: 0, duration: 0.16, ease: "power2.in" }, 34.64);
+    tl.to("#k-o10-8", { y: -26, duration: 0.1, ease: "power2.out" }, 34.56);
+    tl.to("#k-o10-8", { y: 0, duration: 0.16, ease: "power2.in" }, 34.66);
+    tl.to("#k-o10-9", { y: -26, duration: 0.1, ease: "power2.out" }, 34.58);
+    tl.to("#k-o10-9", { y: 0, duration: 0.16, ease: "power2.in" }, 34.68);
+    tl.to("#k-o10-10", { y: -26, duration: 0.1, ease: "power2.out" }, 34.60);
+    tl.to("#k-o10-10", { y: 0, duration: 0.16, ease: "power2.in" }, 34.70);
+    tl.to("#k-hep .w", { scale: 0.7, opacity: 0, duration: 0.18, ease: "power2.in" }, 35.45);
+    tl.fromTo("#k-end .w", { scale: 0.3, opacity: 0, rotation: -8 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.35, stagger: 0.1, ease: "back.out(2.2)" }, 35.70);
+    tl.fromTo("#k-s1", { x: 390, y: 750, scale: 0.2, opacity: 0, rotation: 0 }, { x: 0, y: 0, scale: 1, opacity: 1, rotation: 340, duration: 0.6, ease: "back.out(1.6)" }, 35.72);
+    tl.fromTo("#k-s2", { x: -200, y: 790, scale: 0.2, opacity: 0, rotation: 0 }, { x: 0, y: 0, scale: 1, opacity: 1, rotation: 385, duration: 0.6, ease: "back.out(1.6)" }, 35.76);
+    tl.fromTo("#k-s3", { x: 430, y: 420, scale: 0.2, opacity: 0, rotation: 0 }, { x: 0, y: 0, scale: 1, opacity: 1, rotation: 375, duration: 0.6, ease: "back.out(1.6)" }, 35.80);
+    tl.fromTo("#k-s4", { x: -420, y: 420, scale: 0.2, opacity: 0, rotation: 0 }, { x: 0, y: 0, scale: 1, opacity: 1, rotation: 345, duration: 0.6, ease: "back.out(1.6)" }, 35.84);
+    tl.fromTo("#k-s5", { x: 280, y: 260, scale: 0.2, opacity: 0, rotation: 0 }, { x: 0, y: 0, scale: 1, opacity: 1, rotation: 390, duration: 0.6, ease: "back.out(1.6)" }, 35.88);
+    tl.fromTo("#k-s6", { x: -280, y: 260, scale: 0.2, opacity: 0, rotation: 0 }, { x: 0, y: 0, scale: 1, opacity: 1, rotation: 330, duration: 0.6, ease: "back.out(1.6)" }, 35.92);
+    tl.fromTo("#k-s7", { x: 0, y: 830, scale: 0.2, opacity: 0, rotation: 0 }, { x: 0, y: 0, scale: 1, opacity: 1, rotation: 360, duration: 0.6, ease: "back.out(1.6)" }, 35.96);
+    tl.fromTo("#k-s8", { x: 0, y: 220, scale: 0.2, opacity: 0, rotation: 0 }, { x: 0, y: 0, scale: 1, opacity: 1, rotation: 370, duration: 0.6, ease: "back.out(1.6)" }, 36.00);
+    tl.to("#k-o10-1", { y: -40, duration: 0.14, ease: "power2.out" }, 35.80);
+    tl.to("#k-o10-1", { y: 0, duration: 0.24, ease: "power2.in" }, 35.94);
+    tl.to("#k-o10-2", { y: -40, duration: 0.14, ease: "power2.out" }, 35.83);
+    tl.to("#k-o10-2", { y: 0, duration: 0.24, ease: "power2.in" }, 35.97);
+    tl.to("#k-o10-3", { y: -40, duration: 0.14, ease: "power2.out" }, 35.86);
+    tl.to("#k-o10-3", { y: 0, duration: 0.24, ease: "power2.in" }, 36.00);
+    tl.to("#k-o10-4", { y: -40, duration: 0.14, ease: "power2.out" }, 35.89);
+    tl.to("#k-o10-4", { y: 0, duration: 0.24, ease: "power2.in" }, 36.03);
+    tl.to("#k-o10-5", { y: -40, duration: 0.14, ease: "power2.out" }, 35.92);
+    tl.to("#k-o10-5", { y: 0, duration: 0.24, ease: "power2.in" }, 36.06);
+    tl.to("#k-o10-6", { y: -40, duration: 0.14, ease: "power2.out" }, 35.95);
+    tl.to("#k-o10-6", { y: 0, duration: 0.24, ease: "power2.in" }, 36.09);
+    tl.to("#k-o10-7", { y: -40, duration: 0.14, ease: "power2.out" }, 35.98);
+    tl.to("#k-o10-7", { y: 0, duration: 0.24, ease: "power2.in" }, 36.12);
+    tl.to("#k-o10-8", { y: -40, duration: 0.14, ease: "power2.out" }, 36.01);
+    tl.to("#k-o10-8", { y: 0, duration: 0.24, ease: "power2.in" }, 36.15);
+    tl.to("#k-o10-9", { y: -40, duration: 0.14, ease: "power2.out" }, 36.04);
+    tl.to("#k-o10-9", { y: 0, duration: 0.24, ease: "power2.in" }, 36.18);
+    tl.to("#k-o10-10", { y: -40, duration: 0.14, ease: "power2.out" }, 36.07);
+    tl.to("#k-o10-10", { y: 0, duration: 0.24, ease: "power2.in" }, 36.21);
+    window.__timelines["train"] = tl;
+  </script>
+</template>
