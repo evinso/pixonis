@@ -1,0 +1,566 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; font-family: "Nunito", sans-serif; color: #2d3561; }
+    .al-slot { position: absolute; inset: 0; }
+    .al-desk { position: absolute; inset: 0;
+      background:
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0px, rgba(255,255,255,0.05) 3px, transparent 3px, transparent 15px),
+        repeating-linear-gradient(90deg, rgba(0,0,0,0.07) 0px, rgba(0,0,0,0.07) 3px, transparent 3px, transparent 320px),
+        linear-gradient(180deg, #d4a06b 0%, #c08a55 100%); }
+    #al-book { position: absolute; inset: 0; perspective: 2600px; }
+    .al-coverbase { position: absolute; top: 96px; height: 888px; background: #1976d2; box-shadow: 0 18px 30px rgba(0,0,0,0.3); }
+    .al-page { position: absolute; top: 112px; width: 750px; height: 856px; background: #fff8ea; }
+    #al-pl { left: 210px; border-radius: 14px 0 0 14px; background: linear-gradient(90deg, #fff8ea 0%, #fff8ea 88%, #efe3cc 100%); }
+    #al-pr { left: 960px; border-radius: 0 14px 14px 0; background: linear-gradient(90deg, #efe3cc 0%, #fff8ea 12%, #fff8ea 100%); }
+    .al-inpl { position: absolute; left: 210px; top: 112px; width: 750px; height: 856px; }
+    .al-inpr { position: absolute; left: 960px; top: 112px; width: 750px; height: 856px; }
+    .al-aa { position: absolute; left: 0; top: 190px; width: 750px; text-align: center; font-weight: 900; line-height: 1; white-space: nowrap; }
+    .al-up { font-size: 380px; }
+    .al-lo { font-size: 300px; margin-left: 16px; }
+    .al-pic { position: absolute; left: 175px; top: 80px; width: 400px; height: 400px; overflow: visible; }
+    .al-word { position: absolute; left: 0; top: 520px; width: 750px; text-align: center; font-weight: 900; line-height: 1.05; white-space: nowrap; color: #2d3561; }
+    .al-l { display: inline-block; }
+    .al-tr { position: absolute; left: 0; top: 690px; width: 750px; text-align: center; font-weight: 800; font-size: 66px; line-height: 1; color: #4b5583; }
+    .al-leaf { position: absolute; left: 960px; top: 112px; width: 750px; height: 856px; transform-style: preserve-3d; transform-origin: 0% 50%; }
+    .al-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 0 14px 14px 0; background: linear-gradient(90deg, #efe3cc 0%, #fff8ea 12%, #fff8ea 100%); }
+    .al-back { transform: rotateY(180deg); border-radius: 14px 0 0 14px; background: linear-gradient(270deg, #efe3cc 0%, #fff8ea 12%, #fff8ea 100%); }
+    #al-cv { position: absolute; left: 950px; top: 96px; width: 780px; height: 888px; transform-style: preserve-3d; transform-origin: 0% 50%; }
+    .al-cvf { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 0 22px 22px 0; background: #1976d2; box-shadow: 0 18px 30px rgba(0,0,0,0.3); color: #ffffff; text-align: center; }
+    .al-cvb { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; transform: rotateY(180deg); border-radius: 22px 0 0 22px; background: #1976d2; }
+    .al-cvb::after { content: ""; position: absolute; left: 20px; top: 16px; right: 0; bottom: 16px; border-radius: 14px 0 0 14px; background: #fff8ea; }
+    .al-tile { position: absolute; width: 150px; height: 150px; border-radius: 28px; border: 8px solid #ffffff; box-shadow: 0 8px 0 rgba(0,0,0,0.15);
+      font-weight: 900; font-size: 104px; line-height: 134px; text-align: center; color: #2d3561; }
+    #al-ident { position: absolute; inset: 0; background: #ffde3c; overflow: hidden; }
+    #al-rays { position: absolute; left: -500px; top: -900px; width: 2900px; height: 2900px;
+      background: repeating-conic-gradient(from 0deg at 50% 50%, rgba(255,255,255,0.2) 0deg 9deg, rgba(255,255,255,0) 9deg 18deg); }
+    .al-title { position: absolute; text-align: center; font-weight: 900; line-height: 1; }
+    .al-title .w { display: inline-block; }
+    .al-banner { position: absolute; padding: 20px 30px 24px; border-radius: 34px; background: #1976d2; border: 12px solid #ffffff;
+      box-shadow: 0 10px 0 rgba(45,53,97,0.22); color: #ffffff; text-align: center; opacity: 0; }
+    .al-b1 { font-weight: 900; font-size: 80px; line-height: 1; }
+    .al-b2 { margin-top: 10px; font-weight: 900; font-size: 46px; line-height: 1; }
+    #al-pkwrap { position: absolute; left: 120px; top: 300px; width: 700px; height: 757px; transform-origin: 0 0; }
+    #al-pkhop { position: absolute; inset: 0; transform-origin: 50% 100%; }
+    #al-pkface { position: absolute; inset: 0;
+      -webkit-mask-image: linear-gradient(to bottom, #000 80%, transparent 100%); mask-image: linear-gradient(to bottom, #000 80%, transparent 100%); }
+    #al-pkface img { display: block; width: 100%; height: 100%; }
+  </style>
+
+  <div id="root" data-composition-id="alphabet" data-width="1920" data-height="1080">
+    <svg width="0" height="0" style="position:absolute"><defs><symbol id="al-sym-apple" viewBox="0 0 100 100"><path d="M50 28 C 30 14, 8 26, 10 52 C 12 80, 32 96, 50 89 C 68 96, 88 80, 90 52 C 92 26, 70 14, 50 28 Z" fill="#ff5a5f"/><rect x="47" y="10" width="6" height="20" rx="3" fill="#8a5a3b"/><ellipse cx="64" cy="17" rx="13" ry="6" transform="rotate(-25 64 17)" fill="#4cc26b"/><ellipse cx="28" cy="40" rx="6" ry="10" fill="#fff" opacity="0.35"/><circle cx="39.0" cy="54" r="5.5" fill="#2d3561"/><circle cx="61.0" cy="54" r="5.5" fill="#2d3561"/><circle cx="37.5" cy="52.5" r="1.8" fill="#fff"/><circle cx="59.5" cy="52.5" r="1.8" fill="#fff"/><path d="M42.0 64.0 Q50 71.0 58.0 64.0" fill="none" stroke="#2d3561" stroke-width="3.6" stroke-linecap="round"/><circle cx="31.0" cy="63.0" r="4.6" fill="#ff8fa3" opacity="0.7"/><circle cx="69.0" cy="63.0" r="4.6" fill="#ff8fa3" opacity="0.7"/></symbol><symbol id="al-sym-ball" viewBox="0 0 100 100"><circle cx="50" cy="52" r="42" fill="#4d96ff"/><path d="M12 42 Q50 26 88 42" fill="none" stroke="#fff" stroke-width="8"/><path d="M12 66 Q50 82 88 66" fill="none" stroke="#ffd23f" stroke-width="8"/><circle cx="39.0" cy="53" r="5.5" fill="#2d3561"/><circle cx="61.0" cy="53" r="5.5" fill="#2d3561"/><circle cx="37.5" cy="51.5" r="1.8" fill="#fff"/><circle cx="59.5" cy="51.5" r="1.8" fill="#fff"/><path d="M42.0 63.0 Q50 70.0 58.0 63.0" fill="none" stroke="#2d3561" stroke-width="3.6" stroke-linecap="round"/><circle cx="31.0" cy="62.0" r="4.6" fill="#ff8fa3" opacity="0.7"/><circle cx="69.0" cy="62.0" r="4.6" fill="#ff8fa3" opacity="0.7"/></symbol><symbol id="al-sym-cat" viewBox="0 0 100 100"><polygon points="18,38 24,8 44,28" fill="#ffa94d"/><polygon points="82,38 76,8 56,28" fill="#ffa94d"/><polygon points="23,32 26,16 36,27" fill="#ffc9d4"/><polygon points="77,32 74,16 64,27" fill="#ffc9d4"/><ellipse cx="50" cy="56" rx="38" ry="33" fill="#ffa94d"/><path d="M44 28 L50 36 L56 28" fill="none" stroke="#e8892e" stroke-width="3"/><circle cx="39.0" cy="52" r="5.5" fill="#2d3561"/><circle cx="61.0" cy="52" r="5.5" fill="#2d3561"/><circle cx="37.5" cy="50.5" r="1.8" fill="#fff"/><circle cx="59.5" cy="50.5" r="1.8" fill="#fff"/><circle cx="31.0" cy="61.0" r="4.6" fill="#ff8fa3" opacity="0.7"/><circle cx="69.0" cy="61.0" r="4.6" fill="#ff8fa3" opacity="0.7"/><polygon points="46,60 54,60 50,65" fill="#ff7a93"/><path d="M50 65 Q45 71 40 67 M50 65 Q55 71 60 67" fill="none" stroke="#2d3561" stroke-width="3" stroke-linecap="round"/><path d="M8 58 L28 60 M8 66 L28 64 M92 58 L72 60 M92 66 L72 64" stroke="#2d3561" stroke-width="2" stroke-linecap="round"/></symbol><symbol id="al-sym-duck" viewBox="0 0 100 100"><ellipse cx="56" cy="66" rx="36" ry="25" fill="#ffd23f"/><path d="M58 60 Q74 52 82 66 Q70 72 58 66 Z" fill="#f4b400"/><circle cx="36" cy="38" r="22" fill="#ffd23f"/><path d="M6 40 Q14 32 22 38 Q14 46 6 40 Z" fill="#ff9f1c"/><circle cx="32" cy="33" r="5" fill="#2d3561"/><circle cx="30.5" cy="31.5" r="1.8" fill="#fff"/><circle cx="44" cy="45" r="5" fill="#ff8fa3" opacity="0.7"/></symbol><symbol id="al-sym-egg" viewBox="0 0 100 100"><ellipse cx="50" cy="56" rx="31" ry="39" fill="#fff6e3" stroke="#e8d5b0" stroke-width="3"/><ellipse cx="38" cy="38" rx="6" ry="10" fill="#fff" opacity="0.9"/><circle cx="39.0" cy="60" r="5.5" fill="#2d3561"/><circle cx="61.0" cy="60" r="5.5" fill="#2d3561"/><circle cx="37.5" cy="58.5" r="1.8" fill="#fff"/><circle cx="59.5" cy="58.5" r="1.8" fill="#fff"/><path d="M42.0 70.0 Q50 77.0 58.0 70.0" fill="none" stroke="#2d3561" stroke-width="3.6" stroke-linecap="round"/><circle cx="31.0" cy="69.0" r="4.6" fill="#ff8fa3" opacity="0.7"/><circle cx="69.0" cy="69.0" r="4.6" fill="#ff8fa3" opacity="0.7"/></symbol><symbol id="al-sym-fish" viewBox="0 0 100 100"><polygon points="74,52 98,32 98,72" fill="#0096c7"/><ellipse cx="46" cy="52" rx="38" ry="27" fill="#00bbf9"/><path d="M40 30 Q50 18 60 30" fill="#0096c7"/><circle cx="30" cy="47" r="6" fill="#2d3561"/><circle cx="28.5" cy="45.5" r="2" fill="#fff"/><path d="M18 60 Q25 65 32 60" fill="none" stroke="#2d3561" stroke-width="3.5" stroke-linecap="round"/><circle cx="40" cy="60" r="4.5" fill="#ff8fa3" opacity="0.7"/></symbol><symbol id="al-sym-grapes" viewBox="0 0 100 100"><path d="M50 6 Q52 14 50 20" stroke="#6b4f3a" stroke-width="4" fill="none"/><ellipse cx="64" cy="12" rx="13" ry="6" transform="rotate(-20 64 12)" fill="#4cc26b"/><circle cx="34" cy="30" r="13" fill="#9b59b6"/><circle cx="50" cy="28" r="13" fill="#9b59b6"/><circle cx="66" cy="30" r="13" fill="#9b59b6"/><circle cx="26" cy="48" r="13" fill="#9b59b6"/><circle cx="42" cy="46" r="13" fill="#9b59b6"/><circle cx="58" cy="46" r="13" fill="#9b59b6"/><circle cx="74" cy="48" r="13" fill="#9b59b6"/><circle cx="34" cy="64" r="13" fill="#9b59b6"/><circle cx="66" cy="64" r="13" fill="#9b59b6"/><circle cx="50" cy="82" r="13" fill="#9b59b6"/><circle cx="50" cy="60" r="16" fill="#a66bd3"/><circle cx="43.18" cy="58" r="3.41" fill="#2d3561"/><circle cx="56.82" cy="58" r="3.41" fill="#2d3561"/><circle cx="42.25" cy="57.07" r="1.116" fill="#fff"/><circle cx="55.89" cy="57.07" r="1.116" fill="#fff"/><path d="M45.04 64.2 Q50 68.53999999999999 54.96 64.2" fill="none" stroke="#2d3561" stroke-width="2.232" stroke-linecap="round"/><circle cx="38.22" cy="63.58" r="2.852" fill="#ff8fa3" opacity="0.7"/><circle cx="61.78" cy="63.58" r="2.852" fill="#ff8fa3" opacity="0.7"/></symbol><symbol id="al-sym-hat" viewBox="0 0 100 100"><ellipse cx="50" cy="74" rx="46" ry="13" fill="#e2433f"/><path d="M26 74 L28 34 Q50 18 72 34 L74 74 Z" fill="#ff5a5f"/><rect x="26" y="60" width="48" height="10" fill="#2d3561"/><circle cx="64" cy="58" r="6" fill="#ffd23f"/></symbol><symbol id="al-sym-icecream" viewBox="0 0 100 100"><polygon points="28,56 72,56 50,98" fill="#f4b266"/><path d="M34 64 L60 90 M66 64 L40 90" stroke="#d98f43" stroke-width="3"/><circle cx="50" cy="44" r="27" fill="#ff8fb1"/><circle cx="50" cy="14" r="7" fill="#ff3b3b"/><circle cx="40.65" cy="42" r="4.675" fill="#2d3561"/><circle cx="59.35" cy="42" r="4.675" fill="#2d3561"/><circle cx="39.375" cy="40.725" r="1.53" fill="#fff"/><circle cx="58.075" cy="40.725" r="1.53" fill="#fff"/><path d="M43.2 50.5 Q50 56.45 56.8 50.5" fill="none" stroke="#2d3561" stroke-width="3.06" stroke-linecap="round"/><circle cx="33.85" cy="49.65" r="3.9099999999999997" fill="#ff8fa3" opacity="0.7"/><circle cx="66.15" cy="49.65" r="3.9099999999999997" fill="#ff8fa3" opacity="0.7"/></symbol><symbol id="al-sym-juice" viewBox="0 0 100 100"><path d="M60 24 L74 4" stroke="#ff5a5f" stroke-width="5" stroke-linecap="round"/><path d="M26 26 L74 26 L66 94 L34 94 Z" fill="#ffa62b"/><path d="M26 26 L74 26 L73 34 L27 34 Z" fill="#ffd08a"/><circle cx="28" cy="26" r="11" fill="#ffd23f" stroke="#f4a300" stroke-width="3"/><path d="M28 16 L28 36 M18 26 L38 26" stroke="#f4a300" stroke-width="2"/><circle cx="40.1" cy="58" r="4.95" fill="#2d3561"/><circle cx="59.9" cy="58" r="4.95" fill="#2d3561"/><circle cx="38.75" cy="56.65" r="1.62" fill="#fff"/><circle cx="58.55" cy="56.65" r="1.62" fill="#fff"/><path d="M42.8 67.0 Q50 73.3 57.2 67.0" fill="none" stroke="#2d3561" stroke-width="3.24" stroke-linecap="round"/><circle cx="32.9" cy="66.1" r="4.14" fill="#ff8fa3" opacity="0.7"/><circle cx="67.1" cy="66.1" r="4.14" fill="#ff8fa3" opacity="0.7"/></symbol><symbol id="al-sym-kite" viewBox="0 0 100 100"><path d="M50 84 Q40 92 52 96 Q62 99 54 104" fill="none" stroke="#7a7a8c" stroke-width="2.5"/><polygon points="50,6 82,40 50,84 18,40" fill="#ff6b6b"/><polygon points="50,6 82,40 50,40" fill="#ff9f43"/><polygon points="18,40 50,40 50,84" fill="#ffd23f"/><path d="M50 6 L50 84 M18 40 L82 40" stroke="#fff" stroke-width="2.5"/><circle cx="41.75" cy="46" r="4.125" fill="#2d3561"/><circle cx="58.25" cy="46" r="4.125" fill="#2d3561"/><circle cx="40.625" cy="44.875" r="1.35" fill="#fff"/><circle cx="57.125" cy="44.875" r="1.35" fill="#fff"/><path d="M44.0 53.5 Q50 58.75 56.0 53.5" fill="none" stroke="#2d3561" stroke-width="2.7" stroke-linecap="round"/><circle cx="35.75" cy="52.75" r="3.4499999999999997" fill="#ff8fa3" opacity="0.7"/><circle cx="64.25" cy="52.75" r="3.4499999999999997" fill="#ff8fa3" opacity="0.7"/></symbol><symbol id="al-sym-lemon" viewBox="0 0 100 100"><ellipse cx="50" cy="54" rx="38" ry="29" fill="#ffe135"/><ellipse cx="12" cy="54" rx="6" ry="5" fill="#ffe135"/><ellipse cx="88" cy="54" rx="6" ry="5" fill="#ffe135"/><ellipse cx="60" cy="22" rx="12" ry="5" transform="rotate(-25 60 22)" fill="#4cc26b"/><ellipse cx="34" cy="42" rx="7" ry="5" fill="#fff" opacity="0.5"/><circle cx="39.0" cy="56" r="5.5" fill="#2d3561"/><circle cx="61.0" cy="56" r="5.5" fill="#2d3561"/><circle cx="37.5" cy="54.5" r="1.8" fill="#fff"/><circle cx="59.5" cy="54.5" r="1.8" fill="#fff"/><path d="M42.0 66.0 Q50 73.0 58.0 66.0" fill="none" stroke="#2d3561" stroke-width="3.6" stroke-linecap="round"/><circle cx="31.0" cy="65.0" r="4.6" fill="#ff8fa3" opacity="0.7"/><circle cx="69.0" cy="65.0" r="4.6" fill="#ff8fa3" opacity="0.7"/></symbol><symbol id="al-sym-moon" viewBox="0 0 100 100"><mask id="al-moonmask"><rect width="100" height="100" fill="#fff"/><circle cx="70" cy="40" r="33" fill="#000"/></mask><circle cx="50" cy="52" r="42" fill="#ffe066" mask="url(#al-moonmask)"/><circle cx="30" cy="80" r="4" fill="#f4c430"/><circle cx="18" cy="40" r="3" fill="#f4c430"/><path d="M22 54 Q27 49 32 54" fill="none" stroke="#2d3561" stroke-width="3.5" stroke-linecap="round"/><path d="M24 66 Q31 72 38 66" fill="none" stroke="#2d3561" stroke-width="3.5" stroke-linecap="round"/><circle cx="17" cy="62" r="4" fill="#ff8fa3" opacity="0.7"/><polygon points="80,20 83,28 91,28 85,33 87,41 80,36 73,41 75,33 69,28 77,28" fill="#ffd23f"/></symbol><symbol id="al-sym-nest" viewBox="0 0 100 100"><ellipse cx="34" cy="50" rx="13" ry="16" fill="#bfe3ff"/><ellipse cx="52" cy="46" rx="13" ry="16" fill="#e8f6ff"/><ellipse cx="68" cy="50" rx="13" ry="16" fill="#bfe3ff"/><path d="M10 54 Q50 66 90 54 Q86 86 50 88 Q14 86 10 54 Z" fill="#a0673b"/><path d="M14 60 Q50 72 86 60 M18 70 Q50 80 82 70 M24 80 Q50 88 76 80" fill="none" stroke="#7a4a26" stroke-width="3"/></symbol><symbol id="al-sym-orange" viewBox="0 0 100 100"><circle cx="50" cy="54" r="38" fill="#ff9f1c"/><ellipse cx="58" cy="16" rx="12" ry="5" transform="rotate(-20 58 16)" fill="#4cc26b"/><rect x="48" y="12" width="4" height="8" rx="2" fill="#6b4f3a"/><ellipse cx="34" cy="38" rx="6" ry="9" fill="#fff" opacity="0.35"/><circle cx="39.0" cy="56" r="5.5" fill="#2d3561"/><circle cx="61.0" cy="56" r="5.5" fill="#2d3561"/><circle cx="37.5" cy="54.5" r="1.8" fill="#fff"/><circle cx="59.5" cy="54.5" r="1.8" fill="#fff"/><path d="M42.0 66.0 Q50 73.0 58.0 66.0" fill="none" stroke="#2d3561" stroke-width="3.6" stroke-linecap="round"/><circle cx="31.0" cy="65.0" r="4.6" fill="#ff8fa3" opacity="0.7"/><circle cx="69.0" cy="65.0" r="4.6" fill="#ff8fa3" opacity="0.7"/></symbol><symbol id="al-sym-pizza" viewBox="0 0 100 100"><path d="M10 18 Q50 6 90 18 L50 96 Z" fill="#ffd166"/><path d="M8 14 Q50 0 92 14 L90 24 Q50 12 10 24 Z" fill="#e8a43c"/><circle cx="34" cy="34" r="7" fill="#e74c3c"/><circle cx="66" cy="34" r="7" fill="#e74c3c"/><circle cx="52" cy="72" r="6" fill="#e74c3c"/><circle cx="41.75" cy="48" r="4.125" fill="#2d3561"/><circle cx="58.25" cy="48" r="4.125" fill="#2d3561"/><circle cx="40.625" cy="46.875" r="1.35" fill="#fff"/><circle cx="57.125" cy="46.875" r="1.35" fill="#fff"/><path d="M44.0 55.5 Q50 60.75 56.0 55.5" fill="none" stroke="#2d3561" stroke-width="2.7" stroke-linecap="round"/><circle cx="35.75" cy="54.75" r="3.4499999999999997" fill="#ff8fa3" opacity="0.7"/><circle cx="64.25" cy="54.75" r="3.4499999999999997" fill="#ff8fa3" opacity="0.7"/></symbol><symbol id="al-sym-queen" viewBox="0 0 100 100"><path d="M18 62 Q16 30 50 26 Q84 30 82 62 Q86 82 74 90 L26 90 Q14 82 18 62 Z" fill="#8a5a3b"/><circle cx="50" cy="58" r="27" fill="#ffd7b5"/><polygon points="26,30 32,8 42,22 50,4 58,22 68,8 74,30" fill="#ffd23f" stroke="#f4a300" stroke-width="2.5" stroke-linejoin="round"/><circle cx="50" cy="20" r="4" fill="#ff477e"/><circle cx="35" cy="24" r="3" fill="#4d96ff"/><circle cx="65" cy="24" r="3" fill="#4d96ff"/><circle cx="40.65" cy="58" r="4.675" fill="#2d3561"/><circle cx="59.35" cy="58" r="4.675" fill="#2d3561"/><circle cx="39.375" cy="56.725" r="1.53" fill="#fff"/><circle cx="58.075" cy="56.725" r="1.53" fill="#fff"/><path d="M43.2 66.5 Q50 72.45 56.8 66.5" fill="none" stroke="#2d3561" stroke-width="3.06" stroke-linecap="round"/><circle cx="33.85" cy="65.65" r="3.9099999999999997" fill="#ff8fa3" opacity="0.7"/><circle cx="66.15" cy="65.65" r="3.9099999999999997" fill="#ff8fa3" opacity="0.7"/></symbol><symbol id="al-sym-rainbow" viewBox="0 0 100 100"><path d="M8 78 A42 42 0 0 1 92 78" fill="none" stroke="#ff6b6b" stroke-width="7"/><path d="M15 78 A35 35 0 0 1 85 78" fill="none" stroke="#ff9f43" stroke-width="7"/><path d="M22 78 A28 28 0 0 1 78 78" fill="none" stroke="#ffd23f" stroke-width="7"/><path d="M29 78 A21 21 0 0 1 71 78" fill="none" stroke="#1dd1a1" stroke-width="7"/><path d="M36 78 A14 14 0 0 1 64 78" fill="none" stroke="#54a0ff" stroke-width="7"/><circle cx="10" cy="80" r="10" fill="#fff"/><circle cx="20" cy="76" r="12" fill="#fff"/><circle cx="30" cy="82" r="9" fill="#fff"/><circle cx="90" cy="80" r="10" fill="#fff"/><circle cx="80" cy="76" r="12" fill="#fff"/><circle cx="70" cy="82" r="9" fill="#fff"/><path d="M14 80 Q20 84 26 80" fill="none" stroke="#2d3561" stroke-width="2"/><path d="M74 80 Q80 84 86 80" fill="none" stroke="#2d3561" stroke-width="2"/></symbol><symbol id="al-sym-sun" viewBox="0 0 100 100"><rect x="47" y="2" width="6" height="14" rx="3" fill="#ffb703" transform="rotate(0 50 50)"/><rect x="47" y="2" width="6" height="14" rx="3" fill="#ffb703" transform="rotate(30 50 50)"/><rect x="47" y="2" width="6" height="14" rx="3" fill="#ffb703" transform="rotate(60 50 50)"/><rect x="47" y="2" width="6" height="14" rx="3" fill="#ffb703" transform="rotate(90 50 50)"/><rect x="47" y="2" width="6" height="14" rx="3" fill="#ffb703" transform="rotate(120 50 50)"/><rect x="47" y="2" width="6" height="14" rx="3" fill="#ffb703" transform="rotate(150 50 50)"/><rect x="47" y="2" width="6" height="14" rx="3" fill="#ffb703" transform="rotate(180 50 50)"/><rect x="47" y="2" width="6" height="14" rx="3" fill="#ffb703" transform="rotate(210 50 50)"/><rect x="47" y="2" width="6" height="14" rx="3" fill="#ffb703" transform="rotate(240 50 50)"/><rect x="47" y="2" width="6" height="14" rx="3" fill="#ffb703" transform="rotate(270 50 50)"/><rect x="47" y="2" width="6" height="14" rx="3" fill="#ffb703" transform="rotate(300 50 50)"/><rect x="47" y="2" width="6" height="14" rx="3" fill="#ffb703" transform="rotate(330 50 50)"/><circle cx="50" cy="50" r="30" fill="#ffd23f"/><circle cx="40.1" cy="50" r="4.95" fill="#2d3561"/><circle cx="59.9" cy="50" r="4.95" fill="#2d3561"/><circle cx="38.75" cy="48.65" r="1.62" fill="#fff"/><circle cx="58.55" cy="48.65" r="1.62" fill="#fff"/><path d="M42.8 59.0 Q50 65.3 57.2 59.0" fill="none" stroke="#2d3561" stroke-width="3.24" stroke-linecap="round"/><circle cx="32.9" cy="58.1" r="4.14" fill="#ff8fa3" opacity="0.7"/><circle cx="67.1" cy="58.1" r="4.14" fill="#ff8fa3" opacity="0.7"/></symbol><symbol id="al-sym-train" viewBox="0 0 100 100"><rect x="56" y="20" width="32" height="50" rx="5" fill="#118ab2"/><rect x="62" y="28" width="20" height="16" rx="3" fill="#cdefff"/><rect x="52" y="14" width="40" height="9" rx="3" fill="#073b4c"/><rect x="14" y="40" width="48" height="32" rx="16" fill="#ef476f"/><rect x="26" y="22" width="10" height="20" fill="#073b4c"/><rect x="22" y="18" width="18" height="7" rx="2" fill="#073b4c"/><circle cx="14" cy="56" r="16" fill="#ffe8d6" stroke="#ef476f" stroke-width="3"/><circle cx="8.5" cy="54" r="2.75" fill="#2d3561"/><circle cx="19.5" cy="54" r="2.75" fill="#2d3561"/><circle cx="7.75" cy="53.25" r="0.9" fill="#fff"/><circle cx="18.75" cy="53.25" r="0.9" fill="#fff"/><path d="M10.0 59.0 Q14 62.5 18.0 59.0" fill="none" stroke="#2d3561" stroke-width="1.8" stroke-linecap="round"/><circle cx="4.5" cy="58.5" r="2.3" fill="#ff8fa3" opacity="0.7"/><circle cx="23.5" cy="58.5" r="2.3" fill="#ff8fa3" opacity="0.7"/><circle cx="28" cy="78" r="9" fill="#2b2d42"/><circle cx="50" cy="78" r="9" fill="#2b2d42"/><circle cx="76" cy="76" r="11" fill="#2b2d42"/><circle cx="28" cy="78" r="3" fill="#8d99ae"/><circle cx="50" cy="78" r="3" fill="#8d99ae"/><circle cx="76" cy="76" r="4" fill="#8d99ae"/><circle cx="34" cy="10" r="5" fill="#fff" opacity="0.9"/><circle cx="42" cy="4" r="4" fill="#fff" opacity="0.7"/></symbol><symbol id="al-sym-umbrella" viewBox="0 0 100 100"><path d="M50 50 L50 84 Q50 94 40 94 Q32 94 32 86" fill="none" stroke="#6b4f3a" stroke-width="5" stroke-linecap="round"/><path d="M6 50 Q8 12 50 10 Q92 12 94 50 Q86 42 78 50 Q70 42 62 50 Q56 42 50 50 Q44 42 38 50 Q30 42 22 50 Q14 42 6 50 Z" fill="#a29bfe"/><path d="M50 10 Q36 26 38 50 M50 10 Q64 26 62 50 M50 10 Q20 22 22 50 M50 10 Q80 22 78 50" fill="none" stroke="#7f78d6" stroke-width="2.5"/><circle cx="50" cy="8" r="3" fill="#7f78d6"/></symbol><symbol id="al-sym-vase" viewBox="0 0 100 100"><path d="M40 40 Q36 20 30 12 M50 40 L50 8 M60 40 Q64 22 72 14" fill="none" stroke="#2f9e44" stroke-width="3"/><circle cx="25" cy="12" r="5" fill="#ff70a6"/><circle cx="35" cy="12" r="5" fill="#ff70a6"/><circle cx="30" cy="7" r="5" fill="#ff70a6"/><circle cx="30" cy="17" r="5" fill="#ff70a6"/><circle cx="45" cy="8" r="5" fill="#ffd23f"/><circle cx="55" cy="8" r="5" fill="#ffd23f"/><circle cx="50" cy="3" r="5" fill="#ffd23f"/><circle cx="50" cy="13" r="5" fill="#ffd23f"/><circle cx="67" cy="14" r="5" fill="#ff9f43"/><circle cx="77" cy="14" r="5" fill="#ff9f43"/><circle cx="72" cy="9" r="5" fill="#ff9f43"/><circle cx="72" cy="19" r="5" fill="#ff9f43"/><circle cx="30" cy="12" r="4" fill="#fff3b0"/><circle cx="50" cy="8" r="4" fill="#fff"/><circle cx="72" cy="14" r="4" fill="#fff3b0"/><path d="M38 40 L62 40 Q60 48 68 58 Q80 76 66 94 L34 94 Q20 76 32 58 Q40 48 38 40 Z" fill="#48dbfb"/><path d="M30 66 Q50 72 70 66 M28 78 Q50 84 72 78" fill="none" stroke="#fff" stroke-width="3"/></symbol><symbol id="al-sym-watermelon" viewBox="0 0 100 100"><path d="M4 34 A46 46 0 0 0 96 34 Z" fill="#2fbf71"/><path d="M10 34 A40 40 0 0 0 90 34 Z" fill="#c8f7c5"/><path d="M14 34 A36 36 0 0 0 86 34 Z" fill="#ff5a6e"/><ellipse cx="24" cy="46" rx="2" ry="3.2" fill="#2d3561"/><ellipse cx="76" cy="46" rx="2" ry="3.2" fill="#2d3561"/><ellipse cx="36" cy="58" rx="2" ry="3.2" fill="#2d3561"/><ellipse cx="64" cy="58" rx="2" ry="3.2" fill="#2d3561"/><ellipse cx="50" cy="64" rx="2" ry="3.2" fill="#2d3561"/><circle cx="43.4" cy="44" r="3.3" fill="#2d3561"/><circle cx="56.6" cy="44" r="3.3" fill="#2d3561"/><circle cx="42.5" cy="43.1" r="1.08" fill="#fff"/><circle cx="55.7" cy="43.1" r="1.08" fill="#fff"/><path d="M45.2 50.0 Q50 54.2 54.8 50.0" fill="none" stroke="#2d3561" stroke-width="2.16" stroke-linecap="round"/><circle cx="38.6" cy="49.4" r="2.76" fill="#ff8fa3" opacity="0.7"/><circle cx="61.4" cy="49.4" r="2.76" fill="#ff8fa3" opacity="0.7"/></symbol><symbol id="al-sym-xylophone" viewBox="0 0 100 100"><path d="M10 30 L90 22 M10 82 L90 70" stroke="#8a5a3b" stroke-width="5" stroke-linecap="round"/><rect x="14" y="24.0" width="10" height="58" rx="3" fill="#ff6b6b"/><circle cx="19" cy="30.0" r="1.6" fill="#fff"/><rect x="27" y="22.8" width="10" height="54" rx="3" fill="#ff9f43"/><circle cx="32" cy="28.8" r="1.6" fill="#fff"/><rect x="40" y="21.6" width="10" height="50" rx="3" fill="#ffd23f"/><circle cx="45" cy="27.6" r="1.6" fill="#fff"/><rect x="53" y="20.4" width="10" height="46" rx="3" fill="#1dd1a1"/><circle cx="58" cy="26.4" r="1.6" fill="#fff"/><rect x="66" y="19.2" width="10" height="42" rx="3" fill="#54a0ff"/><circle cx="71" cy="25.2" r="1.6" fill="#fff"/><rect x="79" y="18.0" width="10" height="38" rx="3" fill="#a29bfe"/><circle cx="84" cy="24.0" r="1.6" fill="#fff"/><path d="M30 96 L52 78 M62 98 L80 80" stroke="#6b4f3a" stroke-width="3.5" stroke-linecap="round"/><circle cx="54" cy="76" r="5" fill="#ff477e"/><circle cx="82" cy="78" r="5" fill="#ff477e"/></symbol><symbol id="al-sym-yoyo" viewBox="0 0 100 100"><path d="M50 50 L50 4" stroke="#7a7a8c" stroke-width="2.5"/><circle cx="50" cy="4" r="3" fill="#7a7a8c"/><circle cx="50" cy="56" r="38" fill="#ff477e"/><circle cx="50" cy="56" r="30" fill="#ff7aa0"/><circle cx="39.55" cy="56" r="5.225" fill="#2d3561"/><circle cx="60.45" cy="56" r="5.225" fill="#2d3561"/><circle cx="38.125" cy="54.575" r="1.71" fill="#fff"/><circle cx="59.025000000000006" cy="54.575" r="1.71" fill="#fff"/><path d="M42.4 65.5 Q50 72.15 57.6 65.5" fill="none" stroke="#2d3561" stroke-width="3.42" stroke-linecap="round"/><circle cx="31.95" cy="64.55" r="4.369999999999999" fill="#ff8fa3" opacity="0.7"/><circle cx="68.05" cy="64.55" r="4.369999999999999" fill="#ff8fa3" opacity="0.7"/></symbol><symbol id="al-sym-zebra" viewBox="0 0 100 100"><path d="M30 22 Q50 2 70 22" fill="none" stroke="#2d3561" stroke-width="8" stroke-linecap="round"/><ellipse cx="28" cy="22" rx="7" ry="12" fill="#fff" stroke="#2d3561" stroke-width="3" transform="rotate(-20 28 22)"/><ellipse cx="72" cy="22" rx="7" ry="12" fill="#fff" stroke="#2d3561" stroke-width="3" transform="rotate(20 72 22)"/><ellipse cx="50" cy="52" rx="30" ry="34" fill="#ffffff" stroke="#2d3561" stroke-width="3"/><path d="M24 40 Q32 38 36 44 M22 54 Q30 52 34 58 M76 40 Q68 38 64 44 M78 54 Q70 52 66 58 M44 22 Q50 30 56 22" fill="none" stroke="#2d3561" stroke-width="4.5" stroke-linecap="round"/><ellipse cx="50" cy="74" rx="20" ry="13" fill="#b8b8c8"/><circle cx="43" cy="74" r="3" fill="#2d3561"/><circle cx="57" cy="74" r="3" fill="#2d3561"/><circle cx="40.1" cy="50" r="4.95" fill="#2d3561"/><circle cx="59.9" cy="50" r="4.95" fill="#2d3561"/><circle cx="38.75" cy="48.65" r="1.62" fill="#fff"/><circle cx="58.55" cy="48.65" r="1.62" fill="#fff"/><circle cx="32.9" cy="58.1" r="4.14" fill="#ff8fa3" opacity="0.7"/><circle cx="67.1" cy="58.1" r="4.14" fill="#ff8fa3" opacity="0.7"/></symbol></defs></svg>
+    <div class="al-desk"></div>
+
+    <div id="al-book" data-layout-allow-overflow>
+      <div id="al-lefthalf" style="opacity:0">
+        <div class="al-coverbase" style="left: 190px; width: 790px; border-radius: 22px 0 0 22px"></div>
+        <div id="al-pl" class="al-page"></div>
+      </div>
+      <div class="al-coverbase" style="left: 950px; width: 780px; border-radius: 0 22px 22px 0"></div>
+      <div id="al-pr" class="al-page"></div>
+      <div class="al-inpl">
+        <div id="al-L0" class="al-slot clip" data-start="5.93" data-duration="4.65" data-track-index="10"><div id="al-aa0" class="al-aa" style="color:#e03e3e"><span class="al-up">A</span><span class="al-lo">a</span></div></div>
+        <div id="al-L1" class="al-slot clip" data-start="10.55" data-duration="4.74" data-track-index="11"><div id="al-aa1" class="al-aa" style="color:#d9620b"><span class="al-up">B</span><span class="al-lo">b</span></div></div>
+        <div id="al-L2" class="al-slot clip" data-start="15.26" data-duration="4.73" data-track-index="12"><div id="al-aa2" class="al-aa" style="color:#a87900"><span class="al-up">C</span><span class="al-lo">c</span></div></div>
+        <div id="al-L3" class="al-slot clip" data-start="19.96" data-duration="4.84" data-track-index="13"><div id="al-aa3" class="al-aa" style="color:#0f9d74"><span class="al-up">D</span><span class="al-lo">d</span></div></div>
+        <div id="al-L4" class="al-slot clip" data-start="24.77" data-duration="4.90" data-track-index="14"><div id="al-aa4" class="al-aa" style="color:#0a8fb0"><span class="al-up">E</span><span class="al-lo">e</span></div></div>
+        <div id="al-L5" class="al-slot clip" data-start="29.64" data-duration="4.81" data-track-index="15"><div id="al-aa5" class="al-aa" style="color:#2f6fd6"><span class="al-up">F</span><span class="al-lo">f</span></div></div>
+        <div id="al-L6" class="al-slot clip" data-start="34.42" data-duration="4.69" data-track-index="16"><div id="al-aa6" class="al-aa" style="color:#7a5af5"><span class="al-up">G</span><span class="al-lo">g</span></div></div>
+        <div id="al-L7" class="al-slot clip" data-start="39.08" data-duration="4.70" data-track-index="17"><div id="al-aa7" class="al-aa" style="color:#e0408f"><span class="al-up">H</span><span class="al-lo">h</span></div></div>
+        <div id="al-L8" class="al-slot clip" data-start="43.75" data-duration="5.19" data-track-index="18"><div id="al-aa8" class="al-aa" style="color:#e03e3e"><span class="al-up">I</span><span class="al-lo">i</span></div></div>
+        <div id="al-L9" class="al-slot clip" data-start="48.91" data-duration="4.86" data-track-index="19"><div id="al-aa9" class="al-aa" style="color:#d9620b"><span class="al-up">J</span><span class="al-lo">j</span></div></div>
+        <div id="al-L10" class="al-slot clip" data-start="53.74" data-duration="4.80" data-track-index="20"><div id="al-aa10" class="al-aa" style="color:#a87900"><span class="al-up">K</span><span class="al-lo">k</span></div></div>
+        <div id="al-L11" class="al-slot clip" data-start="58.51" data-duration="4.74" data-track-index="21"><div id="al-aa11" class="al-aa" style="color:#0f9d74"><span class="al-up">L</span><span class="al-lo">l</span></div></div>
+        <div id="al-L12" class="al-slot clip" data-start="63.22" data-duration="4.77" data-track-index="22"><div id="al-aa12" class="al-aa" style="color:#0a8fb0"><span class="al-up">M</span><span class="al-lo">m</span></div></div>
+        <div id="al-L13" class="al-slot clip" data-start="67.96" data-duration="4.87" data-track-index="23"><div id="al-aa13" class="al-aa" style="color:#2f6fd6"><span class="al-up">N</span><span class="al-lo">n</span></div></div>
+        <div id="al-L14" class="al-slot clip" data-start="72.80" data-duration="4.90" data-track-index="24"><div id="al-aa14" class="al-aa" style="color:#7a5af5"><span class="al-up">O</span><span class="al-lo">o</span></div></div>
+        <div id="al-L15" class="al-slot clip" data-start="77.67" data-duration="4.72" data-track-index="25"><div id="al-aa15" class="al-aa" style="color:#e0408f"><span class="al-up">P</span><span class="al-lo">p</span></div></div>
+        <div id="al-L16" class="al-slot clip" data-start="82.36" data-duration="4.92" data-track-index="26"><div id="al-aa16" class="al-aa" style="color:#e03e3e"><span class="al-up">Q</span><span class="al-lo">q</span></div></div>
+        <div id="al-L17" class="al-slot clip" data-start="87.25" data-duration="5.14" data-track-index="27"><div id="al-aa17" class="al-aa" style="color:#d9620b"><span class="al-up">R</span><span class="al-lo">r</span></div></div>
+        <div id="al-L18" class="al-slot clip" data-start="92.36" data-duration="4.91" data-track-index="28"><div id="al-aa18" class="al-aa" style="color:#a87900"><span class="al-up">S</span><span class="al-lo">s</span></div></div>
+        <div id="al-L19" class="al-slot clip" data-start="97.24" data-duration="4.85" data-track-index="29"><div id="al-aa19" class="al-aa" style="color:#0f9d74"><span class="al-up">T</span><span class="al-lo">t</span></div></div>
+        <div id="al-L20" class="al-slot clip" data-start="102.06" data-duration="5.25" data-track-index="30"><div id="al-aa20" class="al-aa" style="color:#0a8fb0"><span class="al-up">U</span><span class="al-lo">u</span></div></div>
+        <div id="al-L21" class="al-slot clip" data-start="107.28" data-duration="5.05" data-track-index="31"><div id="al-aa21" class="al-aa" style="color:#2f6fd6"><span class="al-up">V</span><span class="al-lo">v</span></div></div>
+        <div id="al-L22" class="al-slot clip" data-start="112.30" data-duration="5.52" data-track-index="32"><div id="al-aa22" class="al-aa" style="color:#7a5af5"><span class="al-up">W</span><span class="al-lo">w</span></div></div>
+        <div id="al-L23" class="al-slot clip" data-start="117.79" data-duration="5.33" data-track-index="33"><div id="al-aa23" class="al-aa" style="color:#e0408f"><span class="al-up">X</span><span class="al-lo">x</span></div></div>
+        <div id="al-L24" class="al-slot clip" data-start="123.09" data-duration="5.13" data-track-index="34"><div id="al-aa24" class="al-aa" style="color:#e03e3e"><span class="al-up">Y</span><span class="al-lo">y</span></div></div>
+        <div id="al-L25" class="al-slot clip" data-start="128.19" data-duration="4.88" data-track-index="35"><div id="al-aa25" class="al-aa" style="color:#d9620b"><span class="al-up">Z</span><span class="al-lo">z</span></div></div>
+      </div>
+      <div class="al-inpr">
+        <div id="al-R0" class="al-slot clip" data-start="0.00" data-duration="9.82" data-track-index="40"><svg id="al-r0pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-apple"/></svg><div id="al-r0word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#e03e3e">A</span><span class="al-l">p</span><span class="al-l">p</span><span class="al-l">l</span><span class="al-l">e</span></div><div id="al-r0tr" class="al-tr">elma</div></div>
+        <div id="al-R1" class="al-slot clip" data-start="9.82" data-duration="4.71" data-track-index="41"><svg id="al-r1pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-ball"/></svg><div id="al-r1word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#d9620b">B</span><span class="al-l">a</span><span class="al-l">l</span><span class="al-l">l</span></div><div id="al-r1tr" class="al-tr">top</div></div>
+        <div id="al-R2" class="al-slot clip" data-start="14.53" data-duration="4.70" data-track-index="42"><svg id="al-r2pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-cat"/></svg><div id="al-r2word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#a87900">C</span><span class="al-l">a</span><span class="al-l">t</span></div><div id="al-r2tr" class="al-tr">kedi</div></div>
+        <div id="al-R3" class="al-slot clip" data-start="19.23" data-duration="4.81" data-track-index="43"><svg id="al-r3pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-duck"/></svg><div id="al-r3word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#0f9d74">D</span><span class="al-l">u</span><span class="al-l">c</span><span class="al-l">k</span></div><div id="al-r3tr" class="al-tr">ördek</div></div>
+        <div id="al-R4" class="al-slot clip" data-start="24.04" data-duration="4.87" data-track-index="44"><svg id="al-r4pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-egg"/></svg><div id="al-r4word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#0a8fb0">E</span><span class="al-l">g</span><span class="al-l">g</span></div><div id="al-r4tr" class="al-tr">yumurta</div></div>
+        <div id="al-R5" class="al-slot clip" data-start="28.91" data-duration="4.78" data-track-index="45"><svg id="al-r5pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-fish"/></svg><div id="al-r5word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#2f6fd6">F</span><span class="al-l">i</span><span class="al-l">s</span><span class="al-l">h</span></div><div id="al-r5tr" class="al-tr">balık</div></div>
+        <div id="al-R6" class="al-slot clip" data-start="33.69" data-duration="4.66" data-track-index="46"><svg id="al-r6pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-grapes"/></svg><div id="al-r6word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#7a5af5">G</span><span class="al-l">r</span><span class="al-l">a</span><span class="al-l">p</span><span class="al-l">e</span><span class="al-l">s</span></div><div id="al-r6tr" class="al-tr">üzüm</div></div>
+        <div id="al-R7" class="al-slot clip" data-start="38.35" data-duration="4.67" data-track-index="47"><svg id="al-r7pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-hat"/></svg><div id="al-r7word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#e0408f">H</span><span class="al-l">a</span><span class="al-l">t</span></div><div id="al-r7tr" class="al-tr">şapka</div></div>
+        <div id="al-R8" class="al-slot clip" data-start="43.02" data-duration="5.16" data-track-index="48"><svg id="al-r8pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-icecream"/></svg><div id="al-r8word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#e03e3e">I</span><span class="al-l">c</span><span class="al-l">e</span><span class="al-l">&nbsp;</span><span class="al-l">c</span><span class="al-l">r</span><span class="al-l">e</span><span class="al-l">a</span><span class="al-l">m</span></div><div id="al-r8tr" class="al-tr">dondurma</div></div>
+        <div id="al-R9" class="al-slot clip" data-start="48.18" data-duration="4.83" data-track-index="49"><svg id="al-r9pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-juice"/></svg><div id="al-r9word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#d9620b">J</span><span class="al-l">u</span><span class="al-l">i</span><span class="al-l">c</span><span class="al-l">e</span></div><div id="al-r9tr" class="al-tr">meyve suyu</div></div>
+        <div id="al-R10" class="al-slot clip" data-start="53.01" data-duration="4.77" data-track-index="50"><svg id="al-r10pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-kite"/></svg><div id="al-r10word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#a87900">K</span><span class="al-l">i</span><span class="al-l">t</span><span class="al-l">e</span></div><div id="al-r10tr" class="al-tr">uçurtma</div></div>
+        <div id="al-R11" class="al-slot clip" data-start="57.78" data-duration="4.71" data-track-index="51"><svg id="al-r11pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-lemon"/></svg><div id="al-r11word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#0f9d74">L</span><span class="al-l">e</span><span class="al-l">m</span><span class="al-l">o</span><span class="al-l">n</span></div><div id="al-r11tr" class="al-tr">limon</div></div>
+        <div id="al-R12" class="al-slot clip" data-start="62.49" data-duration="4.74" data-track-index="52"><svg id="al-r12pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-moon"/></svg><div id="al-r12word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#0a8fb0">M</span><span class="al-l">o</span><span class="al-l">o</span><span class="al-l">n</span></div><div id="al-r12tr" class="al-tr">ay</div></div>
+        <div id="al-R13" class="al-slot clip" data-start="67.23" data-duration="4.84" data-track-index="53"><svg id="al-r13pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-nest"/></svg><div id="al-r13word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#2f6fd6">N</span><span class="al-l">e</span><span class="al-l">s</span><span class="al-l">t</span></div><div id="al-r13tr" class="al-tr">yuva</div></div>
+        <div id="al-R14" class="al-slot clip" data-start="72.07" data-duration="4.87" data-track-index="54"><svg id="al-r14pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-orange"/></svg><div id="al-r14word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#7a5af5">O</span><span class="al-l">r</span><span class="al-l">a</span><span class="al-l">n</span><span class="al-l">g</span><span class="al-l">e</span></div><div id="al-r14tr" class="al-tr">portakal</div></div>
+        <div id="al-R15" class="al-slot clip" data-start="76.94" data-duration="4.69" data-track-index="55"><svg id="al-r15pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-pizza"/></svg><div id="al-r15word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#e0408f">P</span><span class="al-l">i</span><span class="al-l">z</span><span class="al-l">z</span><span class="al-l">a</span></div><div id="al-r15tr" class="al-tr">pizza</div></div>
+        <div id="al-R16" class="al-slot clip" data-start="81.63" data-duration="4.89" data-track-index="56"><svg id="al-r16pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-queen"/></svg><div id="al-r16word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#e03e3e">Q</span><span class="al-l">u</span><span class="al-l">e</span><span class="al-l">e</span><span class="al-l">n</span></div><div id="al-r16tr" class="al-tr">kraliçe</div></div>
+        <div id="al-R17" class="al-slot clip" data-start="86.52" data-duration="5.11" data-track-index="57"><svg id="al-r17pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-rainbow"/></svg><div id="al-r17word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#d9620b">R</span><span class="al-l">a</span><span class="al-l">i</span><span class="al-l">n</span><span class="al-l">b</span><span class="al-l">o</span><span class="al-l">w</span></div><div id="al-r17tr" class="al-tr">gökkuşağı</div></div>
+        <div id="al-R18" class="al-slot clip" data-start="91.63" data-duration="4.88" data-track-index="58"><svg id="al-r18pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-sun"/></svg><div id="al-r18word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#a87900">S</span><span class="al-l">u</span><span class="al-l">n</span></div><div id="al-r18tr" class="al-tr">güneş</div></div>
+        <div id="al-R19" class="al-slot clip" data-start="96.51" data-duration="4.82" data-track-index="59"><svg id="al-r19pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-train"/></svg><div id="al-r19word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#0f9d74">T</span><span class="al-l">r</span><span class="al-l">a</span><span class="al-l">i</span><span class="al-l">n</span></div><div id="al-r19tr" class="al-tr">tren</div></div>
+        <div id="al-R20" class="al-slot clip" data-start="101.33" data-duration="5.22" data-track-index="60"><svg id="al-r20pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-umbrella"/></svg><div id="al-r20word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#0a8fb0">U</span><span class="al-l">m</span><span class="al-l">b</span><span class="al-l">r</span><span class="al-l">e</span><span class="al-l">l</span><span class="al-l">l</span><span class="al-l">a</span></div><div id="al-r20tr" class="al-tr">şemsiye</div></div>
+        <div id="al-R21" class="al-slot clip" data-start="106.55" data-duration="5.02" data-track-index="61"><svg id="al-r21pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-vase"/></svg><div id="al-r21word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#2f6fd6">V</span><span class="al-l">a</span><span class="al-l">s</span><span class="al-l">e</span></div><div id="al-r21tr" class="al-tr">vazo</div></div>
+        <div id="al-R22" class="al-slot clip" data-start="111.57" data-duration="5.49" data-track-index="62"><svg id="al-r22pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-watermelon"/></svg><div id="al-r22word" class="al-word" style="font-size:116px"><span class="al-l" style="color:#7a5af5">W</span><span class="al-l">a</span><span class="al-l">t</span><span class="al-l">e</span><span class="al-l">r</span><span class="al-l">m</span><span class="al-l">e</span><span class="al-l">l</span><span class="al-l">o</span><span class="al-l">n</span></div><div id="al-r22tr" class="al-tr">karpuz</div></div>
+        <div id="al-R23" class="al-slot clip" data-start="117.06" data-duration="5.30" data-track-index="63"><svg id="al-r23pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-xylophone"/></svg><div id="al-r23word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#e0408f">X</span><span class="al-l">y</span><span class="al-l">l</span><span class="al-l">o</span><span class="al-l">p</span><span class="al-l">h</span><span class="al-l">o</span><span class="al-l">n</span><span class="al-l">e</span></div><div id="al-r23tr" class="al-tr">ksilofon</div></div>
+        <div id="al-R24" class="al-slot clip" data-start="122.36" data-duration="5.10" data-track-index="64"><svg id="al-r24pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-yoyo"/></svg><div id="al-r24word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#e03e3e">Y</span><span class="al-l">o</span><span class="al-l">-</span><span class="al-l">y</span><span class="al-l">o</span></div><div id="al-r24tr" class="al-tr">yoyo</div></div>
+        <div id="al-R25" class="al-slot clip" data-start="127.46" data-duration="5.61" data-track-index="65"><svg id="al-r25pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-zebra"/></svg><div id="al-r25word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#d9620b">Z</span><span class="al-l">e</span><span class="al-l">b</span><span class="al-l">r</span><span class="al-l">a</span></div><div id="al-r25tr" class="al-tr">zebra</div></div>
+      </div>
+      <div id="al-lf0" class="al-leaf clip" data-start="9.82" data-duration="0.77" data-track-index="70">
+          <div class="al-face al-front"><svg id="al-f0pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-apple"/></svg><div id="al-f0word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#e03e3e">A</span><span class="al-l">p</span><span class="al-l">p</span><span class="al-l">l</span><span class="al-l">e</span></div><div id="al-f0tr" class="al-tr">elma</div></div><div class="al-face al-back"></div></div>
+      <div id="al-lf1" class="al-leaf clip" data-start="14.53" data-duration="0.77" data-track-index="71">
+          <div class="al-face al-front"><svg id="al-f1pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-ball"/></svg><div id="al-f1word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#d9620b">B</span><span class="al-l">a</span><span class="al-l">l</span><span class="al-l">l</span></div><div id="al-f1tr" class="al-tr">top</div></div><div class="al-face al-back"></div></div>
+      <div id="al-lf2" class="al-leaf clip" data-start="19.23" data-duration="0.77" data-track-index="72">
+          <div class="al-face al-front"><svg id="al-f2pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-cat"/></svg><div id="al-f2word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#a87900">C</span><span class="al-l">a</span><span class="al-l">t</span></div><div id="al-f2tr" class="al-tr">kedi</div></div><div class="al-face al-back"></div></div>
+      <div id="al-lf3" class="al-leaf clip" data-start="24.04" data-duration="0.77" data-track-index="73">
+          <div class="al-face al-front"><svg id="al-f3pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-duck"/></svg><div id="al-f3word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#0f9d74">D</span><span class="al-l">u</span><span class="al-l">c</span><span class="al-l">k</span></div><div id="al-f3tr" class="al-tr">ördek</div></div><div class="al-face al-back"></div></div>
+      <div id="al-lf4" class="al-leaf clip" data-start="28.91" data-duration="0.77" data-track-index="74">
+          <div class="al-face al-front"><svg id="al-f4pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-egg"/></svg><div id="al-f4word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#0a8fb0">E</span><span class="al-l">g</span><span class="al-l">g</span></div><div id="al-f4tr" class="al-tr">yumurta</div></div><div class="al-face al-back"></div></div>
+      <div id="al-lf5" class="al-leaf clip" data-start="33.69" data-duration="0.77" data-track-index="75">
+          <div class="al-face al-front"><svg id="al-f5pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-fish"/></svg><div id="al-f5word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#2f6fd6">F</span><span class="al-l">i</span><span class="al-l">s</span><span class="al-l">h</span></div><div id="al-f5tr" class="al-tr">balık</div></div><div class="al-face al-back"></div></div>
+      <div id="al-lf6" class="al-leaf clip" data-start="38.35" data-duration="0.77" data-track-index="76">
+          <div class="al-face al-front"><svg id="al-f6pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-grapes"/></svg><div id="al-f6word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#7a5af5">G</span><span class="al-l">r</span><span class="al-l">a</span><span class="al-l">p</span><span class="al-l">e</span><span class="al-l">s</span></div><div id="al-f6tr" class="al-tr">üzüm</div></div><div class="al-face al-back"></div></div>
+      <div id="al-lf7" class="al-leaf clip" data-start="43.02" data-duration="0.77" data-track-index="77">
+          <div class="al-face al-front"><svg id="al-f7pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-hat"/></svg><div id="al-f7word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#e0408f">H</span><span class="al-l">a</span><span class="al-l">t</span></div><div id="al-f7tr" class="al-tr">şapka</div></div><div class="al-face al-back"></div></div>
+      <div id="al-lf8" class="al-leaf clip" data-start="48.18" data-duration="0.77" data-track-index="78">
+          <div class="al-face al-front"><svg id="al-f8pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-icecream"/></svg><div id="al-f8word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#e03e3e">I</span><span class="al-l">c</span><span class="al-l">e</span><span class="al-l">&nbsp;</span><span class="al-l">c</span><span class="al-l">r</span><span class="al-l">e</span><span class="al-l">a</span><span class="al-l">m</span></div><div id="al-f8tr" class="al-tr">dondurma</div></div><div class="al-face al-back"></div></div>
+      <div id="al-lf9" class="al-leaf clip" data-start="53.01" data-duration="0.77" data-track-index="79">
+          <div class="al-face al-front"><svg id="al-f9pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-juice"/></svg><div id="al-f9word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#d9620b">J</span><span class="al-l">u</span><span class="al-l">i</span><span class="al-l">c</span><span class="al-l">e</span></div><div id="al-f9tr" class="al-tr">meyve suyu</div></div><div class="al-face al-back"></div></div>
+      <div id="al-lf10" class="al-leaf clip" data-start="57.78" data-duration="0.77" data-track-index="80">
+          <div class="al-face al-front"><svg id="al-f10pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-kite"/></svg><div id="al-f10word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#a87900">K</span><span class="al-l">i</span><span class="al-l">t</span><span class="al-l">e</span></div><div id="al-f10tr" class="al-tr">uçurtma</div></div><div class="al-face al-back"></div></div>
+      <div id="al-lf11" class="al-leaf clip" data-start="62.49" data-duration="0.77" data-track-index="81">
+          <div class="al-face al-front"><svg id="al-f11pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-lemon"/></svg><div id="al-f11word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#0f9d74">L</span><span class="al-l">e</span><span class="al-l">m</span><span class="al-l">o</span><span class="al-l">n</span></div><div id="al-f11tr" class="al-tr">limon</div></div><div class="al-face al-back"></div></div>
+      <div id="al-lf12" class="al-leaf clip" data-start="67.23" data-duration="0.77" data-track-index="82">
+          <div class="al-face al-front"><svg id="al-f12pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-moon"/></svg><div id="al-f12word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#0a8fb0">M</span><span class="al-l">o</span><span class="al-l">o</span><span class="al-l">n</span></div><div id="al-f12tr" class="al-tr">ay</div></div><div class="al-face al-back"></div></div>
+      <div id="al-lf13" class="al-leaf clip" data-start="72.07" data-duration="0.77" data-track-index="83">
+          <div class="al-face al-front"><svg id="al-f13pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-nest"/></svg><div id="al-f13word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#2f6fd6">N</span><span class="al-l">e</span><span class="al-l">s</span><span class="al-l">t</span></div><div id="al-f13tr" class="al-tr">yuva</div></div><div class="al-face al-back"></div></div>
+      <div id="al-lf14" class="al-leaf clip" data-start="76.94" data-duration="0.77" data-track-index="84">
+          <div class="al-face al-front"><svg id="al-f14pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-orange"/></svg><div id="al-f14word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#7a5af5">O</span><span class="al-l">r</span><span class="al-l">a</span><span class="al-l">n</span><span class="al-l">g</span><span class="al-l">e</span></div><div id="al-f14tr" class="al-tr">portakal</div></div><div class="al-face al-back"></div></div>
+      <div id="al-lf15" class="al-leaf clip" data-start="81.63" data-duration="0.77" data-track-index="85">
+          <div class="al-face al-front"><svg id="al-f15pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-pizza"/></svg><div id="al-f15word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#e0408f">P</span><span class="al-l">i</span><span class="al-l">z</span><span class="al-l">z</span><span class="al-l">a</span></div><div id="al-f15tr" class="al-tr">pizza</div></div><div class="al-face al-back"></div></div>
+      <div id="al-lf16" class="al-leaf clip" data-start="86.52" data-duration="0.77" data-track-index="86">
+          <div class="al-face al-front"><svg id="al-f16pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-queen"/></svg><div id="al-f16word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#e03e3e">Q</span><span class="al-l">u</span><span class="al-l">e</span><span class="al-l">e</span><span class="al-l">n</span></div><div id="al-f16tr" class="al-tr">kraliçe</div></div><div class="al-face al-back"></div></div>
+      <div id="al-lf17" class="al-leaf clip" data-start="91.63" data-duration="0.77" data-track-index="87">
+          <div class="al-face al-front"><svg id="al-f17pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-rainbow"/></svg><div id="al-f17word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#d9620b">R</span><span class="al-l">a</span><span class="al-l">i</span><span class="al-l">n</span><span class="al-l">b</span><span class="al-l">o</span><span class="al-l">w</span></div><div id="al-f17tr" class="al-tr">gökkuşağı</div></div><div class="al-face al-back"></div></div>
+      <div id="al-lf18" class="al-leaf clip" data-start="96.51" data-duration="0.77" data-track-index="88">
+          <div class="al-face al-front"><svg id="al-f18pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-sun"/></svg><div id="al-f18word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#a87900">S</span><span class="al-l">u</span><span class="al-l">n</span></div><div id="al-f18tr" class="al-tr">güneş</div></div><div class="al-face al-back"></div></div>
+      <div id="al-lf19" class="al-leaf clip" data-start="101.33" data-duration="0.77" data-track-index="89">
+          <div class="al-face al-front"><svg id="al-f19pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-train"/></svg><div id="al-f19word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#0f9d74">T</span><span class="al-l">r</span><span class="al-l">a</span><span class="al-l">i</span><span class="al-l">n</span></div><div id="al-f19tr" class="al-tr">tren</div></div><div class="al-face al-back"></div></div>
+      <div id="al-lf20" class="al-leaf clip" data-start="106.55" data-duration="0.77" data-track-index="90">
+          <div class="al-face al-front"><svg id="al-f20pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-umbrella"/></svg><div id="al-f20word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#0a8fb0">U</span><span class="al-l">m</span><span class="al-l">b</span><span class="al-l">r</span><span class="al-l">e</span><span class="al-l">l</span><span class="al-l">l</span><span class="al-l">a</span></div><div id="al-f20tr" class="al-tr">şemsiye</div></div><div class="al-face al-back"></div></div>
+      <div id="al-lf21" class="al-leaf clip" data-start="111.57" data-duration="0.77" data-track-index="91">
+          <div class="al-face al-front"><svg id="al-f21pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-vase"/></svg><div id="al-f21word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#2f6fd6">V</span><span class="al-l">a</span><span class="al-l">s</span><span class="al-l">e</span></div><div id="al-f21tr" class="al-tr">vazo</div></div><div class="al-face al-back"></div></div>
+      <div id="al-lf22" class="al-leaf clip" data-start="117.06" data-duration="0.77" data-track-index="92">
+          <div class="al-face al-front"><svg id="al-f22pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-watermelon"/></svg><div id="al-f22word" class="al-word" style="font-size:116px"><span class="al-l" style="color:#7a5af5">W</span><span class="al-l">a</span><span class="al-l">t</span><span class="al-l">e</span><span class="al-l">r</span><span class="al-l">m</span><span class="al-l">e</span><span class="al-l">l</span><span class="al-l">o</span><span class="al-l">n</span></div><div id="al-f22tr" class="al-tr">karpuz</div></div><div class="al-face al-back"></div></div>
+      <div id="al-lf23" class="al-leaf clip" data-start="122.36" data-duration="0.77" data-track-index="93">
+          <div class="al-face al-front"><svg id="al-f23pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-xylophone"/></svg><div id="al-f23word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#e0408f">X</span><span class="al-l">y</span><span class="al-l">l</span><span class="al-l">o</span><span class="al-l">p</span><span class="al-l">h</span><span class="al-l">o</span><span class="al-l">n</span><span class="al-l">e</span></div><div id="al-f23tr" class="al-tr">ksilofon</div></div><div class="al-face al-back"></div></div>
+      <div id="al-lf24" class="al-leaf clip" data-start="127.46" data-duration="0.77" data-track-index="94">
+          <div class="al-face al-front"><svg id="al-f24pic" class="al-pic" viewBox="0 0 100 100"><use href="#al-sym-yoyo"/></svg><div id="al-f24word" class="al-word" style="font-size:128px"><span class="al-l" style="color:#e03e3e">Y</span><span class="al-l">o</span><span class="al-l">-</span><span class="al-l">y</span><span class="al-l">o</span></div><div id="al-f24tr" class="al-tr">yoyo</div></div><div class="al-face al-back"></div></div>
+      <div id="al-cv">
+        <div class="al-cvf" data-layout-allow-overlap>
+          <div data-layout-allow-overlap style="position:absolute;left:0;top:110px;width:780px;font-weight:900;font-size:230px;line-height:1">ABC</div>
+          <div data-layout-allow-overlap style="position:absolute;left:0;top:360px;width:780px;font-weight:900;font-size:60px;line-height:1.1">English with Piko</div>
+          <img src="assets/piko/piko.png" alt="" style="position:absolute;left:250px;top:470px;width:280px;-webkit-mask-image:linear-gradient(to bottom,#000 70%,transparent 100%);mask-image:linear-gradient(to bottom,#000 70%,transparent 100%)" />
+        </div>
+        <div class="al-cvb"></div>
+      </div>
+    </div>
+
+    <div id="al-tiles" class="al-slot clip" data-start="134.17" data-duration="11.98" data-track-index="5"><div id="al-t0" class="al-tile" style="left:181px;top:190px;background:#ffadad">A</div><div id="al-t1" class="al-tile" style="left:357px;top:190px;background:#ffd6a5">B</div><div id="al-t2" class="al-tile" style="left:533px;top:190px;background:#fdffb6">C</div><div id="al-t3" class="al-tile" style="left:709px;top:190px;background:#caffbf">D</div><div id="al-t4" class="al-tile" style="left:885px;top:190px;background:#9bf6ff">E</div><div id="al-t5" class="al-tile" style="left:1061px;top:190px;background:#a0c4ff">F</div><div id="al-t6" class="al-tile" style="left:1237px;top:190px;background:#bdb2ff">G</div><div id="al-t7" class="al-tile" style="left:1413px;top:190px;background:#ffc6ff">H</div><div id="al-t8" class="al-tile" style="left:1589px;top:190px;background:#ffadad">I</div><div id="al-t9" class="al-tile" style="left:181px;top:390px;background:#ffd6a5">J</div><div id="al-t10" class="al-tile" style="left:357px;top:390px;background:#fdffb6">K</div><div id="al-t11" class="al-tile" style="left:533px;top:390px;background:#caffbf">L</div><div id="al-t12" class="al-tile" style="left:709px;top:390px;background:#9bf6ff">M</div><div id="al-t13" class="al-tile" style="left:885px;top:390px;background:#a0c4ff">N</div><div id="al-t14" class="al-tile" style="left:1061px;top:390px;background:#bdb2ff">O</div><div id="al-t15" class="al-tile" style="left:1237px;top:390px;background:#ffc6ff">P</div><div id="al-t16" class="al-tile" style="left:1413px;top:390px;background:#ffadad">Q</div><div id="al-t17" class="al-tile" style="left:1589px;top:390px;background:#ffd6a5">R</div><div id="al-t18" class="al-tile" style="left:269px;top:590px;background:#fdffb6">S</div><div id="al-t19" class="al-tile" style="left:445px;top:590px;background:#caffbf">T</div><div id="al-t20" class="al-tile" style="left:621px;top:590px;background:#9bf6ff">U</div><div id="al-t21" class="al-tile" style="left:797px;top:590px;background:#a0c4ff">V</div><div id="al-t22" class="al-tile" style="left:973px;top:590px;background:#bdb2ff">W</div><div id="al-t23" class="al-tile" style="left:1149px;top:590px;background:#ffc6ff">X</div><div id="al-t24" class="al-tile" style="left:1325px;top:590px;background:#ffadad">Y</div><div id="al-t25" class="al-tile" style="left:1501px;top:590px;background:#ffd6a5">Z</div></div>
+
+    <div id="al-ident" data-layout-allow-overflow>
+      <div id="al-rays" data-layout-ignore></div>
+      <div class="al-title" style="left: 880px; top: 110px; width: 1040px; font-size: 300px">ABC</div>
+      <div class="al-title" style="left: 880px; top: 440px; width: 1040px; font-size: 100px">İngilizce alfabe</div>
+      <div id="al-banner" class="al-banner" style="left: 990px; top: 610px; width: 820px" data-layout-allow-overlap><div class="al-b1">English with Piko</div><div class="al-b2">Piko İle İngilizce</div></div>
+    </div>
+
+    <div id="al-pkwrap" data-layout-allow-overflow>
+      <div id="al-pkhop">
+        <div id="al-pkface" data-layout-ignore><img src="assets/piko/piko.png" alt="Piko" /><svg id="al-lids" viewBox="0 0 1130 1222" style="position:absolute;left:0;top:0;width:100%;height:100%;opacity:0"><ellipse cx="289" cy="620" rx="100" ry="113" fill="#5fcbfb"/><ellipse cx="740" cy="562" rx="92" ry="111" fill="#5fcbfb"/><path d="M214 640 Q289 676 364 640" fill="none" stroke="#1f2a5c" stroke-width="14" stroke-linecap="round"/><path d="M671 582 Q740 616 809 582" fill="none" stroke="#1f2a5c" stroke-width="14" stroke-linecap="round"/></svg></div>
+      </div>
+    </div>
+
+    <div id="al-os" class="al-slot clip" data-start="145.70" data-duration="7.16" data-track-index="6">
+      <div id="al-aferin" class="al-title" style="left: 0; top: 60px; width: 1920px; font-size: 170px"><span class="w">Aferin!</span></div>
+      <div id="al-banner2" class="al-banner" style="left: 550px; top: 840px; width: 820px" data-layout-allow-overlap><div class="al-b1">English with Piko</div><div class="al-b2">Piko İle İngilizce</div></div>
+    </div>
+  </div>
+
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.set("#al-book", { x: -375 }, 0);
+    tl.fromTo("#al-rays", { rotation: 0 }, { rotation: 30, duration: 6, ease: "none" }, 0);
+    tl.to("#al-pkhop", { rotation: -5, duration: 0.23, ease: "sine.inOut" }, 0.45);
+    tl.to("#al-pkhop", { rotation: 5, duration: 0.23, ease: "sine.inOut" }, 0.68);
+    tl.to("#al-pkhop", { rotation: -5, duration: 0.23, ease: "sine.inOut" }, 0.91);
+    tl.to("#al-pkhop", { rotation: 0, duration: 0.23, ease: "sine.inOut" }, 1.14);
+    tl.to("#al-pkhop", { scaleY: 0.93, scaleX: 1.04, duration: 0.1, ease: "power2.out" }, 1.36);
+    tl.to("#al-pkhop", { y: -70, scaleY: 1.05, scaleX: 0.97, duration: 0.18, ease: "power2.out" }, 1.46);
+    tl.to("#al-pkhop", { y: 0, scaleY: 1, scaleX: 1, duration: 0.16, ease: "power2.in" }, 1.64);
+    tl.fromTo("#al-banner", { opacity: 0 }, { opacity: 1, duration: 0.03, ease: "none" }, 1.5);
+    tl.fromTo("#al-banner", { scale: 1.4, rotation: 6 }, { scale: 1, rotation: -2, duration: 0.22, ease: "power3.in" }, 1.5);
+    tl.to("#al-pkface", { y: -8, duration: 0.06, ease: "power2.out" }, 2.28);
+    tl.to("#al-pkface", { y: 0, duration: 0.1, ease: "power2.in" }, 2.34);
+    tl.to("#al-pkface", { y: -8, duration: 0.06, ease: "power2.out" }, 2.56);
+    tl.to("#al-pkface", { y: 0, duration: 0.1, ease: "power2.in" }, 2.62);
+    tl.to("#al-pkface", { y: -8, duration: 0.06, ease: "power2.out" }, 2.94);
+    tl.to("#al-pkface", { y: 0, duration: 0.1, ease: "power2.in" }, 3.00);
+    tl.to("#al-pkface", { y: -8, duration: 0.06, ease: "power2.out" }, 3.24);
+    tl.to("#al-pkface", { y: 0, duration: 0.1, ease: "power2.in" }, 3.30);
+    tl.to("#al-pkface", { y: -8, duration: 0.06, ease: "power2.out" }, 3.42);
+    tl.to("#al-pkface", { y: 0, duration: 0.1, ease: "power2.in" }, 3.48);
+    tl.to("#al-lids", { opacity: 1, duration: 0.01, ease: "none" }, 2.60);
+    tl.to("#al-lids", { opacity: 0, duration: 0.01, ease: "none" }, 2.72);
+    tl.to("#al-lids", { opacity: 1, duration: 0.01, ease: "none" }, 16.88);
+    tl.to("#al-lids", { opacity: 0, duration: 0.01, ease: "none" }, 17.00);
+    tl.to("#al-lids", { opacity: 1, duration: 0.01, ease: "none" }, 36.04);
+    tl.to("#al-lids", { opacity: 0, duration: 0.01, ease: "none" }, 36.16);
+    tl.to("#al-lids", { opacity: 1, duration: 0.01, ease: "none" }, 55.36);
+    tl.to("#al-lids", { opacity: 0, duration: 0.01, ease: "none" }, 55.48);
+    tl.to("#al-lids", { opacity: 1, duration: 0.01, ease: "none" }, 74.42);
+    tl.to("#al-lids", { opacity: 0, duration: 0.01, ease: "none" }, 74.54);
+    tl.to("#al-lids", { opacity: 1, duration: 0.01, ease: "none" }, 93.98);
+    tl.to("#al-lids", { opacity: 0, duration: 0.01, ease: "none" }, 94.10);
+    tl.to("#al-lids", { opacity: 1, duration: 0.01, ease: "none" }, 113.92);
+    tl.to("#al-lids", { opacity: 0, duration: 0.01, ease: "none" }, 114.04);
+    tl.to("#al-lids", { opacity: 1, duration: 0.01, ease: "none" }, 148.15);
+    tl.to("#al-lids", { opacity: 0, duration: 0.01, ease: "none" }, 148.27);
+    tl.to("#al-ident", { y: -1100, duration: 0.5, ease: "power3.in" }, 4.5);
+    tl.to("#al-pkwrap", { x: -140, y: 435, scale: 0.5143, duration: 0.6, ease: "power2.inOut" }, 4.5);
+    tl.to("#al-pkhop", { y: -120, duration: 0.3, ease: "power2.out" }, 4.5);
+    tl.to("#al-pkhop", { y: 0, duration: 0.3, ease: "power2.in" }, 4.8);
+    tl.to("#al-book", { x: 0, duration: 0.8, ease: "power2.inOut" }, 5.05);
+    tl.fromTo("#al-cv", { rotationY: 0 }, { rotationY: -180, duration: 0.8, ease: "power2.inOut" }, 5.05);
+    tl.to("#al-lefthalf", { opacity: 1, duration: 0.2, ease: "power1.out" }, 5.55);
+    tl.set("#al-cv", { opacity: 0 }, 5.86);
+    // A · apple / elma
+    tl.fromTo("#al-aa0", { scale: 0, rotation: -12 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(1.9)" }, 6.03);
+    tl.fromTo("#al-r0pic", { scale: 0, rotation: -15 }, { scale: 1, rotation: 0, duration: 0.42, ease: "back.out(1.8)" }, 7.60);
+    tl.fromTo("#al-r0word .al-l", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, stagger: 0.035, ease: "back.out(2.4)" }, 7.73);
+    tl.fromTo("#al-r0tr", { opacity: 0, y: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)" }, 8.60);
+    tl.to("#al-pkhop", { y: -26, duration: 0.12, ease: "power2.out" }, 7.68);
+    tl.to("#al-pkhop", { y: 0, duration: 0.2, ease: "power2.in" }, 7.80);
+    tl.fromTo("#al-lf0", { rotationY: 0 }, { rotationY: -180, duration: 0.75, ease: "power2.inOut" }, 9.82);
+    // B · ball / top
+    tl.fromTo("#al-aa1", { scale: 0, rotation: -12 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(1.9)" }, 10.65);
+    tl.fromTo("#al-r1pic", { scale: 0, rotation: -15 }, { scale: 1, rotation: 0, duration: 0.42, ease: "back.out(1.8)" }, 12.14);
+    tl.fromTo("#al-r1word .al-l", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, stagger: 0.035, ease: "back.out(2.4)" }, 12.27);
+    tl.fromTo("#al-r1tr", { opacity: 0, y: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)" }, 13.41);
+    tl.to("#al-pkhop", { y: -26, duration: 0.12, ease: "power2.out" }, 12.22);
+    tl.to("#al-pkhop", { y: 0, duration: 0.2, ease: "power2.in" }, 12.34);
+    tl.fromTo("#al-lf1", { rotationY: 0 }, { rotationY: -180, duration: 0.75, ease: "power2.inOut" }, 14.53);
+    // C · cat / kedi
+    tl.fromTo("#al-aa2", { scale: 0, rotation: -12 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(1.9)" }, 15.36);
+    tl.fromTo("#al-r2pic", { scale: 0, rotation: -15 }, { scale: 1, rotation: 0, duration: 0.42, ease: "back.out(1.8)" }, 16.94);
+    tl.fromTo("#al-r2word .al-l", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, stagger: 0.035, ease: "back.out(2.4)" }, 17.07);
+    tl.fromTo("#al-r2tr", { opacity: 0, y: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)" }, 18.05);
+    tl.to("#al-pkhop", { y: -26, duration: 0.12, ease: "power2.out" }, 17.02);
+    tl.to("#al-pkhop", { y: 0, duration: 0.2, ease: "power2.in" }, 17.14);
+    tl.fromTo("#al-lf2", { rotationY: 0 }, { rotationY: -180, duration: 0.75, ease: "power2.inOut" }, 19.23);
+    // D · duck / ördek
+    tl.fromTo("#al-aa3", { scale: 0, rotation: -12 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(1.9)" }, 20.06);
+    tl.fromTo("#al-r3pic", { scale: 0, rotation: -15 }, { scale: 1, rotation: 0, duration: 0.42, ease: "back.out(1.8)" }, 22.34);
+    tl.fromTo("#al-r3word .al-l", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, stagger: 0.035, ease: "back.out(2.4)" }, 22.47);
+    tl.fromTo("#al-r3tr", { opacity: 0, y: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)" }, 22.74);
+    tl.to("#al-pkhop", { y: -26, duration: 0.12, ease: "power2.out" }, 22.42);
+    tl.to("#al-pkhop", { y: 0, duration: 0.2, ease: "power2.in" }, 22.54);
+    tl.fromTo("#al-lf3", { rotationY: 0 }, { rotationY: -180, duration: 0.75, ease: "power2.inOut" }, 24.04);
+    // E · egg / yumurta
+    tl.fromTo("#al-aa4", { scale: 0, rotation: -12 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(1.9)" }, 24.87);
+    tl.fromTo("#al-r4pic", { scale: 0, rotation: -15 }, { scale: 1, rotation: 0, duration: 0.42, ease: "back.out(1.8)" }, 26.31);
+    tl.fromTo("#al-r4word .al-l", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, stagger: 0.035, ease: "back.out(2.4)" }, 26.44);
+    tl.fromTo("#al-r4tr", { opacity: 0, y: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)" }, 27.54);
+    tl.to("#al-pkhop", { y: -26, duration: 0.12, ease: "power2.out" }, 26.39);
+    tl.to("#al-pkhop", { y: 0, duration: 0.2, ease: "power2.in" }, 26.51);
+    tl.fromTo("#al-lf4", { rotationY: 0 }, { rotationY: -180, duration: 0.75, ease: "power2.inOut" }, 28.91);
+    // F · fish / balık
+    tl.fromTo("#al-aa5", { scale: 0, rotation: -12 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(1.9)" }, 29.74);
+    tl.fromTo("#al-r5pic", { scale: 0, rotation: -15 }, { scale: 1, rotation: 0, duration: 0.42, ease: "back.out(1.8)" }, 31.67);
+    tl.fromTo("#al-r5word .al-l", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, stagger: 0.035, ease: "back.out(2.4)" }, 31.80);
+    tl.fromTo("#al-r5tr", { opacity: 0, y: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)" }, 32.47);
+    tl.to("#al-pkhop", { y: -26, duration: 0.12, ease: "power2.out" }, 31.75);
+    tl.to("#al-pkhop", { y: 0, duration: 0.2, ease: "power2.in" }, 31.87);
+    tl.fromTo("#al-lf5", { rotationY: 0 }, { rotationY: -180, duration: 0.75, ease: "power2.inOut" }, 33.69);
+    // G · grapes / üzüm
+    tl.fromTo("#al-aa6", { scale: 0, rotation: -12 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(1.9)" }, 34.52);
+    tl.fromTo("#al-r6pic", { scale: 0, rotation: -15 }, { scale: 1, rotation: 0, duration: 0.42, ease: "back.out(1.8)" }, 35.90);
+    tl.fromTo("#al-r6word .al-l", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, stagger: 0.035, ease: "back.out(2.4)" }, 36.03);
+    tl.fromTo("#al-r6tr", { opacity: 0, y: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)" }, 37.17);
+    tl.to("#al-pkhop", { y: -26, duration: 0.12, ease: "power2.out" }, 35.98);
+    tl.to("#al-pkhop", { y: 0, duration: 0.2, ease: "power2.in" }, 36.10);
+    tl.fromTo("#al-lf6", { rotationY: 0 }, { rotationY: -180, duration: 0.75, ease: "power2.inOut" }, 38.35);
+    // H · hat / şapka
+    tl.fromTo("#al-aa7", { scale: 0, rotation: -12 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(1.9)" }, 39.18);
+    tl.fromTo("#al-r7pic", { scale: 0, rotation: -15 }, { scale: 1, rotation: 0, duration: 0.42, ease: "back.out(1.8)" }, 40.62);
+    tl.fromTo("#al-r7word .al-l", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, stagger: 0.035, ease: "back.out(2.4)" }, 40.75);
+    tl.fromTo("#al-r7tr", { opacity: 0, y: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)" }, 41.77);
+    tl.to("#al-pkhop", { y: -26, duration: 0.12, ease: "power2.out" }, 40.70);
+    tl.to("#al-pkhop", { y: 0, duration: 0.2, ease: "power2.in" }, 40.82);
+    tl.fromTo("#al-lf7", { rotationY: 0 }, { rotationY: -180, duration: 0.75, ease: "power2.inOut" }, 43.02);
+    // I · ice cream / dondurma
+    tl.fromTo("#al-aa8", { scale: 0, rotation: -12 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(1.9)" }, 43.85);
+    tl.fromTo("#al-r8pic", { scale: 0, rotation: -15 }, { scale: 1, rotation: 0, duration: 0.42, ease: "back.out(1.8)" }, 45.51);
+    tl.fromTo("#al-r8word .al-l", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, stagger: 0.035, ease: "back.out(2.4)" }, 45.64);
+    tl.fromTo("#al-r8tr", { opacity: 0, y: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)" }, 46.80);
+    tl.to("#al-pkhop", { y: -26, duration: 0.12, ease: "power2.out" }, 45.59);
+    tl.to("#al-pkhop", { y: 0, duration: 0.2, ease: "power2.in" }, 45.71);
+    tl.fromTo("#al-lf8", { rotationY: 0 }, { rotationY: -180, duration: 0.75, ease: "power2.inOut" }, 48.18);
+    // J · juice / meyve suyu
+    tl.fromTo("#al-aa9", { scale: 0, rotation: -12 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(1.9)" }, 49.01);
+    tl.fromTo("#al-r9pic", { scale: 0, rotation: -15 }, { scale: 1, rotation: 0, duration: 0.42, ease: "back.out(1.8)" }, 50.44);
+    tl.fromTo("#al-r9word .al-l", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, stagger: 0.035, ease: "back.out(2.4)" }, 50.57);
+    tl.fromTo("#al-r9tr", { opacity: 0, y: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)" }, 51.78);
+    tl.to("#al-pkhop", { y: -26, duration: 0.12, ease: "power2.out" }, 50.52);
+    tl.to("#al-pkhop", { y: 0, duration: 0.2, ease: "power2.in" }, 50.64);
+    tl.fromTo("#al-lf9", { rotationY: 0 }, { rotationY: -180, duration: 0.75, ease: "power2.inOut" }, 53.01);
+    // K · kite / uçurtma
+    tl.fromTo("#al-aa10", { scale: 0, rotation: -12 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(1.9)" }, 53.84);
+    tl.fromTo("#al-r10pic", { scale: 0, rotation: -15 }, { scale: 1, rotation: 0, duration: 0.42, ease: "back.out(1.8)" }, 55.52);
+    tl.fromTo("#al-r10word .al-l", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, stagger: 0.035, ease: "back.out(2.4)" }, 55.65);
+    tl.fromTo("#al-r10tr", { opacity: 0, y: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)" }, 56.50);
+    tl.to("#al-pkhop", { y: -26, duration: 0.12, ease: "power2.out" }, 55.60);
+    tl.to("#al-pkhop", { y: 0, duration: 0.2, ease: "power2.in" }, 55.72);
+    tl.fromTo("#al-lf10", { rotationY: 0 }, { rotationY: -180, duration: 0.75, ease: "power2.inOut" }, 57.78);
+    // L · lemon / limon
+    tl.fromTo("#al-aa11", { scale: 0, rotation: -12 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(1.9)" }, 58.61);
+    tl.fromTo("#al-r11pic", { scale: 0, rotation: -15 }, { scale: 1, rotation: 0, duration: 0.42, ease: "back.out(1.8)" }, 60.21);
+    tl.fromTo("#al-r11word .al-l", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, stagger: 0.035, ease: "back.out(2.4)" }, 60.34);
+    tl.fromTo("#al-r11tr", { opacity: 0, y: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)" }, 61.22);
+    tl.to("#al-pkhop", { y: -26, duration: 0.12, ease: "power2.out" }, 60.29);
+    tl.to("#al-pkhop", { y: 0, duration: 0.2, ease: "power2.in" }, 60.41);
+    tl.fromTo("#al-lf11", { rotationY: 0 }, { rotationY: -180, duration: 0.75, ease: "power2.inOut" }, 62.49);
+    // M · moon / ay
+    tl.fromTo("#al-aa12", { scale: 0, rotation: -12 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(1.9)" }, 63.32);
+    tl.fromTo("#al-r12pic", { scale: 0, rotation: -15 }, { scale: 1, rotation: 0, duration: 0.42, ease: "back.out(1.8)" }, 64.75);
+    tl.fromTo("#al-r12word .al-l", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, stagger: 0.035, ease: "back.out(2.4)" }, 64.88);
+    tl.fromTo("#al-r12tr", { opacity: 0, y: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)" }, 66.06);
+    tl.to("#al-pkhop", { y: -26, duration: 0.12, ease: "power2.out" }, 64.83);
+    tl.to("#al-pkhop", { y: 0, duration: 0.2, ease: "power2.in" }, 64.95);
+    tl.fromTo("#al-lf12", { rotationY: 0 }, { rotationY: -180, duration: 0.75, ease: "power2.inOut" }, 67.23);
+    // N · nest / yuva
+    tl.fromTo("#al-aa13", { scale: 0, rotation: -12 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(1.9)" }, 68.06);
+    tl.fromTo("#al-r13pic", { scale: 0, rotation: -15 }, { scale: 1, rotation: 0, duration: 0.42, ease: "back.out(1.8)" }, 70.46);
+    tl.fromTo("#al-r13word .al-l", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, stagger: 0.035, ease: "back.out(2.4)" }, 70.59);
+    tl.fromTo("#al-r13tr", { opacity: 0, y: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)" }, 70.83);
+    tl.to("#al-pkhop", { y: -26, duration: 0.12, ease: "power2.out" }, 70.54);
+    tl.to("#al-pkhop", { y: 0, duration: 0.2, ease: "power2.in" }, 70.66);
+    tl.fromTo("#al-lf13", { rotationY: 0 }, { rotationY: -180, duration: 0.75, ease: "power2.inOut" }, 72.07);
+    // O · orange / portakal
+    tl.fromTo("#al-aa14", { scale: 0, rotation: -12 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(1.9)" }, 72.90);
+    tl.fromTo("#al-r14pic", { scale: 0, rotation: -15 }, { scale: 1, rotation: 0, duration: 0.42, ease: "back.out(1.8)" }, 74.40);
+    tl.fromTo("#al-r14word .al-l", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, stagger: 0.035, ease: "back.out(2.4)" }, 74.53);
+    tl.fromTo("#al-r14tr", { opacity: 0, y: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)" }, 75.54);
+    tl.to("#al-pkhop", { y: -26, duration: 0.12, ease: "power2.out" }, 74.48);
+    tl.to("#al-pkhop", { y: 0, duration: 0.2, ease: "power2.in" }, 74.60);
+    tl.fromTo("#al-lf14", { rotationY: 0 }, { rotationY: -180, duration: 0.75, ease: "power2.inOut" }, 76.94);
+    // P · pizza / pizza
+    tl.fromTo("#al-aa15", { scale: 0, rotation: -12 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(1.9)" }, 77.77);
+    tl.fromTo("#al-r15pic", { scale: 0, rotation: -15 }, { scale: 1, rotation: 0, duration: 0.42, ease: "back.out(1.8)" }, 79.82);
+    tl.fromTo("#al-r15word .al-l", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, stagger: 0.035, ease: "back.out(2.4)" }, 79.95);
+    tl.fromTo("#al-r15tr", { opacity: 0, y: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)" }, 80.41);
+    tl.to("#al-pkhop", { y: -26, duration: 0.12, ease: "power2.out" }, 79.90);
+    tl.to("#al-pkhop", { y: 0, duration: 0.2, ease: "power2.in" }, 80.02);
+    tl.fromTo("#al-lf15", { rotationY: 0 }, { rotationY: -180, duration: 0.75, ease: "power2.inOut" }, 81.63);
+    // Q · queen / kraliçe
+    tl.fromTo("#al-aa16", { scale: 0, rotation: -12 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(1.9)" }, 82.46);
+    tl.fromTo("#al-r16pic", { scale: 0, rotation: -15 }, { scale: 1, rotation: 0, duration: 0.42, ease: "back.out(1.8)" }, 83.90);
+    tl.fromTo("#al-r16word .al-l", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, stagger: 0.035, ease: "back.out(2.4)" }, 84.03);
+    tl.fromTo("#al-r16tr", { opacity: 0, y: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)" }, 85.16);
+    tl.to("#al-pkhop", { y: -26, duration: 0.12, ease: "power2.out" }, 83.98);
+    tl.to("#al-pkhop", { y: 0, duration: 0.2, ease: "power2.in" }, 84.10);
+    tl.fromTo("#al-lf16", { rotationY: 0 }, { rotationY: -180, duration: 0.75, ease: "power2.inOut" }, 86.52);
+    // R · rainbow / gökkuşağı
+    tl.fromTo("#al-aa17", { scale: 0, rotation: -12 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(1.9)" }, 87.35);
+    tl.fromTo("#al-r17pic", { scale: 0, rotation: -15 }, { scale: 1, rotation: 0, duration: 0.42, ease: "back.out(1.8)" }, 88.97);
+    tl.fromTo("#al-r17word .al-l", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, stagger: 0.035, ease: "back.out(2.4)" }, 89.10);
+    tl.fromTo("#al-r17tr", { opacity: 0, y: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)" }, 90.18);
+    tl.to("#al-pkhop", { y: -26, duration: 0.12, ease: "power2.out" }, 89.05);
+    tl.to("#al-pkhop", { y: 0, duration: 0.2, ease: "power2.in" }, 89.17);
+    tl.fromTo("#al-lf17", { rotationY: 0 }, { rotationY: -180, duration: 0.75, ease: "power2.inOut" }, 91.63);
+    // S · sun / güneş
+    tl.fromTo("#al-aa18", { scale: 0, rotation: -12 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(1.9)" }, 92.46);
+    tl.fromTo("#al-r18pic", { scale: 0, rotation: -15 }, { scale: 1, rotation: 0, duration: 0.42, ease: "back.out(1.8)" }, 94.44);
+    tl.fromTo("#al-r18word .al-l", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, stagger: 0.035, ease: "back.out(2.4)" }, 94.57);
+    tl.fromTo("#al-r18tr", { opacity: 0, y: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)" }, 95.18);
+    tl.to("#al-pkhop", { y: -26, duration: 0.12, ease: "power2.out" }, 94.52);
+    tl.to("#al-pkhop", { y: 0, duration: 0.2, ease: "power2.in" }, 94.64);
+    tl.fromTo("#al-lf18", { rotationY: 0 }, { rotationY: -180, duration: 0.75, ease: "power2.inOut" }, 96.51);
+    // T · train / tren
+    tl.fromTo("#al-aa19", { scale: 0, rotation: -12 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(1.9)" }, 97.34);
+    tl.fromTo("#al-r19pic", { scale: 0, rotation: -15 }, { scale: 1, rotation: 0, duration: 0.42, ease: "back.out(1.8)" }, 98.78);
+    tl.fromTo("#al-r19word .al-l", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, stagger: 0.035, ease: "back.out(2.4)" }, 98.91);
+    tl.fromTo("#al-r19tr", { opacity: 0, y: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)" }, 100.09);
+    tl.to("#al-pkhop", { y: -26, duration: 0.12, ease: "power2.out" }, 98.86);
+    tl.to("#al-pkhop", { y: 0, duration: 0.2, ease: "power2.in" }, 98.98);
+    tl.fromTo("#al-lf19", { rotationY: 0 }, { rotationY: -180, duration: 0.75, ease: "power2.inOut" }, 101.33);
+    // U · umbrella / şemsiye
+    tl.fromTo("#al-aa20", { scale: 0, rotation: -12 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(1.9)" }, 102.16);
+    tl.fromTo("#al-r20pic", { scale: 0, rotation: -15 }, { scale: 1, rotation: 0, duration: 0.42, ease: "back.out(1.8)" }, 103.93);
+    tl.fromTo("#al-r20word .al-l", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, stagger: 0.035, ease: "back.out(2.4)" }, 104.06);
+    tl.fromTo("#al-r20tr", { opacity: 0, y: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)" }, 105.22);
+    tl.to("#al-pkhop", { y: -26, duration: 0.12, ease: "power2.out" }, 104.01);
+    tl.to("#al-pkhop", { y: 0, duration: 0.2, ease: "power2.in" }, 104.13);
+    tl.fromTo("#al-lf20", { rotationY: 0 }, { rotationY: -180, duration: 0.75, ease: "power2.inOut" }, 106.55);
+    // V · vase / vazo
+    tl.fromTo("#al-aa21", { scale: 0, rotation: -12 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(1.9)" }, 107.38);
+    tl.fromTo("#al-r21pic", { scale: 0, rotation: -15 }, { scale: 1, rotation: 0, duration: 0.42, ease: "back.out(1.8)" }, 108.84);
+    tl.fromTo("#al-r21word .al-l", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, stagger: 0.035, ease: "back.out(2.4)" }, 108.97);
+    tl.fromTo("#al-r21tr", { opacity: 0, y: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)" }, 110.22);
+    tl.to("#al-pkhop", { y: -26, duration: 0.12, ease: "power2.out" }, 108.92);
+    tl.to("#al-pkhop", { y: 0, duration: 0.2, ease: "power2.in" }, 109.04);
+    tl.fromTo("#al-lf21", { rotationY: 0 }, { rotationY: -180, duration: 0.75, ease: "power2.inOut" }, 111.57);
+    // W · watermelon / karpuz
+    tl.fromTo("#al-aa22", { scale: 0, rotation: -12 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(1.9)" }, 112.40);
+    tl.fromTo("#al-r22pic", { scale: 0, rotation: -15 }, { scale: 1, rotation: 0, duration: 0.42, ease: "back.out(1.8)" }, 114.47);
+    tl.fromTo("#al-r22word .al-l", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, stagger: 0.035, ease: "back.out(2.4)" }, 114.60);
+    tl.fromTo("#al-r22tr", { opacity: 0, y: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)" }, 115.72);
+    tl.to("#al-pkhop", { y: -26, duration: 0.12, ease: "power2.out" }, 114.55);
+    tl.to("#al-pkhop", { y: 0, duration: 0.2, ease: "power2.in" }, 114.67);
+    tl.fromTo("#al-lf22", { rotationY: 0 }, { rotationY: -180, duration: 0.75, ease: "power2.inOut" }, 117.06);
+    // X · xylophone / ksilofon
+    tl.fromTo("#al-aa23", { scale: 0, rotation: -12 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(1.9)" }, 117.89);
+    tl.fromTo("#al-r23pic", { scale: 0, rotation: -15 }, { scale: 1, rotation: 0, duration: 0.42, ease: "back.out(1.8)" }, 119.58);
+    tl.fromTo("#al-r23word .al-l", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, stagger: 0.035, ease: "back.out(2.4)" }, 119.71);
+    tl.fromTo("#al-r23tr", { opacity: 0, y: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)" }, 120.88);
+    tl.to("#al-pkhop", { y: -26, duration: 0.12, ease: "power2.out" }, 119.66);
+    tl.to("#al-pkhop", { y: 0, duration: 0.2, ease: "power2.in" }, 119.78);
+    tl.fromTo("#al-lf23", { rotationY: 0 }, { rotationY: -180, duration: 0.75, ease: "power2.inOut" }, 122.36);
+    // Y · yo-yo / yoyo
+    tl.fromTo("#al-aa24", { scale: 0, rotation: -12 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(1.9)" }, 123.19);
+    tl.fromTo("#al-r24pic", { scale: 0, rotation: -15 }, { scale: 1, rotation: 0, duration: 0.42, ease: "back.out(1.8)" }, 125.03);
+    tl.fromTo("#al-r24word .al-l", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, stagger: 0.035, ease: "back.out(2.4)" }, 125.16);
+    tl.fromTo("#al-r24tr", { opacity: 0, y: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)" }, 126.14);
+    tl.to("#al-pkhop", { y: -26, duration: 0.12, ease: "power2.out" }, 125.11);
+    tl.to("#al-pkhop", { y: 0, duration: 0.2, ease: "power2.in" }, 125.23);
+    tl.fromTo("#al-lf24", { rotationY: 0 }, { rotationY: -180, duration: 0.75, ease: "power2.inOut" }, 127.46);
+    // Z · zebra / zebra
+    tl.fromTo("#al-aa25", { scale: 0, rotation: -12 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(1.9)" }, 128.29);
+    tl.fromTo("#al-r25pic", { scale: 0, rotation: -15 }, { scale: 1, rotation: 0, duration: 0.42, ease: "back.out(1.8)" }, 129.78);
+    tl.fromTo("#al-r25word .al-l", { scale: 0.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, stagger: 0.035, ease: "back.out(2.4)" }, 129.91);
+    tl.fromTo("#al-r25tr", { opacity: 0, y: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(2)" }, 131.22);
+    tl.to("#al-pkhop", { y: -26, duration: 0.12, ease: "power2.out" }, 129.86);
+    tl.to("#al-pkhop", { y: 0, duration: 0.2, ease: "power2.in" }, 129.98);
+    tl.to(["#al-aa25", "#al-r25pic", "#al-r25word", "#al-r25tr"], { opacity: 0, duration: 0.2, ease: "power1.in" }, 132.77);
+    tl.set("#al-cv", { opacity: 1, rotationY: -180 }, 132.97);
+    tl.to("#al-cv", { rotationY: 0, duration: 0.8, ease: "power2.inOut" }, 132.98);
+    tl.to("#al-book", { x: -375, duration: 0.8, ease: "power2.inOut" }, 132.98);
+    tl.to("#al-lefthalf", { opacity: 0, duration: 0.2, ease: "power1.in" }, 133.37);
+    tl.to("#al-book", { y: 1150, duration: 0.45, ease: "power3.in" }, 133.87);
+    tl.fromTo(".al-tile", { scale: 0, rotation: -20 }, { scale: 1, rotation: 0, duration: 0.35, stagger: 0.035, ease: "back.out(2)" }, 134.22);
+    tl.to("#al-t0", { scale: 1.28, y: -22, duration: 0.1, ease: "power2.out" }, 135.38);
+    tl.to("#al-t0", { scale: 1, y: 0, duration: 0.28, ease: "back.out(2)" }, 135.48);
+    tl.to("#al-pkhop", { y: -22, duration: 0.1, ease: "power2.out" }, 135.38);
+    tl.to("#al-pkhop", { y: 0, duration: 0.18, ease: "power2.in" }, 135.48);
+    tl.to("#al-t1", { scale: 1.28, y: -22, duration: 0.1, ease: "power2.out" }, 135.83);
+    tl.to("#al-t1", { scale: 1, y: 0, duration: 0.28, ease: "back.out(2)" }, 135.93);
+    tl.to("#al-t2", { scale: 1.28, y: -22, duration: 0.1, ease: "power2.out" }, 136.29);
+    tl.to("#al-t2", { scale: 1, y: 0, duration: 0.28, ease: "back.out(2)" }, 136.39);
+    tl.to("#al-t3", { scale: 1.28, y: -22, duration: 0.1, ease: "power2.out" }, 136.66);
+    tl.to("#al-t3", { scale: 1, y: 0, duration: 0.28, ease: "back.out(2)" }, 136.76);
+    tl.to("#al-pkhop", { y: -22, duration: 0.1, ease: "power2.out" }, 136.66);
+    tl.to("#al-pkhop", { y: 0, duration: 0.18, ease: "power2.in" }, 136.76);
+    tl.to("#al-t4", { scale: 1.28, y: -22, duration: 0.1, ease: "power2.out" }, 137.09);
+    tl.to("#al-t4", { scale: 1, y: 0, duration: 0.28, ease: "back.out(2)" }, 137.19);
+    tl.to("#al-t5", { scale: 1.28, y: -22, duration: 0.1, ease: "power2.out" }, 137.67);
+    tl.to("#al-t5", { scale: 1, y: 0, duration: 0.28, ease: "back.out(2)" }, 137.77);
+    tl.to("#al-t6", { scale: 1.28, y: -22, duration: 0.1, ease: "power2.out" }, 137.95);
+    tl.to("#al-t6", { scale: 1, y: 0, duration: 0.28, ease: "back.out(2)" }, 138.05);
+    tl.to("#al-pkhop", { y: -22, duration: 0.1, ease: "power2.out" }, 137.95);
+    tl.to("#al-pkhop", { y: 0, duration: 0.18, ease: "power2.in" }, 138.05);
+    tl.to("#al-t7", { scale: 1.28, y: -22, duration: 0.1, ease: "power2.out" }, 138.45);
+    tl.to("#al-t7", { scale: 1, y: 0, duration: 0.28, ease: "back.out(2)" }, 138.55);
+    tl.to("#al-t8", { scale: 1.28, y: -22, duration: 0.1, ease: "power2.out" }, 138.71);
+    tl.to("#al-t8", { scale: 1, y: 0, duration: 0.28, ease: "back.out(2)" }, 138.81);
+    tl.to("#al-t9", { scale: 1.28, y: -22, duration: 0.1, ease: "power2.out" }, 139.03);
+    tl.to("#al-t9", { scale: 1, y: 0, duration: 0.28, ease: "back.out(2)" }, 139.13);
+    tl.to("#al-pkhop", { y: -22, duration: 0.1, ease: "power2.out" }, 139.03);
+    tl.to("#al-pkhop", { y: 0, duration: 0.18, ease: "power2.in" }, 139.13);
+    tl.to("#al-t10", { scale: 1.28, y: -22, duration: 0.1, ease: "power2.out" }, 139.36);
+    tl.to("#al-t10", { scale: 1, y: 0, duration: 0.28, ease: "back.out(2)" }, 139.46);
+    tl.to("#al-t11", { scale: 1.28, y: -22, duration: 0.1, ease: "power2.out" }, 139.71);
+    tl.to("#al-t11", { scale: 1, y: 0, duration: 0.28, ease: "back.out(2)" }, 139.81);
+    tl.to("#al-t12", { scale: 1.28, y: -22, duration: 0.1, ease: "power2.out" }, 139.96);
+    tl.to("#al-t12", { scale: 1, y: 0, duration: 0.28, ease: "back.out(2)" }, 140.06);
+    tl.to("#al-pkhop", { y: -22, duration: 0.1, ease: "power2.out" }, 139.96);
+    tl.to("#al-pkhop", { y: 0, duration: 0.18, ease: "power2.in" }, 140.06);
+    tl.to("#al-t13", { scale: 1.28, y: -22, duration: 0.1, ease: "power2.out" }, 140.21);
+    tl.to("#al-t13", { scale: 1, y: 0, duration: 0.28, ease: "back.out(2)" }, 140.31);
+    tl.to("#al-t14", { scale: 1.28, y: -22, duration: 0.1, ease: "power2.out" }, 140.47);
+    tl.to("#al-t14", { scale: 1, y: 0, duration: 0.28, ease: "back.out(2)" }, 140.57);
+    tl.to("#al-t15", { scale: 1.28, y: -22, duration: 0.1, ease: "power2.out" }, 140.63);
+    tl.to("#al-t15", { scale: 1, y: 0, duration: 0.28, ease: "back.out(2)" }, 140.73);
+    tl.to("#al-pkhop", { y: -22, duration: 0.1, ease: "power2.out" }, 140.63);
+    tl.to("#al-pkhop", { y: 0, duration: 0.18, ease: "power2.in" }, 140.73);
+    tl.to("#al-t16", { scale: 1.28, y: -22, duration: 0.1, ease: "power2.out" }, 141.09);
+    tl.to("#al-t16", { scale: 1, y: 0, duration: 0.28, ease: "back.out(2)" }, 141.19);
+    tl.to("#al-t17", { scale: 1.28, y: -22, duration: 0.1, ease: "power2.out" }, 141.34);
+    tl.to("#al-t17", { scale: 1, y: 0, duration: 0.28, ease: "back.out(2)" }, 141.44);
+    tl.to("#al-t18", { scale: 1.28, y: -22, duration: 0.1, ease: "power2.out" }, 141.67);
+    tl.to("#al-t18", { scale: 1, y: 0, duration: 0.28, ease: "back.out(2)" }, 141.77);
+    tl.to("#al-pkhop", { y: -22, duration: 0.1, ease: "power2.out" }, 141.67);
+    tl.to("#al-pkhop", { y: 0, duration: 0.18, ease: "power2.in" }, 141.77);
+    tl.to("#al-t19", { scale: 1.28, y: -22, duration: 0.1, ease: "power2.out" }, 142.12);
+    tl.to("#al-t19", { scale: 1, y: 0, duration: 0.28, ease: "back.out(2)" }, 142.22);
+    tl.to("#al-t20", { scale: 1.28, y: -22, duration: 0.1, ease: "power2.out" }, 142.37);
+    tl.to("#al-t20", { scale: 1, y: 0, duration: 0.28, ease: "back.out(2)" }, 142.47);
+    tl.to("#al-t21", { scale: 1.28, y: -22, duration: 0.1, ease: "power2.out" }, 142.83);
+    tl.to("#al-t21", { scale: 1, y: 0, duration: 0.28, ease: "back.out(2)" }, 142.93);
+    tl.to("#al-pkhop", { y: -22, duration: 0.1, ease: "power2.out" }, 142.83);
+    tl.to("#al-pkhop", { y: 0, duration: 0.18, ease: "power2.in" }, 142.93);
+    tl.to("#al-t22", { scale: 1.28, y: -22, duration: 0.1, ease: "power2.out" }, 143.31);
+    tl.to("#al-t22", { scale: 1, y: 0, duration: 0.28, ease: "back.out(2)" }, 143.41);
+    tl.to("#al-t23", { scale: 1.28, y: -22, duration: 0.1, ease: "power2.out" }, 143.77);
+    tl.to("#al-t23", { scale: 1, y: 0, duration: 0.28, ease: "back.out(2)" }, 143.87);
+    tl.to("#al-t24", { scale: 1.28, y: -22, duration: 0.1, ease: "power2.out" }, 144.50);
+    tl.to("#al-t24", { scale: 1, y: 0, duration: 0.28, ease: "back.out(2)" }, 144.60);
+    tl.to("#al-pkhop", { y: -22, duration: 0.1, ease: "power2.out" }, 144.50);
+    tl.to("#al-pkhop", { y: 0, duration: 0.18, ease: "power2.in" }, 144.60);
+    tl.to("#al-t25", { scale: 1.28, y: -22, duration: 0.1, ease: "power2.out" }, 144.73);
+    tl.to("#al-t25", { scale: 1, y: 0, duration: 0.28, ease: "back.out(2)" }, 144.83);
+    tl.to(".al-tile", { y: -900, rotation: 40, opacity: 0, duration: 0.5, stagger: 0.012, ease: "power3.in" }, 145.50);
+    tl.to("#al-pkwrap", { x: 490, y: 0, scale: 1, duration: 0.6, ease: "power2.inOut" }, 145.55);
+    tl.to("#al-pkhop", { y: -140, duration: 0.3, ease: "power2.out" }, 145.55);
+    tl.to("#al-pkhop", { y: 0, duration: 0.3, ease: "power2.in" }, 145.85);
+    tl.fromTo("#al-aferin .w", { scale: 0.3, opacity: 0, rotation: -8 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.35, stagger: 0.1, ease: "back.out(2.2)" }, 145.80);
+    tl.fromTo("#al-banner2", { opacity: 0 }, { opacity: 1, duration: 0.03, ease: "none" }, 149.25);
+    tl.fromTo("#al-banner2", { scale: 1.4, rotation: -6 }, { scale: 1, rotation: 2, duration: 0.22, ease: "power3.in" }, 149.25);
+    tl.to("#al-pkhop", { rotation: -7, duration: 0.25, ease: "sine.inOut" }, 150.30);
+    tl.to("#al-pkhop", { rotation: 7, duration: 0.25, ease: "sine.inOut" }, 150.55);
+    tl.to("#al-pkhop", { rotation: -7, duration: 0.25, ease: "sine.inOut" }, 150.80);
+    tl.to("#al-pkhop", { rotation: 6, duration: 0.25, ease: "sine.inOut" }, 151.05);
+    tl.to("#al-pkhop", { rotation: 0, duration: 0.25, ease: "sine.inOut" }, 151.30);
+    tl.to("#al-pkface", { y: -8, duration: 0.06, ease: "power2.out" }, 146.31);
+    tl.to("#al-pkface", { y: 0, duration: 0.1, ease: "power2.in" }, 146.37);
+    tl.to("#al-pkface", { y: -8, duration: 0.06, ease: "power2.out" }, 146.99);
+    tl.to("#al-pkface", { y: 0, duration: 0.1, ease: "power2.in" }, 147.05);
+    tl.to("#al-pkface", { y: -8, duration: 0.06, ease: "power2.out" }, 147.23);
+    tl.to("#al-pkface", { y: 0, duration: 0.1, ease: "power2.in" }, 147.29);
+    tl.to("#al-pkface", { y: -8, duration: 0.06, ease: "power2.out" }, 147.51);
+    tl.to("#al-pkface", { y: 0, duration: 0.1, ease: "power2.in" }, 147.57);
+    tl.to("#al-pkface", { y: -8, duration: 0.06, ease: "power2.out" }, 147.75);
+    tl.to("#al-pkface", { y: 0, duration: 0.1, ease: "power2.in" }, 147.81);
+    tl.to("#al-pkface", { y: -8, duration: 0.06, ease: "power2.out" }, 147.97);
+    tl.to("#al-pkface", { y: 0, duration: 0.1, ease: "power2.in" }, 148.03);
+    tl.to("#al-pkface", { y: -8, duration: 0.06, ease: "power2.out" }, 148.19);
+    tl.to("#al-pkface", { y: 0, duration: 0.1, ease: "power2.in" }, 148.25);
+    tl.to("#al-pkface", { y: -8, duration: 0.06, ease: "power2.out" }, 148.43);
+    tl.to("#al-pkface", { y: 0, duration: 0.1, ease: "power2.in" }, 148.49);
+    tl.to("#al-pkface", { y: -8, duration: 0.06, ease: "power2.out" }, 148.71);
+    tl.to("#al-pkface", { y: 0, duration: 0.1, ease: "power2.in" }, 148.77);
+    tl.to("#al-pkface", { y: -8, duration: 0.06, ease: "power2.out" }, 149.33);
+    tl.to("#al-pkface", { y: 0, duration: 0.1, ease: "power2.in" }, 149.39);
+    tl.to("#al-pkface", { y: -8, duration: 0.06, ease: "power2.out" }, 149.59);
+    tl.to("#al-pkface", { y: 0, duration: 0.1, ease: "power2.in" }, 149.65);
+    tl.to("#al-pkface", { y: -8, duration: 0.06, ease: "power2.out" }, 149.81);
+    tl.to("#al-pkface", { y: 0, duration: 0.1, ease: "power2.in" }, 149.87);
+    window.__timelines["alphabet"] = tl;
+  </script>
+</template>
