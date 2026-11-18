@@ -1,0 +1,137 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      font-family: "Nunito", sans-serif;
+      color: #2d3561;
+    }
+    .slot {
+      position: absolute;
+      inset: 0;
+    }
+    #pk-world {
+      position: absolute;
+      inset: 0;
+      background: #ffde3c;
+      overflow: hidden;
+    }
+    #pk-rays {
+      position: absolute;
+      left: -700px;
+      top: -400px;
+      width: 2480px;
+      height: 2480px;
+      background: repeating-conic-gradient(from 0deg at 50% 50%, rgba(255, 255, 255, 0.2) 0deg 9deg, rgba(255, 255, 255, 0) 9deg 18deg);
+    }
+    .pk-title {
+      position: absolute;
+      left: 0;
+      width: 1080px;
+      text-align: center;
+      font-weight: 900;
+      line-height: 1;
+    }
+    #pk-body {
+      position: absolute;
+      left: 160px;
+      top: 560px;
+      width: 760px;
+      height: 822px;
+      transform-origin: 50% 100%;
+    }
+    #pk-face {
+      position: absolute;
+      inset: 0;
+      -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+      mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+    }
+    #pk-face img {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    #pk-banner {
+      position: absolute;
+      left: 100px;
+      top: 1120px;
+      width: 880px;
+      padding: 22px 30px 26px;
+      border-radius: 34px;
+      background: #1976d2;
+      border: 12px solid #ffffff;
+      box-shadow: 0 10px 0 rgba(45, 53, 97, 0.22);
+      color: #ffffff;
+      text-align: center;
+      opacity: 0;
+    }
+    .pk-b1 {
+      font-weight: 900;
+      font-size: 86px;
+      line-height: 1;
+    }
+    .pk-b2 {
+      margin-top: 10px;
+      font-weight: 900;
+      font-size: 48px;
+      line-height: 1;
+    }
+  </style>
+
+  <div id="root" data-composition-id="piko" data-width="1080" data-height="1920">
+    <div id="pk-world">
+      <div id="pk-rays" data-layout-ignore></div>
+      <div class="pk-title" style="top: 176px; font-size: 180px">1 - 10</div>
+      <div class="pk-title" style="top: 382px; font-size: 70px">İngilizce sayılar</div>
+    </div>
+    <div id="pk-body" data-layout-allow-overflow>
+      <div id="pk-face" data-layout-ignore><img src="assets/piko/piko.png" alt="Piko" /><svg id="pk-lids" viewBox="0 0 1130 1222" style="position:absolute;left:0;top:0;width:100%;height:100%;opacity:0"><ellipse cx="289" cy="620" rx="100" ry="113" fill="#5fcbfb"/><ellipse cx="740" cy="562" rx="92" ry="111" fill="#5fcbfb"/><path d="M214 640 Q289 676 364 640" fill="none" stroke="#1f2a5c" stroke-width="14" stroke-linecap="round"/><path d="M671 582 Q740 616 809 582" fill="none" stroke="#1f2a5c" stroke-width="14" stroke-linecap="round"/></svg></div>
+    </div>
+    <div id="pk-banner" data-layout-allow-overlap><div class="pk-b1">English with Piko</div><div class="pk-b2">Piko İle İngilizce</div></div>
+  </div>
+
+  <script>
+    // Piko introduces the channel (voice "pk1" at 0.35s: Merhaba 0.37 · Ben 1.75 · Piko 2.00 · Piko ile İngilizce 2.35 · hoş geldiniz 3.78–4.90)
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#pk-rays", { rotation: 0 }, { rotation: 40, duration: 5.8, ease: "none" }, 0);
+    tl.to("#pk-body", { rotation: -5, duration: 0.22, ease: "sine.inOut" }, 0.4);
+    tl.to("#pk-body", { rotation: 5, duration: 0.22, ease: "sine.inOut" }, 0.62);
+    tl.to("#pk-body", { rotation: -5, duration: 0.22, ease: "sine.inOut" }, 0.84);
+    tl.to("#pk-body", { rotation: 4, duration: 0.22, ease: "sine.inOut" }, 1.06);
+    tl.to("#pk-body", { rotation: 0, duration: 0.22, ease: "sine.inOut" }, 1.28);
+    tl.to("#pk-body", { scaleY: 0.93, scaleX: 1.04, duration: 0.1, ease: "power2.out" }, 1.68);
+    tl.to("#pk-body", { y: -80, scaleY: 1.05, scaleX: 0.97, duration: 0.18, ease: "power2.out" }, 1.78);
+    tl.to("#pk-body", { y: 0, scaleY: 1, scaleX: 1, duration: 0.16, ease: "power2.in" }, 1.96);
+    tl.to("#pk-body", { scaleY: 0.95, scaleX: 1.03, duration: 0.06, ease: "power2.out" }, 2.12);
+    tl.to("#pk-body", { scaleY: 1, scaleX: 1, duration: 0.16, ease: "power2.out" }, 2.18);
+    tl.to("#pk-face", { y: -9, duration: 0.06, ease: "power2.out" }, 2.77);
+    tl.to("#pk-face", { y: 0, duration: 0.1, ease: "power2.in" }, 2.83);
+    tl.to("#pk-face", { y: -9, duration: 0.06, ease: "power2.out" }, 2.95);
+    tl.to("#pk-face", { y: 0, duration: 0.1, ease: "power2.in" }, 3.01);
+    tl.to("#pk-face", { y: -9, duration: 0.06, ease: "power2.out" }, 3.23);
+    tl.to("#pk-face", { y: 0, duration: 0.1, ease: "power2.in" }, 3.29);
+    tl.to("#pk-face", { y: -9, duration: 0.06, ease: "power2.out" }, 3.47);
+    tl.to("#pk-face", { y: 0, duration: 0.1, ease: "power2.in" }, 3.53);
+    tl.to("#pk-face", { y: -9, duration: 0.06, ease: "power2.out" }, 3.69);
+    tl.to("#pk-face", { y: 0, duration: 0.1, ease: "power2.in" }, 3.75);
+    tl.to("#pk-face", { y: -9, duration: 0.06, ease: "power2.out" }, 3.97);
+    tl.to("#pk-face", { y: 0, duration: 0.1, ease: "power2.in" }, 4.03);
+    tl.to("#pk-face", { y: -9, duration: 0.06, ease: "power2.out" }, 4.19);
+    tl.to("#pk-face", { y: 0, duration: 0.1, ease: "power2.in" }, 4.25);
+    tl.to("#pk-face", { y: -9, duration: 0.06, ease: "power2.out" }, 4.41);
+    tl.to("#pk-face", { y: 0, duration: 0.1, ease: "power2.in" }, 4.47);
+    tl.to("#pk-lids", { opacity: 1, duration: 0.01, ease: "none" }, 1.2);
+    tl.to("#pk-lids", { opacity: 0, duration: 0.01, ease: "none" }, 1.32);
+    tl.to("#pk-lids", { opacity: 1, duration: 0.01, ease: "none" }, 3.25);
+    tl.to("#pk-lids", { opacity: 0, duration: 0.01, ease: "none" }, 3.37);
+    tl.fromTo("#pk-banner", { opacity: 0 }, { opacity: 1, duration: 0.03, ease: "none" }, 2.3);
+    tl.fromTo("#pk-banner", { scale: 1.4, rotation: 6 }, { scale: 1, rotation: -2, duration: 0.22, ease: "power3.in" }, 2.3);
+    tl.to("#pk-banner", { scale: 0.97, duration: 0.04, ease: "none" }, 2.52);
+    tl.to("#pk-banner", { scale: 1, duration: 0.12, ease: "power2.out" }, 2.56);
+    tl.to("#pk-body", { scaleY: 0.92, scaleX: 1.05, duration: 0.1, ease: "power2.out" }, 4.95);
+    tl.to("#pk-body", { x: 1150, y: -260, rotation: 22, scaleX: 0.9, scaleY: 1.08, duration: 0.45, ease: "power2.in" }, 5.05);
+    tl.to(["#pk-world", "#pk-banner"], { x: -1080, duration: 0.42, ease: "power3.in" }, 5.36);
+    window.__timelines["piko"] = tl;
+  </script>
+</template>

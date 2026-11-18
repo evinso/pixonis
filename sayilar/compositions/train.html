@@ -232,7 +232,7 @@
         <div class="k-lp" style="left: 150px; top: 980px; width: 64px; height: 140px; background: #073b4c"></div>
         <div class="k-lp" style="left: 360px; top: 900px; width: 260px; height: 46px; border-radius: 16px; background: #073b4c"></div>
         <div class="k-lp" style="left: 380px; top: 930px; width: 220px; height: 360px; border-radius: 18px; background: #118ab2"></div>
-        <div class="k-lp" style="left: 420px; top: 980px; width: 140px; height: 110px; border-radius: 14px; background: #cdefff; border: 8px solid #ffffff"></div>
+        <div class="k-lp" style="left: 420px; top: 980px; width: 140px; height: 110px; border-radius: 14px; background: #cdefff; border: 8px solid #ffffff; overflow: hidden" data-layout-ignore><img id="k-pkcab" src="assets/piko/piko.png" alt="" style="position: absolute; left: -13px; top: -22px; width: 150px; transform-origin: 50% 100%" /></div>
         <div class="k-lp" style="left: 60px; top: 1110px; width: 340px; height: 180px; border-radius: 90px; background: #ef476f"></div>
         <div class="k-lp" style="left: 170px; top: 1110px; width: 26px; height: 180px; background: #ffd166"></div>
         <div class="k-lp" style="left: 280px; top: 1110px; width: 26px; height: 180px; background: #ffd166"></div>
@@ -382,7 +382,8 @@
     </div>
     <div id="k-es" class="slot clip" data-start="35.65" data-duration="2.95" data-track-index="23">
       <div id="k-end" class="k-title" style="top: 360px; font-size: 190px"><span class="w">Aferin!</span></div>
-      <svg id="k-s1" class="k-star" style="left:95px;top:175px" viewBox="0 0 100 100"><use href="#k-sym-star"/></svg><svg id="k-s2" class="k-star" style="left:685px;top:135px" viewBox="0 0 100 100"><use href="#k-sym-star"/></svg><svg id="k-s3" class="k-star" style="left:55px;top:505px" viewBox="0 0 100 100"><use href="#k-sym-star"/></svg><svg id="k-s4" class="k-star" style="left:905px;top:505px" viewBox="0 0 100 100"><use href="#k-sym-star"/></svg><svg id="k-s5" class="k-star" style="left:205px;top:665px" viewBox="0 0 100 100"><use href="#k-sym-star"/></svg><svg id="k-s6" class="k-star" style="left:765px;top:665px" viewBox="0 0 100 100"><use href="#k-sym-star"/></svg><svg id="k-s7" class="k-star" style="left:485px;top:95px" viewBox="0 0 100 100"><use href="#k-sym-star"/></svg><svg id="k-s8" class="k-star" style="left:485px;top:705px" viewBox="0 0 100 100"><use href="#k-sym-star"/></svg>
+      <svg id="k-s1" class="k-star" style="left:95px;top:175px" viewBox="0 0 100 100"><use href="#k-sym-star"/></svg><svg id="k-s2" class="k-star" style="left:685px;top:135px" viewBox="0 0 100 100"><use href="#k-sym-star"/></svg><svg id="k-s3" class="k-star" style="left:55px;top:505px" viewBox="0 0 100 100"><use href="#k-sym-star"/></svg><svg id="k-s4" class="k-star" style="left:905px;top:505px" viewBox="0 0 100 100"><use href="#k-sym-star"/></svg><svg id="k-s5" class="k-star" style="left:205px;top:665px" viewBox="0 0 100 100"><use href="#k-sym-star"/></svg><svg id="k-s6" class="k-star" style="left:765px;top:665px" viewBox="0 0 100 100"><use href="#k-sym-star"/></svg><svg id="k-s7" class="k-star" style="left:485px;top:95px" viewBox="0 0 100 100"><use href="#k-sym-star"/></svg><svg id="k-s8" class="k-star" style="left:275px;top:75px" viewBox="0 0 100 100"><use href="#k-sym-star"/></svg>
+      <div id="k-pkend" style="position: absolute; left: 375px; top: 545px; width: 330px; height: 357px; opacity: 0; transform-origin: 50% 100%" data-layout-ignore><img src="assets/piko/piko.png" alt="Piko" style="display: block; width: 100%; height: 100%; -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 100%); mask-image: linear-gradient(to bottom, #000 72%, transparent 100%)" /></div>
     </div>
   </div>
 
@@ -414,6 +415,14 @@
     tl.to("#k-p1", { x: 40, y: -240, scale: 1.6, opacity: 0, duration: 1.3, ease: "power1.out" }, 3.611);
     tl.set("#k-p2", { x: 0, y: 0, scale: 0.35, opacity: 0.95 }, 4.03);
     tl.to("#k-p2", { x: 70, y: -240, scale: 1.6, opacity: 0, duration: 1.3, ease: "power1.out" }, 4.031);
+    tl.to("#k-pkcab", { rotation: -10, duration: 0.25, ease: "sine.inOut" }, 0.35);
+    tl.to("#k-pkcab", { rotation: 9, duration: 0.25, ease: "sine.inOut" }, 0.6);
+    tl.to("#k-pkcab", { rotation: -10, duration: 0.25, ease: "sine.inOut" }, 0.85);
+    tl.to("#k-pkcab", { rotation: 8, duration: 0.25, ease: "sine.inOut" }, 1.1);
+    tl.to("#k-pkcab", { rotation: 0, duration: 0.25, ease: "sine.inOut" }, 1.35);
+    tl.to("#k-pkcab", { rotation: -8, duration: 0.25, ease: "sine.inOut" }, 2.6);
+    tl.to("#k-pkcab", { rotation: 7, duration: 0.25, ease: "sine.inOut" }, 2.85);
+    tl.to("#k-pkcab", { rotation: 0, duration: 0.25, ease: "sine.inOut" }, 3.1);
     tl.to(["#k-lidL", "#k-lidR"], { opacity: 1, duration: 0.04, ease: "none" }, 1.45);
     tl.to(["#k-lidL", "#k-lidR"], { opacity: 0, duration: 0.05, ease: "none" }, 1.57);
     tl.to(["#k-lidL", "#k-lidR"], { opacity: 1, duration: 0.04, ease: "none" }, 3.05);
@@ -761,7 +770,7 @@
     tl.fromTo("#k-s5", { x: 280, y: 260, scale: 0.2, opacity: 0, rotation: 0 }, { x: 0, y: 0, scale: 1, opacity: 1, rotation: 390, duration: 0.6, ease: "back.out(1.6)" }, 35.88);
     tl.fromTo("#k-s6", { x: -280, y: 260, scale: 0.2, opacity: 0, rotation: 0 }, { x: 0, y: 0, scale: 1, opacity: 1, rotation: 330, duration: 0.6, ease: "back.out(1.6)" }, 35.92);
     tl.fromTo("#k-s7", { x: 0, y: 830, scale: 0.2, opacity: 0, rotation: 0 }, { x: 0, y: 0, scale: 1, opacity: 1, rotation: 360, duration: 0.6, ease: "back.out(1.6)" }, 35.96);
-    tl.fromTo("#k-s8", { x: 0, y: 220, scale: 0.2, opacity: 0, rotation: 0 }, { x: 0, y: 0, scale: 1, opacity: 1, rotation: 370, duration: 0.6, ease: "back.out(1.6)" }, 36.00);
+    tl.fromTo("#k-s8", { x: 210, y: 850, scale: 0.2, opacity: 0, rotation: 0 }, { x: 0, y: 0, scale: 1, opacity: 1, rotation: 370, duration: 0.6, ease: "back.out(1.6)" }, 36.00);
     tl.to("#k-o10-1", { y: -40, duration: 0.14, ease: "power2.out" }, 35.80);
     tl.to("#k-o10-1", { y: 0, duration: 0.24, ease: "power2.in" }, 35.94);
     tl.to("#k-o10-2", { y: -40, duration: 0.14, ease: "power2.out" }, 35.83);
@@ -782,6 +791,12 @@
     tl.to("#k-o10-9", { y: 0, duration: 0.24, ease: "power2.in" }, 36.18);
     tl.to("#k-o10-10", { y: -40, duration: 0.14, ease: "power2.out" }, 36.07);
     tl.to("#k-o10-10", { y: 0, duration: 0.24, ease: "power2.in" }, 36.21);
+    tl.fromTo("#k-pkend", { y: 240, scale: 0.6, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: 0.45, ease: "back.out(1.6)" }, 35.85);
+    tl.to("#k-pkend", { rotation: -7, duration: 0.25, ease: "sine.inOut" }, 36.40);
+    tl.to("#k-pkend", { rotation: 7, duration: 0.25, ease: "sine.inOut" }, 36.65);
+    tl.to("#k-pkend", { rotation: -7, duration: 0.25, ease: "sine.inOut" }, 36.90);
+    tl.to("#k-pkend", { rotation: 6, duration: 0.25, ease: "sine.inOut" }, 37.15);
+    tl.to("#k-pkend", { rotation: 0, duration: 0.25, ease: "sine.inOut" }, 37.40);
     window.__timelines["train"] = tl;
   </script>
 </template>
