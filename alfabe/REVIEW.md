@@ -11,9 +11,8 @@ Thumbnail: `youtube/kapak.png` (frame 1.9 s). Description draft: `youtube/acikla
 - 145.75–152.9 tiles fly off, Piko to the centre, "Aferin!", banner on "Görüşmek üzere", wave on "bay bay".
 
 Voice: ElevenLabs Jessica (Eleven v4; multilingual v2 for the intro and "Meyve suyu" which v4 mispronounced), every clip checked with
-Whisper before processing, then pitch-raised +4 semitones with rubberband (formants shifted) for the child-like voice chosen by the owner
-(sample A). T word changed from Tree/ağaç to Train/tren because both models said "ağaç" like "aç".
+Whisper before processing, used at natural pitch: the +4 semitone child-like version (sample A) was rejected by the owner as sounding bad. T word changed from Tree/ağaç to Train/tren because both models said "ağaç" like "aç".
 Pictures: 26 original SVG drawings (`alpha_art.py` in the session scratchpad, embedded in the composition).
 
-Measured: check passes (55/55 contrast); warnings kept: file length (generated) and the repeated Piko image. Mix -15.6 LUFS, -1.0 dBTP.
-Not heard: the pitch-shifted voice was only transcribed, never listened to.
+Measured: check passes (55/55 contrast); warnings kept: file length (generated) and the repeated Piko image. Mix -15.3 LUFS, -1.0 dBTP.
+Not heard: the voice was only transcribed, never listened to. A real child voice needs a paid ElevenLabs plan or a recording.
