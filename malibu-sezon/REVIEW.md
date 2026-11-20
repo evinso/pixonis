@@ -1,18 +1,24 @@
 # REVIEW — Malibu Craft Reels "2027 ajandanı benimle süsle" (plan-with-me)
 
-Render: `renders/malibucraft-2027-ajanda.mp4` (1080x1920, 30 fps, 19.7 s, H.264 + AAC, SFX only). Not committed (renders/ is ignored).
+Render: `renders/malibucraft-2027-ajanda.mp4` (1080x1920, 30 fps, 26.1 s, H.264 + AAC, SFX only). Not committed (renders/ is ignored).
 Cover: `instagram/kapak.png` (frame 0). Caption: `instagram/aciklama.txt`. Generator: `tools/build_planner.py` → `compositions/planner.html`, `index.html`.
 
-## Story
+## Story (every phase carries an on-screen caption that says what is happening)
 
-| Time | Picture |
-| --- | --- |
-| 0–1.35 | Frame 0 = the finished January 2027 page on a winter desk; label "2027 ajandanı benimle süsle"; a light pass crosses the page |
-| 1.35–2.0 | Rewind: the stickers fly off, the handwriting wipes away, blank dotted page |
-| 2.05–12.2 | Build-up: washi tape, "Ocak 2027" written in, the January 2027 calendar pops in (1 Jan = Friday), dahlia, camera, orange stickers, "2027 hedeflerim" + four goals written, then disco heart, envelope, gingham heart, Starry Night, CUTE, second tape |
-| 12.2–13.9 | Light pass, label "Yeni yıl, yeni sayfa" |
-| 13.9–14.4 | The page is swept off the desk |
-| 14.4–19.7 | Brand card slapped on: MALIBU CRAFT wordmark, "Ajandan için sticker setleri", "A5 set · 64,90 TL", shopier.com/malibucraftshop, "Kişiye özel tasarımlar için DM"; three more real stickers (lavender, Van Gogh, red heart) |
+| Time | Caption | Picture |
+| --- | --- | --- |
+| 0–1.8 | 2027 ajandanı benimle süsle | Frame 0 = the finished January 2027 page on a winter desk; a light pass crosses it |
+| 1.9–3.4 | Hadi baştan başlayalım | Rewind: stickers fly off, handwriting wipes away; washi tape goes on the blank page |
+| 3.45–5.3 | Önce ayın adını yazıyorum | "Ocak 2027" written in |
+| 5.35–6.85 | Sonra takvimi çiziyorum | January 2027 calendar pops in (1 Jan = Friday) |
+| 6.9–8.95 | Stickerları yapıştırıyorum | dahlia, camera, orange |
+| 9.0–11.3 | 2027 hedeflerimi yazıyorum | "2027 hedeflerim" + four goals |
+| 11.35–14.6 | Kalan boşlukları dolduruyorum | disco heart, envelope, gingham heart, Starry Night, CUTE, second tape |
+| 14.65–16.65 | Yeni yıl, yeni sayfa! | light pass; the page is swept off the desk |
+| 16.85–20.35 | İki boyumuz var | A5 (14,8 × 21 cm) and 13 × 16 cm sheets drawn to scale (3.2 px/mm); price tags 64,90 TL / 39,90 TL |
+| 20.55–26.1 | — | Brand card: MALIBU CRAFT, "A5 · 64,90 TL" + "13×16 cm · 39,90 TL", shopier.com/malibucraftshop, DM line; three real stickers |
+
+Captions hold at least 0.5 s + 0.3 s per word; they slap in as kraft die-cut labels and lift off before the next one.
 
 ## Visuals
 
@@ -25,13 +31,14 @@ Cover: `instagram/kapak.png` (frame 0). Caption: `instagram/aciklama.txt`. Gener
 
 ## Facts on screen
 
-- Only confirmed facts: A5 set 64,90 TL, Shopier address, custom designs via DM. "5 al 4 öde" is left out until the owner confirms it is still running.
+- Only confirmed facts: A5 64,90 TL, 13 × 16 cm 39,90 TL (owner, chat), Shopier address, custom designs via DM.
+- The size sheets are plain (dimensions and price only): which designs come in 13 × 16 cm is not confirmed, so no designs are shown on them. "5 al 4 öde" is left out until the owner confirms it is still running.
 
 ## Measured vs looked at
 
-- `hyperframes check`: ok, 0 errors, 0 warnings (2 info: text mid-wipe at 3.28 and 7.66 s, intended).
-- Snapshots inspected at 0, 0.6, 1.5, 2.4, 3.0, 4, 6, 7.8, 9.85, 12.4, 12.6, 13.6, 13.95, 14.1, 14.6, 14.9, 15.5, 16.5, 19.5 s; render frames at 7 and 18 s.
-- Audio measured, not heard: SFX only (whoosh, click-soft, pop, sparkle), -27 LUFS integrated so a trending sound added in Instagram stays on top.
+- `hyperframes check`: ok, 0 errors, 0 warnings.
+- Snapshots inspected at 0, 2.4, 4.6, 6.5, 8.6, 10.8, 13.4, 15.4, 17.0, 18.4, 18.6, 19.9, 21.0, 23.5, 25.9 s; render frames at 4.2, 18.3 and 24 s.
+- Audio measured, not heard: SFX only (whoosh, click-soft, pop, sparkle), -27.2 LUFS integrated, -10 dBFS peak so a trending sound added in Instagram stays on top.
 
 ## Weakest points
 

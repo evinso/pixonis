@@ -1,7 +1,7 @@
 import math, subprocess
 P="/home/user/pixonis/malibu-sezon"
 NAVY="#29314b"; SALMON="#e1a8a4"; KRAFT="#d8b38a"
-R=1.35  # frame 0 shows the finished page; it rewinds at R
+R=1.6  # frame 0 shows the finished page; it rewinds at R
 # ---------------- desk props (vector, flat illustration with soft shadows)
 def pine(x0,y0,x1,y1,cx,cy,flip=1,n=26):
     s=[f'<path d="M{x0} {y0} Q{cx} {cy} {x1} {y1}" fill="none" stroke="#6b4a2b" stroke-width="7" stroke-linecap="round"/>']
@@ -63,25 +63,21 @@ def sticker(name,x,y,w,rot):
 stickers="".join(sticker(*s) for s in STK)
 
 # ---------------- timeline
-js=[]; J=js.append
-J('// frame 0 = the finished page (result first); at 0.9 it rewinds to a blank page, then builds up again')
-for name,x,y,w,rot in STK:
-    J(f'tl.set("#pl-s-{name}", {{ rotation: {rot} }}, 0);')
-# rewind (0.9-1.45)
-for i,(name,x,y,w,rot) in enumerate(STK):
-    J(f'tl.to("#pl-s-{name}", {{ y: -900, x: {(i%2*2-1)*240}, rotation: {rot+(i%2*2-1)*40}, opacity: 0, duration: 0.32, ease: "power3.in" }}, {R+i*0.025:.3f});')
-J('tl.to("#pl-shine", { x: 1240, duration: 0.9, ease: "power1.inOut" }, 0.15);')
-J('tl.set("#pl-shine", { x: 0 }, 1.2);')
-J(f'tl.to(["#pl-head", "#pl-gtitle", ".pl-goal"], {{ clipPath: "inset(0px 100% 0px 0px)", duration: 0.25, ease: "power2.in" }}, {R+0.05:.2f});')
-J(f'tl.to(["#pl-cal", "#pl-wt1", "#pl-wt2"], {{ opacity: 0, duration: 0.2, ease: "power1.in" }}, {R+0.05:.2f});')
-J(f'tl.to("#pl-title1", {{ opacity: 0, scale: 0.9, duration: 0.2, ease: "power2.in" }}, {R+0.3:.2f});')
-# build-up
-t=R+0.7; steps=[]
-J(f'tl.fromTo("#pl-wt1", {{ opacity: 1, scaleX: 0 }}, {{ opacity: 1, scaleX: 1, duration: 0.28, ease: "power2.out", immediateRender: false }}, {t});'); steps.append(("tape",t)); t+=0.7
-J(f'tl.fromTo("#pl-head", {{ clipPath: "inset(0px 100% 0px 0px)" }}, {{ clipPath: "inset(0px 0% 0px 0px)", duration: 0.75, ease: "power1.inOut", immediateRender: false }}, {t});'); steps.append(("write",t)); t+=0.85
-J(f'tl.fromTo("#pl-cal", {{ opacity: 0 }}, {{ opacity: 1, duration: 0.2, immediateRender: false }}, {t});')
-J(f'tl.fromTo("#pl-cal .pl-cd", {{ opacity: 0, scale: 0.4 }}, {{ opacity: 1, scale: 1, duration: 0.14, stagger: 0.012, ease: "back.out(2)", immediateRender: false }}, {t+0.05:.2f});'); steps.append(("cal",t)); t+=0.75
-order=["lav-dahlia","jj-camera","jj-orange"]
+# Each phase gets an on-screen caption that says what is happening (first person, like a plan-with-me video).
+# A caption stays at least 0.5 s + 0.3 s per word, so the phases are paced by their captions.
+js=[]; J=js.append; steps=[]; caps=[]
+def cap(cid,text,start,end,first=False):
+    caps.append((cid,text,start,end,first))
+    rot=-2 if len(caps)%2 else 2
+    if not first:
+        J(f'tl.fromTo("#{cid}", {{ scale: 1.3, rotation: {rot+6}, opacity: 0 }}, {{ scale: 1, rotation: {rot}, opacity: 1, duration: 0.22, ease: "power3.in", immediateRender: false }}, {start:.2f});')
+        J(f'tl.to("#{cid}", {{ scale: 0.97, duration: 0.04, ease: "none" }}, {start+0.22:.2f});')
+        J(f'tl.to("#{cid}", {{ scale: 1, duration: 0.12, ease: "power2.out" }}, {start+0.26:.2f});')
+        steps.append(("cap",start+0.22))
+    else:
+        J(f'tl.set("#{cid}", {{ rotation: {rot} }}, 0);')
+    J(f'tl.to("#{cid}", {{ y: -40, opacity: 0, duration: 0.16, ease: "power2.in" }}, {end-0.17:.2f});')
+
 def place(name,t):
     s=[x for x in STK if x[0]==name][0]; rot=s[4]
     J(f'tl.fromTo("#pl-s-{name}", {{ x: 0, y: 260, scale: 1.3, rotation: {rot+16}, opacity: 1, filter: "drop-shadow(0px 30px 22px rgba(0,0,0,0.35))" }}, '
@@ -89,37 +85,76 @@ def place(name,t):
     J(f'tl.to("#pl-s-{name}", {{ scale: 0.96, duration: 0.04, ease: "none" }}, {t+0.26:.2f});')
     J(f'tl.to("#pl-s-{name}", {{ scale: 1, duration: 0.12, ease: "power2.out" }}, {t+0.3:.2f});')
     steps.append(("stk",t+0.26))
-for n in order: place(n,t); t+=0.7
-J(f'tl.fromTo("#pl-gtitle", {{ clipPath: "inset(0px 100% 0px 0px)" }}, {{ clipPath: "inset(0px 0% 0px 0px)", duration: 0.6, ease: "power1.inOut", immediateRender: false }}, {t:.2f});'); steps.append(("write",t)); t+=0.6
+def slap(sel,t,rot,frm=1.35,kind="pop"):
+    J(f'tl.fromTo("{sel}", {{ scale: {frm}, rotation: {rot+8}, opacity: 0 }}, {{ scale: 1, rotation: {rot}, opacity: 1, duration: 0.22, ease: "power3.in", immediateRender: false }}, {t:.2f});')
+    J(f'tl.to("{sel}", {{ scale: 0.97, duration: 0.04, ease: "none" }}, {t+0.22:.2f});')
+    J(f'tl.to("{sel}", {{ scale: 1, duration: 0.12, ease: "power2.out" }}, {t+0.26:.2f});')
+    steps.append((kind,t+0.22))
+
+for name,x,y,w,rot in STK:
+    J(f'tl.set("#pl-s-{name}", {{ rotation: {rot} }}, 0);')
+# 0 - R: frame 0 is the finished page; a light pass crosses it
+cap("pl-c0","2027 ajandanı benimle süsle",0,R+0.2,first=True)
+J('tl.to("#pl-shine", { x: 1240, duration: 0.9, ease: "power1.inOut" }, 0.15);')
+J('tl.set("#pl-shine", { x: 0 }, 1.2);')
+# R: rewind to a blank page
+for i,(name,x,y,w,rot) in enumerate(STK):
+    J(f'tl.to("#pl-s-{name}", {{ y: -900, x: {(i%2*2-1)*240}, rotation: {rot+(i%2*2-1)*40}, opacity: 0, duration: 0.32, ease: "power3.in" }}, {R+i*0.025:.3f});')
+J(f'tl.to(["#pl-head", "#pl-gtitle", ".pl-goal"], {{ clipPath: "inset(0px 100% 0px 0px)", duration: 0.25, ease: "power2.in" }}, {R+0.05:.2f});')
+J(f'tl.to(["#pl-cal", "#pl-wt1", "#pl-wt2"], {{ opacity: 0, duration: 0.2, ease: "power1.in" }}, {R+0.05:.2f});')
+steps.append(("rewind",R+0.15))
+cap("pl-c1","Hadi baştan başlayalım",R+0.3,R+1.8)
+t=R+0.9
+J(f'tl.fromTo("#pl-wt1", {{ opacity: 1, scaleX: 0 }}, {{ opacity: 1, scaleX: 1, duration: 0.28, ease: "power2.out", immediateRender: false }}, {t:.2f});'); steps.append(("tape",t))
+# month title
+t=R+1.85; cap("pl-c2","Önce ayın adını yazıyorum",t,t+1.85)
+J(f'tl.fromTo("#pl-head", {{ clipPath: "inset(0px 100% 0px 0px)" }}, {{ clipPath: "inset(0px 0% 0px 0px)", duration: 0.8, ease: "power1.inOut", immediateRender: false }}, {t+0.1:.2f});')
+# calendar
+t+=1.9; cap("pl-c3","Sonra takvimi çiziyorum",t,t+1.5)
+J(f'tl.fromTo("#pl-cal", {{ opacity: 0 }}, {{ opacity: 1, duration: 0.2, immediateRender: false }}, {t+0.1:.2f});')
+J(f'tl.fromTo("#pl-cal .pl-cd", {{ opacity: 0, scale: 0.4 }}, {{ opacity: 1, scale: 1, duration: 0.14, stagger: 0.012, ease: "back.out(2)", immediateRender: false }}, {t+0.15:.2f});')
+# first stickers
+t+=1.55; c4=t
+for i,n in enumerate(["lav-dahlia","jj-camera","jj-orange"]): place(n,t+0.1+i*0.65)
+cap("pl-c4","Stickerları yapıştırıyorum",c4,c4+2.05)
+# goals
+t=c4+2.1; cap("pl-c5","2027 hedeflerimi yazıyorum",t,t+2.3)
+J(f'tl.fromTo("#pl-gtitle", {{ clipPath: "inset(0px 100% 0px 0px)" }}, {{ clipPath: "inset(0px 0% 0px 0px)", duration: 0.6, ease: "power1.inOut", immediateRender: false }}, {t+0.1:.2f});')
 for i in range(len(GOALS)):
-    J(f'tl.fromTo("#pl-g{i}", {{ clipPath: "inset(0px 100% 0px 0px)" }}, {{ clipPath: "inset(0px 0% 0px 0px)", duration: 0.45, ease: "power1.inOut", immediateRender: false }}, {t+i*0.32:.2f});')
-t+=len(GOALS)*0.32+0.25
-for n in ["disco-heart","jj-envelope","jj-heart","vg-starry","jj-cute"]: place(n,t); t+=0.62
-J(f'tl.fromTo("#pl-wt2", {{ opacity: 1, scaleX: 0 }}, {{ opacity: 1, scaleX: 1, duration: 0.28, ease: "power2.out", immediateRender: false }}, {t:.2f});'); steps.append(("tape",t)); t+=0.5
-DONE=round(t,2)
-# finished: shine across the page + title
-J(f'tl.to("#pl-shine", {{ x: 1240, duration: 0.9, ease: "power1.inOut" }}, {DONE:.2f});')
-J(f'tl.fromTo("#pl-title2", {{ scale: 1.35, rotation: 6, opacity: 0 }}, {{ scale: 1, rotation: -3, opacity: 1, duration: 0.24, ease: "power3.in" }}, {DONE+0.1:.2f});')
-J(f'tl.to("#pl-title2", {{ scale: 0.97, duration: 0.04, ease: "none" }}, {DONE+0.34:.2f});')
-J(f'tl.to("#pl-title2", {{ scale: 1, duration: 0.12, ease: "power2.out" }}, {DONE+0.38:.2f});')
-END0=round(DONE+2.2,2); TOTAL=round(END0+5.3,1)
-J(f'tl.to("#pl-title2", {{ opacity: 0, scale: 0.9, duration: 0.18, ease: "power2.in" }}, {END0-0.5:.2f});')
-# the finished page is swept off the desk, then the brand card is slapped on like a big sticker
-J(f'tl.to("#pl-move", {{ y: 2150, rotation: 9, duration: 0.45, ease: "power3.in" }}, {END0-0.5:.2f});')
+    J(f'tl.fromTo("#pl-g{i}", {{ clipPath: "inset(0px 100% 0px 0px)" }}, {{ clipPath: "inset(0px 0% 0px 0px)", duration: 0.45, ease: "power1.inOut", immediateRender: false }}, {t+0.7+i*0.32:.2f});')
+# remaining stickers + tape
+t+=2.35; c6=t
+for i,n in enumerate(["disco-heart","jj-envelope","jj-heart","vg-starry","jj-cute"]): place(n,t+0.1+i*0.6)
+J(f'tl.fromTo("#pl-wt2", {{ opacity: 1, scaleX: 0 }}, {{ opacity: 1, scaleX: 1, duration: 0.28, ease: "power2.out", immediateRender: false }}, {t+2.9:.2f});'); steps.append(("tape",t+2.9))
+cap("pl-c6","Kalan boşlukları dolduruyorum",c6,c6+3.25)
+DONE=round(c6+3.3,2)
+# finished page
+cap("pl-c7","Yeni yıl, yeni sayfa!",DONE,DONE+2.0)
+J(f'tl.to("#pl-shine", {{ x: 1240, duration: 0.9, ease: "power1.inOut" }}, {DONE:.2f});'); steps.append(("done",DONE))
+J(f'tl.to("#pl-move", {{ y: 2150, rotation: 9, duration: 0.45, ease: "power3.in" }}, {DONE+1.8:.2f});'); steps.append(("sweep",DONE+1.95))
+# sizes: the two sheet sizes, drawn to scale (3.2 px per mm), with their prices
+S0=round(DONE+2.2,2)
+cap("pl-c8","İki boyumuz var",S0,S0+3.5)
+slap("#pl-sh-a",S0+0.15,-3,1.25); slap("#pl-sh-b",S0+0.45,3,1.25)
+slap("#pl-tag-a",S0+0.9,-6); slap("#pl-tag-b",S0+1.2,5)
+J(f'tl.to(["#pl-sh-a", "#pl-tag-a"], {{ y: 1500, rotation: -8, duration: 0.42, ease: "power3.in" }}, {S0+3.25:.2f});')
+J(f'tl.to(["#pl-sh-b", "#pl-tag-b"], {{ y: 1500, rotation: 8, duration: 0.42, ease: "power3.in" }}, {S0+3.3:.2f});'); steps.append(("sweep",S0+3.4))
+# brand card
+END0=round(S0+3.7,2); TOTAL=round(END0+5.5,1)
 J(f'tl.fromTo("#pl-card", {{ scale: 1.3, rotation: 6, opacity: 0 }}, {{ scale: 1, rotation: -2, opacity: 1, duration: 0.26, ease: "power3.in", immediateRender: false }}, {END0:.2f});')
 J(f'tl.to("#pl-card", {{ scale: 0.975, duration: 0.04, ease: "none" }}, {END0+0.26:.2f});')
-J(f'tl.to("#pl-card", {{ scale: 1, duration: 0.14, ease: "power2.out" }}, {END0+0.3:.2f});')
-J(f'tl.fromTo("#pl-mark", {{ scale: 1.4, rotation: 6, opacity: 0 }}, {{ scale: 1, rotation: -3, opacity: 1, duration: 0.22, ease: "power3.in" }}, {END0+0.5:.2f});')
-J(f'tl.fromTo("#pl-card .pl-line", {{ opacity: 0, y: 0, filter: "blur(6px)" }}, {{ opacity: 1, filter: "blur(0px)", duration: 0.18, stagger: 0.18, ease: "power2.out" }}, {END0+0.75:.2f});')
+J(f'tl.to("#pl-card", {{ scale: 1, duration: 0.14, ease: "power2.out" }}, {END0+0.3:.2f});'); steps.append(("card",END0+0.26))
+J(f'tl.fromTo("#pl-mark", {{ scale: 1.4, rotation: 6, opacity: 0 }}, {{ scale: 1, rotation: -3, opacity: 1, duration: 0.22, ease: "power3.in" }}, {END0+0.5:.2f});'); steps.append(("pop",END0+0.72))
+J(f'tl.fromTo("#pl-card .pl-line", {{ opacity: 0, filter: "blur(6px)" }}, {{ opacity: 1, filter: "blur(0px)", duration: 0.18, stagger: 0.18, ease: "power2.out" }}, {END0+0.75:.2f});')
 ENDSTK=[("lav-bunch",120,1150,210,-8),("vg-portrait",440,1170,190,5),("red-heart",735,1150,210,-6)]
-for i,(n,x,y,w,rot) in enumerate(ENDSTK):
-    tt=END0+1.35+i*0.25
-    J(f'tl.fromTo("#pl-e{i}", {{ scale: 1.4, rotation: {rot+9}, opacity: 0 }}, {{ scale: 1, rotation: {rot}, opacity: 1, duration: 0.2, ease: "power3.in", immediateRender: false }}, {tt:.2f});')
-    J(f'tl.to("#pl-e{i}", {{ scale: 0.97, duration: 0.04, ease: "none" }}, {tt+0.2:.2f});')
-    J(f'tl.to("#pl-e{i}", {{ scale: 1, duration: 0.12, ease: "power2.out" }}, {tt+0.24:.2f});')
-    steps.append(("end",tt+0.2))
+for i,(n,x,y,w,rot) in enumerate(ENDSTK): slap(f"#pl-e{i}",END0+1.45+i*0.25,rot,1.4,"end")
 endstk="".join(f'<img id="pl-e{i}" class="pl-stk" src="assets/stickers/{n}.png" alt="" style="left:{x}px;top:{y}px;width:{w}px;opacity:0" data-layout-ignore />' for i,(n,x,y,w,rot) in enumerate(ENDSTK))
 js="\n    ".join(js)
+
+capdivs="\n".join(
+    f'''    <div id="{cid}s" class="pl-slot clip" data-start="{start:.2f}" data-duration="{end-start:.2f}" data-track-index="{6+i}">
+      <div class="pl-capwrap"><div id="{cid}" class="pl-cap"{' style="opacity:0"' if not first else ''}>{text}</div></div>
+    </div>''' for i,(cid,text,start,end,first) in enumerate(caps))
 
 html=f'''<template>
   <style>
@@ -152,13 +187,25 @@ html=f'''<template>
     #pl-shine-wrap {{ position: absolute; inset: 0; overflow: hidden; border-radius: 10px; pointer-events: none; }}
     #pl-shine {{ position: absolute; top: -20%; left: -40%; width: 32%; height: 140%;
       background: linear-gradient(100deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.55) 50%, rgba(255,255,255,0) 100%); }}
-    .pl-label {{ position: absolute; padding: 16px 30px 20px; background: {KRAFT}; border: 10px solid #ffffff; border-radius: 18px;
-      box-shadow: 0 8px 12px rgba(0,0,0,0.22); font-weight: 900; line-height: 1; white-space: nowrap; }}
+    /* captions: die-cut kraft labels, centred at the top of the safe band */
+    .pl-capwrap {{ position: absolute; left: 0; right: 0; top: 176px; text-align: center; }}
+    .pl-cap {{ display: inline-block; position: relative; padding: 16px 30px 20px; background: {KRAFT}; border: 10px solid #ffffff; border-radius: 18px;
+      box-shadow: 0 8px 12px rgba(0,0,0,0.22); font-weight: 900; font-size: 54px; line-height: 1; white-space: nowrap; }}
+    /* size sheets, 3.2 px per mm */
+    .pl-sheet {{ position: absolute; border-radius: 10px; background-color: #fffdf6; opacity: 0;
+      background-image: radial-gradient(circle, #e2d9cb 2px, transparent 2.4px); background-size: 28px 28px; background-position: 14px 14px;
+      box-shadow: 0 16px 26px rgba(58,36,16,0.3); text-align: center; }}
+    .pl-cut {{ position: absolute; inset: 18px; border: 3px dashed #cdbfae; border-radius: 8px; }}
+    .pl-sz {{ position: absolute; left: 0; right: 0; font-weight: 900; line-height: 1; }}
+    .pl-dim {{ position: absolute; left: 0; right: 0; font-weight: 800; font-size: 40px; line-height: 1; color: #6a5a4a; }}
+    .pl-tag {{ position: absolute; padding: 14px 28px 18px; border: 10px solid #ffffff; border-radius: 18px; opacity: 0;
+      box-shadow: 0 8px 12px rgba(0,0,0,0.22); font-weight: 900; font-size: 60px; line-height: 1; white-space: nowrap; }}
     #pl-card {{ position: absolute; left: 110px; top: 540px; opacity: 0; width: 860px; padding: 46px 40px 50px; border-radius: 34px; background: #fffaf0;
       border: 14px solid #ffffff; box-shadow: 0 22px 40px rgba(0,0,0,0.35); text-align: center; }}
     #pl-mark {{ display: inline-block; padding: 24px 40px 28px; background: {NAVY}; border: 12px solid #ffffff; border-radius: 26px;
       box-shadow: 0 6px 10px rgba(0,0,0,0.2); font-family: "Lato", sans-serif; font-weight: 900; font-size: 84px; line-height: 1; white-space: nowrap; }}
     .pl-line {{ margin-top: 26px; font-weight: 900; line-height: 1.1; }}
+    .pl-chip {{ display: inline-block; margin: 0 8px; padding: 10px 18px; border-radius: 12px; background: #f1e3cf; }}
   </style>
 
   <div id="root" data-composition-id="planner" data-width="1080" data-height="1920">
@@ -182,17 +229,27 @@ html=f'''<template>
     </div>
     </div>
 
-    <div id="pl-t1s" class="pl-slot clip" data-start="0" data-duration="1.45" data-track-index="1">
-      <div id="pl-title1" class="pl-label" style="left: 150px; top: 176px; font-size: 54px" data-layout-allow-overlap>2027 ajandanı benimle süsle</div>
+{capdivs}
+
+    <div id="pl-ss" class="pl-slot clip" data-start="{S0:.2f}" data-duration="{END0-S0:.2f}" data-track-index="2">
+      <div id="pl-sh-a" class="pl-sheet" style="left: 70px; top: 458px; width: 474px; height: 672px">
+        <div class="pl-cut"></div>
+        <div class="pl-sz" style="top: 170px; font-size: 170px">A5</div>
+        <div class="pl-dim" style="top: 365px">14,8 × 21 cm</div>
+      </div>
+      <div id="pl-sh-b" class="pl-sheet" style="left: 594px; top: 618px; width: 416px; height: 512px">
+        <div class="pl-cut"></div>
+        <div class="pl-sz" style="top: 110px; font-size: 88px">13 × 16</div>
+        <div class="pl-dim" style="top: 212px">cm</div>
+      </div>
+      <div id="pl-tag-a" class="pl-tag" style="left: 140px; top: 890px; background: {KRAFT}">64,90 TL</div>
+      <div id="pl-tag-b" class="pl-tag" style="left: 636px; top: 890px; background: {SALMON}">39,90 TL</div>
     </div>
-    <div id="pl-t2s" class="pl-slot clip" data-start="{DONE:.2f}" data-duration="{END0-DONE:.2f}" data-track-index="2">
-      <div id="pl-title2" class="pl-label" style="left: 230px; top: 180px; font-size: 64px" data-layout-allow-overlap>Yeni yıl, yeni sayfa</div>
-    </div>
+
     <div id="pl-cs" class="pl-slot clip" data-start="{END0-0.05:.2f}" data-duration="{TOTAL-END0+0.05:.2f}" data-track-index="3">
       <div id="pl-card" data-layout-allow-overlap>
         <div id="pl-mark"><span style="color:#e8bcac">MALIBU</span> <span style="color:#ffffff">CRAFT</span></div>
-        <div class="pl-line" style="font-size: 58px">Ajandan için sticker setleri</div>
-        <div class="pl-line" style="font-size: 44px; color: #6a5a4a">A5 set · 64,90 TL</div>
+        <div class="pl-line" style="font-size: 40px"><span class="pl-chip">A5 · 64,90 TL</span><span class="pl-chip">13×16 cm · 39,90 TL</span></div>
         <div class="pl-line" style="font-size: 44px"><span style="background:{SALMON};padding:8px 18px;border-radius:12px">shopier.com/malibucraftshop</span></div>
         <div class="pl-line" style="font-size: 36px; font-weight: 800">Kişiye özel tasarımlar için DM</div>
       </div>
@@ -211,13 +268,10 @@ open(f"{P}/compositions/planner.html","w").write(html)
 
 F=1/30; pk={"whoosh":0.162,"pop":0.12,"click-soft":0.073,"sparkle":0.0,"chime":0.418}
 dur={"whoosh":0.57,"pop":0.72,"click-soft":0.36,"sparkle":1.8,"chime":2.5}
-cues=[("rw","whoosh",1.05,0.32)]
-for i,(kind,t) in enumerate(steps):
-    if kind=="stk": cues.append((f"s{i}","click-soft",t,0.5))
-    elif kind=="tape": cues.append((f"tp{i}","click-soft",t+0.2,0.3))
-    elif kind=="end": cues.append((f"e{i}","pop",t,0.35))
-cues+=[("done","sparkle",DONE,0.3),("t2","pop",DONE+0.34,0.45),("sweep","whoosh",END0-0.15,0.3),("card","click-soft",END0+0.26,0.5),("mark","pop",END0+0.72,0.5)]
-lines=[f'      <audio id="sfx-{c}" class="clip" src="assets/sfx/{k}.mp3" data-start="{round(t-pk[k]+(F if pk[k] else 0),3)}" data-duration="{dur[k]}" data-track-index="{20+i}" data-volume="{v}"></audio>' for i,(c,k,t,v) in enumerate(cues)]
+SND={"stk":("click-soft",0.5),"tape":("click-soft",0.3),"cap":("click-soft",0.22),"rewind":("whoosh",0.32),"sweep":("whoosh",0.3),
+     "done":("sparkle",0.3),"pop":("pop",0.45),"card":("click-soft",0.5),"end":("pop",0.35)}
+cues=[(f"{kind}{i}",*SND[kind],t) for i,(kind,t) in enumerate(steps)]
+lines=[f'      <audio id="sfx-{c}" class="clip" src="assets/sfx/{k}.mp3" data-start="{round(t-pk[k]+(F if pk[k] else 0),3)}" data-duration="{dur[k]}" data-track-index="{20+i}" data-volume="{v}"></audio>' for i,(c,k,v,t) in enumerate(cues)]
 root=f'''<!doctype html>
 <html lang="tr">
   <head>
@@ -242,4 +296,4 @@ root=f'''<!doctype html>
 </html>
 '''
 open(f"{P}/index.html","w").write(root)
-print("DONE at",DONE,"end card",END0,"total",TOTAL)
+print("captions:",[(c[1],c[2],round(c[3],2)) for c in caps]); print("DONE",DONE,"sizes",S0,"card",END0,"total",TOTAL)
