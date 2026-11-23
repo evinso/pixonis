@@ -1,0 +1,230 @@
+<template>
+  <style>
+    @font-face { font-family: "Caveat"; src: url("assets/fonts/Caveat.ttf") format("truetype"); font-weight: 400 700; }
+    #root { position: absolute; inset: 0; overflow: hidden; background: #141a2b; font-family: "Nunito", sans-serif; color: #29314b; }
+    .slot { position: absolute; inset: 0; }
+    #scene { position: absolute; inset: 0; }
+    .rm { position: absolute; }
+    .sh { position: absolute; background-size: contain; background-repeat: no-repeat; background-position: center; filter: drop-shadow(0px 6px 8px rgba(0,0,0,0.45)); }
+    #ln { position: absolute; left: 40px; top: 640px; width: 600px; height: 520px; }
+    #ln-flip { position: absolute; inset: 0; }
+    #ln-body { position: absolute; inset: 0; }
+    #ln-stackfix { position: absolute; inset: 0; }
+    .fh { position: absolute; opacity: 0; }
+    #note { position: absolute; left: 650px; top: 975px; width: 100px; height: 72px; background: #f3e3c3; border-radius: 4px; box-shadow: 0 4px 6px rgba(0,0,0,0.4); opacity: 0;
+      display: flex; align-items: center; justify-content: center; }
+    .capwrap { position: absolute; left: 0; right: 0; text-align: center; }
+    .cap { display: inline-block; position: relative; padding: 16px 32px 20px; background: #ffffff; border: 8px solid #29314b; border-radius: 20px; opacity: 0;
+      box-shadow: 0 10px 18px rgba(0,0,0,0.35); font-family: "Archivo Black", sans-serif; font-size: 52px; line-height: 1; white-space: nowrap; }
+    #flash { position: absolute; inset: 0; background: #ffffff; opacity: 0; }
+    #notebg { position: absolute; inset: 0; background: #d9b48a;
+      background-image: repeating-linear-gradient(90deg, rgba(120,72,30,0.10) 0 3px, transparent 3px 230px); }
+    #bignote { position: absolute; left: 110px; top: 470px; width: 860px; height: 700px; background: #fbf1dc; border-radius: 10px; opacity: 0;
+      box-shadow: 0 24px 40px rgba(60,30,10,0.4); background-image: repeating-linear-gradient(180deg, transparent 0 86px, rgba(120,140,190,0.35) 86px 89px); }
+    #bn1, #bn3 { clip-path: inset(-20px 100% -20px -20px); }
+    .bn { position: absolute; left: 70px; font-family: "Caveat", cursive; font-weight: 700; color: #2a2f45; white-space: nowrap; line-height: 1; }
+    #bn2 .st { display: inline-block; position: relative; color: #f2b01e; opacity: 0; }
+    #endbg { position: absolute; left: -960px; top: -350px; width: 3000px; height: 3000px; border-radius: 50%; background: #e1a8a4;
+      background-image: repeating-linear-gradient(115deg, rgba(255,255,255,0.14) 0 44px, transparent 44px 88px); }
+    #e1 { display: inline-block; position: relative; font-family: "Archivo Black", sans-serif; font-size: 94px; line-height: 0.98; color: #29314b; opacity: 0;
+      text-shadow: 0 6px 0 rgba(255,255,255,0.7); }
+    #e2 { display: inline-block; position: relative; padding: 16px 30px 20px; background: #d8b38a; border: 10px solid #ffffff; border-radius: 18px; opacity: 0;
+      box-shadow: 0 8px 14px rgba(0,0,0,0.22); font-weight: 900; font-size: 46px; line-height: 1; white-space: nowrap; }
+    #e3 { display: inline-block; position: relative; padding: 16px 30px 20px; background: #29314b; color: #ffffff; border: 10px solid #ffffff; border-radius: 18px; opacity: 0;
+      box-shadow: 0 8px 14px rgba(0,0,0,0.22); font-weight: 900; font-size: 46px; line-height: 1; white-space: nowrap; }
+    #e4 { font-weight: 900; font-size: 42px; line-height: 1.1; opacity: 0; }
+    #e5 { display: inline-block; padding: 10px 22px; border-radius: 14px; background: rgba(255,255,255,0.85); font-weight: 800; font-size: 32px; line-height: 1.1; opacity: 0; }
+    #le { position: absolute; left: 200px; top: 1180px; width: 600px; height: 520px; transform-origin: 50% 100%; }
+    #le-scale { position: absolute; inset: 0; transform: scale(1.5); transform-origin: 70% 40%; }
+  </style>
+
+  <div id="root" data-composition-id="aslan" data-width="1080" data-height="1920">
+
+    <div id="cctv" class="slot clip" data-start="0" data-duration="10.05" data-track-index="1">
+      <div id="scene" data-layout-allow-overflow>
+        <svg class="rm" viewBox="0 0 1080 1920" width="1080" height="1920" data-layout-ignore>
+          <defs>
+            <linearGradient id="rm-wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1d2540"/><stop offset="1" stop-color="#263052"/></linearGradient>
+            <radialGradient id="rm-lamp" cx="0.5" cy="0" r="1"><stop offset="0" stop-color="#ffe6a8" stop-opacity="0.55"/><stop offset="1" stop-color="#ffe6a8" stop-opacity="0"/></radialGradient>
+          </defs>
+          <rect width="1080" height="1920" fill="url(#rm-wall)"/>
+          <rect y="1130" width="1080" height="790" fill="#2c2433"/>
+          <path d="M0 1130 H1080" stroke="#3b3245" stroke-width="10"/>
+          <rect x="30" y="520" width="300" height="610" rx="8" fill="#151a2c"/><rect x="48" y="540" width="264" height="590" fill="#0d1120"/>
+          <circle cx="285" cy="840" r="9" fill="#a4a9bd"/>
+          <rect x="560" y="300" width="500" height="14" fill="#5a4636"/><rect x="560" y="530" width="500" height="14" fill="#5a4636"/>
+          <rect x="560" y="760" width="500" height="14" fill="#5a4636"/>
+          <rect x="430" y="260" width="96" height="18" fill="#9aa0b8" opacity="0.4"/>
+        </svg>
+        <div class="rm" style="left: 80px; top: 330px; padding: 16px 26px 20px; border: 6px solid #e8bcac; border-radius: 18px; font-family: Lato, sans-serif; font-weight: 900; font-size: 46px; line-height: 1; color: #e8bcac; box-shadow: 0 0 24px rgba(232,188,172,0.45)">MALIBU<br><span style="color: #ffffff">CRAFT</span></div>
+        <div id="rm-shelf" data-layout-ignore><div id="src-retro" class="sh" style="left: 620px; top: 330px; width: 120px; height: 161px; background-image: url(assets/sheets/retro.webp)"></div><div id="src-mistik" class="sh" style="left: 760px; top: 330px; width: 120px; height: 161px; background-image: url(assets/sheets/mistik.webp)"></div><div id="src-kiraz" class="sh" style="left: 900px; top: 330px; width: 120px; height: 161px; background-image: url(assets/sheets/kiraz.webp)"></div><div id="src-limon" class="sh" style="left: 620px; top: 560px; width: 120px; height: 161px; background-image: url(assets/sheets/limon.webp)"></div><div id="src-muzik" class="sh" style="left: 760px; top: 560px; width: 120px; height: 161px; background-image: url(assets/sheets/muzik.webp)"></div><div id="src-london" class="sh" style="left: 900px; top: 560px; width: 120px; height: 161px; background-image: url(assets/sheets/london.webp)"></div></div>
+        <div data-layout-ignore><div class="rm" style="left: 150px; top: 1180px; transform: rotate(80deg); opacity: 0.55"><svg viewBox="0 0 100 100" width="40" height="40"><g fill="#e8bcac"><ellipse cx="50" cy="66" rx="24" ry="20"/><ellipse cx="22" cy="40" rx="10" ry="13"/><ellipse cx="40" cy="24" rx="10" ry="13"/><ellipse cx="60" cy="24" rx="10" ry="13"/><ellipse cx="78" cy="40" rx="10" ry="13"/></g></svg></div><div class="rm" style="left: 200px; top: 1225px; transform: rotate(80deg); opacity: 0.55"><svg viewBox="0 0 100 100" width="40" height="40"><g fill="#e8bcac"><ellipse cx="50" cy="66" rx="24" ry="20"/><ellipse cx="22" cy="40" rx="10" ry="13"/><ellipse cx="40" cy="24" rx="10" ry="13"/><ellipse cx="60" cy="24" rx="10" ry="13"/><ellipse cx="78" cy="40" rx="10" ry="13"/></g></svg></div><div class="rm" style="left: 255px; top: 1182px; transform: rotate(80deg); opacity: 0.55"><svg viewBox="0 0 100 100" width="40" height="40"><g fill="#e8bcac"><ellipse cx="50" cy="66" rx="24" ry="20"/><ellipse cx="22" cy="40" rx="10" ry="13"/><ellipse cx="40" cy="24" rx="10" ry="13"/><ellipse cx="60" cy="24" rx="10" ry="13"/><ellipse cx="78" cy="40" rx="10" ry="13"/></g></svg></div><div class="rm" style="left: 310px; top: 1228px; transform: rotate(80deg); opacity: 0.55"><svg viewBox="0 0 100 100" width="40" height="40"><g fill="#e8bcac"><ellipse cx="50" cy="66" rx="24" ry="20"/><ellipse cx="22" cy="40" rx="10" ry="13"/><ellipse cx="40" cy="24" rx="10" ry="13"/><ellipse cx="60" cy="24" rx="10" ry="13"/><ellipse cx="78" cy="40" rx="10" ry="13"/></g></svg></div><div class="rm" style="left: 365px; top: 1186px; transform: rotate(80deg); opacity: 0.55"><svg viewBox="0 0 100 100" width="40" height="40"><g fill="#e8bcac"><ellipse cx="50" cy="66" rx="24" ry="20"/><ellipse cx="22" cy="40" rx="10" ry="13"/><ellipse cx="40" cy="24" rx="10" ry="13"/><ellipse cx="60" cy="24" rx="10" ry="13"/><ellipse cx="78" cy="40" rx="10" ry="13"/></g></svg></div></div>
+        <svg class="rm" viewBox="0 0 1080 1920" width="1080" height="1920" data-layout-ignore><rect x="640" y="1180" width="220" height="150" rx="6" fill="#9c7650"/><rect x="740" y="1180" width="22" height="150" fill="#c9b08a"/><rect x="860" y="1150" width="190" height="180" rx="6" fill="#8a6644"/><rect x="944" y="1150" width="22" height="180" fill="#c9b08a"/><rect x="700" y="1090" width="160" height="90" rx="6" fill="#a88360"/><rect x="770" y="1090" width="20" height="90" fill="#c9b08a"/></svg>
+        <svg class="rm" viewBox="0 0 1080 1920" width="1080" height="1920" data-layout-ignore>
+          <rect x="540" y="1000" width="520" height="34" rx="6" fill="#7a5638"/>
+          <rect x="570" y="1034" width="26" height="96" fill="#5e412a"/><rect x="1004" y="1034" width="26" height="96" fill="#5e412a"/>
+          <rect x="580" y="958" width="460" height="42" rx="6" fill="#4a3a30"/>
+        </svg>
+        <div id="rm-stand" data-layout-ignore><div id="src-van-gogh" class="sh" style="left: 600px; top: 660px; width: 150px; height: 201px; background-image: url(assets/sheets/van-gogh.webp); transform: rotate(-6deg)"></div><div id="src-coquette" class="sh" style="left: 760px; top: 650px; width: 150px; height: 201px; background-image: url(assets/sheets/coquette.webp); transform: rotate(0deg)"></div><div id="src-y2k" class="sh" style="left: 920px; top: 660px; width: 150px; height: 201px; background-image: url(assets/sheets/y2k.webp); transform: rotate(6deg)"></div></div>
+        <svg id="rm-light" class="rm" viewBox="0 0 1080 1920" width="1080" height="1920" data-layout-ignore>
+          <path d="M840 640 L560 1010 L1080 1010 L1080 760 Z" fill="url(#rm-lamp)"/>
+        </svg>
+        <div id="note" data-layout-ignore><svg viewBox="0 0 100 100" width="40" height="40"><g fill="#c0563a"><ellipse cx="50" cy="66" rx="24" ry="20"/><ellipse cx="22" cy="40" rx="10" ry="13"/><ellipse cx="40" cy="24" rx="10" ry="13"/><ellipse cx="60" cy="24" rx="10" ry="13"/><ellipse cx="78" cy="40" rx="10" ry="13"/></g></svg></div>
+        <div id="ln" data-layout-ignore><div id="ln-flip"><div id="ln-body"><svg viewBox="0 0 600 520" width="600" height="520" style="overflow: visible">
+      <g id="ln-tail"><path d="M108 300 C 60 296, 26 262, 34 196" stroke="#e8a33d" stroke-width="20" fill="none" stroke-linecap="round"/>
+        <ellipse cx="36" cy="182" rx="24" ry="32" fill="#b9561f"/></g>
+      <g id="ln-lb2"><rect x="150" y="330" width="54" height="150" rx="27" fill="#cf8a2e"/><ellipse cx="180" cy="482" rx="38" ry="18" fill="#cf8a2e"/><path d="M166 478 v10 M180 476 v12 M194 478 v10" stroke="#b9561f" stroke-width="3" stroke-linecap="round" opacity="0.5"/></g><g id="ln-lf2"><rect x="356" y="330" width="54" height="150" rx="27" fill="#cf8a2e"/><ellipse cx="386" cy="482" rx="38" ry="18" fill="#cf8a2e"/><path d="M372 478 v10 M386 476 v12 M400 478 v10" stroke="#b9561f" stroke-width="3" stroke-linecap="round" opacity="0.5"/></g>
+      <ellipse cx="262" cy="322" rx="178" ry="104" fill="#e8a33d"/>
+      <ellipse cx="272" cy="368" rx="124" ry="48" fill="#f2be63"/>
+      <g id="ln-lb1"><rect x="104" y="330" width="54" height="150" rx="27" fill="#e8a33d"/><ellipse cx="134" cy="482" rx="38" ry="18" fill="#e8a33d"/><path d="M120 478 v10 M134 476 v12 M148 478 v10" stroke="#b9561f" stroke-width="3" stroke-linecap="round" opacity="0.5"/></g><g id="ln-lf1"><rect x="398" y="330" width="54" height="150" rx="27" fill="#e8a33d"/><ellipse cx="428" cy="482" rx="38" ry="18" fill="#e8a33d"/><path d="M414 478 v10 M428 476 v12 M442 478 v10" stroke="#b9561f" stroke-width="3" stroke-linecap="round" opacity="0.5"/></g>
+      <g id="ln-head">
+        <circle cx="440" cy="205" r="124" fill="#b9561f"/><circle cx="558.0" cy="205.0" r="36" fill="#cc6a2a"/><circle cx="547.8" cy="253.0" r="36" fill="#b9561f"/><circle cx="519.0" cy="292.7" r="36" fill="#cc6a2a"/><circle cx="476.5" cy="317.2" r="36" fill="#b9561f"/><circle cx="427.7" cy="322.4" r="36" fill="#cc6a2a"/><circle cx="381.0" cy="307.2" r="36" fill="#b9561f"/><circle cx="344.5" cy="274.4" r="36" fill="#cc6a2a"/><circle cx="324.6" cy="229.5" r="36" fill="#b9561f"/><circle cx="324.6" cy="180.5" r="36" fill="#cc6a2a"/><circle cx="344.5" cy="135.6" r="36" fill="#b9561f"/><circle cx="381.0" cy="102.8" r="36" fill="#cc6a2a"/><circle cx="427.7" cy="87.6" r="36" fill="#b9561f"/><circle cx="476.5" cy="92.8" r="36" fill="#cc6a2a"/><circle cx="519.0" cy="117.3" r="36" fill="#b9561f"/><circle cx="547.8" cy="157.0" r="36" fill="#cc6a2a"/>
+        <circle cx="392" cy="125" r="28" fill="#e8a33d"/><circle cx="392" cy="125" r="14" fill="#f2be63"/>
+        <circle cx="490" cy="125" r="28" fill="#e8a33d"/><circle cx="490" cy="125" r="14" fill="#f2be63"/>
+        <circle cx="440" cy="211" r="90" fill="#f0b04a"/>
+        <ellipse cx="394" cy="245" rx="16" ry="10" fill="#f29a8f" opacity="0.7"/><ellipse cx="486" cy="245" rx="16" ry="10" fill="#f29a8f" opacity="0.7"/>
+        <g id="ln-eyes" style="opacity: 1">
+          <ellipse cx="410" cy="193" rx="11" ry="15" fill="#2b1a10"/><circle cx="414" cy="187" r="4" fill="#fff"/>
+          <ellipse cx="470" cy="193" rx="11" ry="15" fill="#2b1a10"/><circle cx="474" cy="187" r="4" fill="#fff"/>
+        </g>
+        <g id="ln-hearts" style="opacity: 0"><path d="M410 203.35 C 384.7 186.1, 396.2 167.7, 410 181.5 C 423.8 167.7, 435.3 186.1, 410 203.35 Z" fill="#e0435b"/><path d="M470 203.35 C 444.7 186.1, 456.2 167.7, 470 181.5 C 483.8 167.7, 495.3 186.1, 470 203.35 Z" fill="#e0435b"/></g>
+        <path d="M394 165 q 14 -10 28 -2 M458 163 q 14 -8 28 2" stroke="#8a4a1e" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <circle cx="423" cy="243" r="25" fill="#fbe6be"/><circle cx="457" cy="243" r="25" fill="#fbe6be"/>
+        <path d="M425 219 h30 q 4 0 0 6 l-11 12 q -4 4 -8 0 l-11 -12 q -4 -6 0 -6 z" fill="#6b3420"/>
+        <path d="M440 237 v10 M440 247 q -12 12 -22 2 M440 247 q 12 12 22 2" stroke="#6b3420" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <circle cx="408" cy="241" r="2.5" fill="#8a4a1e"/><circle cx="414" cy="251" r="2.5" fill="#8a4a1e"/>
+        <circle cx="472" cy="241" r="2.5" fill="#8a4a1e"/><circle cx="466" cy="251" r="2.5" fill="#8a4a1e"/>
+      </g>
+    </svg></div><div id="ln-stackfix"><div id="st0" class="sh" style="left: 300px; top: 300px; width: 120px; height: 161px; background-image: url(assets/sheets/retro.webp); opacity: 0"></div><div id="st1" class="sh" style="left: 304px; top: 295px; width: 120px; height: 161px; background-image: url(assets/sheets/van-gogh.webp); opacity: 0"></div><div id="st2" class="sh" style="left: 308px; top: 290px; width: 120px; height: 161px; background-image: url(assets/sheets/mistik.webp); opacity: 0"></div><div id="st3" class="sh" style="left: 312px; top: 285px; width: 120px; height: 161px; background-image: url(assets/sheets/coquette.webp); opacity: 0"></div><div id="st4" class="sh" style="left: 316px; top: 280px; width: 120px; height: 161px; background-image: url(assets/sheets/kiraz.webp); opacity: 0"></div><div id="st5" class="sh" style="left: 320px; top: 275px; width: 120px; height: 161px; background-image: url(assets/sheets/y2k.webp); opacity: 0"></div><div id="st6" class="sh" style="left: 324px; top: 270px; width: 120px; height: 161px; background-image: url(assets/sheets/limon.webp); opacity: 0"></div></div></div></div>
+        <svg id="fh0" class="fh" viewBox="0 0 40 40" width="56" style="left: 470px; top: 700px"><path d="M20 34 C 2 22, 6 6, 20 14 C 34 6, 38 22, 20 34 Z" fill="#ff6b81"/></svg><svg id="fh1" class="fh" viewBox="0 0 40 40" width="44" style="left: 560px; top: 720px"><path d="M20 34 C 2 22, 6 6, 20 14 C 34 6, 38 22, 20 34 Z" fill="#ff6b81"/></svg><svg id="fh2" class="fh" viewBox="0 0 40 40" width="64" style="left: 400px; top: 740px"><path d="M20 34 C 2 22, 6 6, 20 14 C 34 6, 38 22, 20 34 Z" fill="#ff6b81"/></svg>
+      </div>
+      <div class="capwrap" style="top: 1176px"><div id="cp1" class="cap">Gözü hemen stickerlara takıldı</div></div>
+      <div class="capwrap" style="top: 1176px"><div id="cp2" class="cap">Ve aslan payını aldı!</div></div>
+      <div class="capwrap" style="top: 1176px"><div id="cp3" class="cap">Giderken not bırakmış…</div></div>
+    </div>
+
+    <div id="notes" class="slot clip" data-start="9.85" data-duration="3.35" data-track-index="4">
+      <div id="notebg"></div>
+      <div id="bignote" data-layout-allow-overlap>
+        <div class="bn" id="bn1" style="top: 70px; font-size: 120px">Kükreten kalite!</div>
+        <div class="bn" id="bn2" style="top: 230px; font-size: 96px"><span class="st">★</span><span class="st">★</span><span class="st">★</span><span class="st">★</span><span class="st">★</span></div>
+        <div class="bn" id="bn3" style="top: 380px; font-size: 84px">Aslan payımı aldım. – A.</div>
+        <div id="bnpaw" style="position: absolute; left: 600px; top: 480px; opacity: 0" data-layout-ignore><svg viewBox="0 0 100 100" width="170" height="170"><g fill="#c0563a"><ellipse cx="50" cy="66" rx="24" ry="20"/><ellipse cx="22" cy="40" rx="10" ry="13"/><ellipse cx="40" cy="24" rx="10" ry="13"/><ellipse cx="60" cy="24" rx="10" ry="13"/><ellipse cx="78" cy="40" rx="10" ry="13"/></g></svg></div>
+      </div>
+      <div class="capwrap" style="top: 200px"><div id="cp4" class="cap">Masada şu not vardı:</div></div>
+    </div>
+
+    <div id="ends" class="slot clip" data-start="12.78" data-duration="5.92" data-track-index="5">
+      <div id="endbg" data-layout-ignore></div>
+      <div class="capwrap" style="top: 196px"><div id="e1">Aslan bile<br>dayanamadı!</div></div>
+      <div class="capwrap" style="top: 450px"><div id="e2">Yeni koleksiyon · Tanesi 64,90 TL</div></div>
+      <div class="capwrap" style="top: 570px"><div id="e3">shopier.com/malibucraftshop</div></div>
+      <div id="e4" class="capwrap" style="top: 700px">Kişiye özel tasarımlar için DM</div>
+      <div class="capwrap" style="top: 776px"><div id="e5">Gerçek aslanı görürsen yaklaşma, 112'yi ara.</div></div>
+      <div id="le" data-layout-ignore><div id="le-scale"><svg viewBox="0 0 600 520" width="600" height="520" style="overflow: visible">
+      <g id="le-tail"><path d="M108 300 C 60 296, 26 262, 34 196" stroke="#e8a33d" stroke-width="20" fill="none" stroke-linecap="round"/>
+        <ellipse cx="36" cy="182" rx="24" ry="32" fill="#b9561f"/></g>
+      <g id="le-lb2"><rect x="150" y="330" width="54" height="150" rx="27" fill="#cf8a2e"/><ellipse cx="180" cy="482" rx="38" ry="18" fill="#cf8a2e"/><path d="M166 478 v10 M180 476 v12 M194 478 v10" stroke="#b9561f" stroke-width="3" stroke-linecap="round" opacity="0.5"/></g><g id="le-lf2"><rect x="356" y="330" width="54" height="150" rx="27" fill="#cf8a2e"/><ellipse cx="386" cy="482" rx="38" ry="18" fill="#cf8a2e"/><path d="M372 478 v10 M386 476 v12 M400 478 v10" stroke="#b9561f" stroke-width="3" stroke-linecap="round" opacity="0.5"/></g>
+      <ellipse cx="262" cy="322" rx="178" ry="104" fill="#e8a33d"/>
+      <ellipse cx="272" cy="368" rx="124" ry="48" fill="#f2be63"/>
+      <g id="le-lb1"><rect x="104" y="330" width="54" height="150" rx="27" fill="#e8a33d"/><ellipse cx="134" cy="482" rx="38" ry="18" fill="#e8a33d"/><path d="M120 478 v10 M134 476 v12 M148 478 v10" stroke="#b9561f" stroke-width="3" stroke-linecap="round" opacity="0.5"/></g><g id="le-lf1"><rect x="398" y="330" width="54" height="150" rx="27" fill="#e8a33d"/><ellipse cx="428" cy="482" rx="38" ry="18" fill="#e8a33d"/><path d="M414 478 v10 M428 476 v12 M442 478 v10" stroke="#b9561f" stroke-width="3" stroke-linecap="round" opacity="0.5"/></g>
+      <g id="le-head">
+        <circle cx="440" cy="205" r="124" fill="#b9561f"/><circle cx="558.0" cy="205.0" r="36" fill="#cc6a2a"/><circle cx="547.8" cy="253.0" r="36" fill="#b9561f"/><circle cx="519.0" cy="292.7" r="36" fill="#cc6a2a"/><circle cx="476.5" cy="317.2" r="36" fill="#b9561f"/><circle cx="427.7" cy="322.4" r="36" fill="#cc6a2a"/><circle cx="381.0" cy="307.2" r="36" fill="#b9561f"/><circle cx="344.5" cy="274.4" r="36" fill="#cc6a2a"/><circle cx="324.6" cy="229.5" r="36" fill="#b9561f"/><circle cx="324.6" cy="180.5" r="36" fill="#cc6a2a"/><circle cx="344.5" cy="135.6" r="36" fill="#b9561f"/><circle cx="381.0" cy="102.8" r="36" fill="#cc6a2a"/><circle cx="427.7" cy="87.6" r="36" fill="#b9561f"/><circle cx="476.5" cy="92.8" r="36" fill="#cc6a2a"/><circle cx="519.0" cy="117.3" r="36" fill="#b9561f"/><circle cx="547.8" cy="157.0" r="36" fill="#cc6a2a"/>
+        <circle cx="392" cy="125" r="28" fill="#e8a33d"/><circle cx="392" cy="125" r="14" fill="#f2be63"/>
+        <circle cx="490" cy="125" r="28" fill="#e8a33d"/><circle cx="490" cy="125" r="14" fill="#f2be63"/>
+        <circle cx="440" cy="211" r="90" fill="#f0b04a"/>
+        <ellipse cx="394" cy="245" rx="16" ry="10" fill="#f29a8f" opacity="0.7"/><ellipse cx="486" cy="245" rx="16" ry="10" fill="#f29a8f" opacity="0.7"/>
+        <g id="le-eyes" style="opacity: 0">
+          <ellipse cx="410" cy="193" rx="11" ry="15" fill="#2b1a10"/><circle cx="414" cy="187" r="4" fill="#fff"/>
+          <ellipse cx="470" cy="193" rx="11" ry="15" fill="#2b1a10"/><circle cx="474" cy="187" r="4" fill="#fff"/>
+        </g>
+        <g id="le-hearts" style="opacity: 1"><path d="M410 203.35 C 384.7 186.1, 396.2 167.7, 410 181.5 C 423.8 167.7, 435.3 186.1, 410 203.35 Z" fill="#e0435b"/><path d="M470 203.35 C 444.7 186.1, 456.2 167.7, 470 181.5 C 483.8 167.7, 495.3 186.1, 470 203.35 Z" fill="#e0435b"/></g>
+        <path d="M394 165 q 14 -10 28 -2 M458 163 q 14 -8 28 2" stroke="#8a4a1e" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <circle cx="423" cy="243" r="25" fill="#fbe6be"/><circle cx="457" cy="243" r="25" fill="#fbe6be"/>
+        <path d="M425 219 h30 q 4 0 0 6 l-11 12 q -4 4 -8 0 l-11 -12 q -4 -6 0 -6 z" fill="#6b3420"/>
+        <path d="M440 237 v10 M440 247 q -12 12 -22 2 M440 247 q 12 12 22 2" stroke="#6b3420" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <circle cx="408" cy="241" r="2.5" fill="#8a4a1e"/><circle cx="414" cy="251" r="2.5" fill="#8a4a1e"/>
+        <circle cx="472" cy="241" r="2.5" fill="#8a4a1e"/><circle cx="466" cy="251" r="2.5" fill="#8a4a1e"/>
+      </g>
+    </svg></div></div>
+    </div>
+
+    <div id="flash" data-layout-ignore></div>
+  </div>
+
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.to("#ln-tail", { rotation: 14, svgOrigin: "108 300", duration: 0.5, ease: "sine.inOut", yoyo: true, repeat: 15 }, 0);
+    tl.to("#ln-head", { y: -6, duration: 0.6, ease: "sine.inOut", yoyo: true, repeat: 6 }, 0);
+    tl.to("#rm-light", { opacity: 0.85, duration: 0.3, ease: "none", yoyo: true, repeat: 1 }, 1.2);
+    tl.set("#ln-eyes", { scaleY: 0.12, svgOrigin: "440 193" }, 1.3);
+    tl.set("#ln-eyes", { scaleY: 1, svgOrigin: "440 193" }, 1.40);
+    tl.fromTo("#cp1", { scale: 1.3, rotation: 4, opacity: 0 }, { scale: 1, rotation: -2, opacity: 1, duration: 0.2, ease: "power3.in", immediateRender: false }, 2.45);
+    tl.to("#cp1", { scale: 0.97, duration: 0.04, ease: "none" }, 2.65);
+    tl.to("#cp1", { scale: 1, duration: 0.12, ease: "power2.out" }, 2.69);
+    tl.to("#cp1", { y: 30, opacity: 0, duration: 0.15, ease: "power2.in" }, 4.84);
+    tl.to("#ln-head", { rotation: 6, svgOrigin: "440 300", duration: 0.35, ease: "power2.out" }, 2.6);
+    tl.set("#ln-eyes", { opacity: 0 }, 3.0);
+    tl.fromTo("#ln-hearts", { opacity: 1, scale: 0.2, svgOrigin: "440 193" }, { opacity: 1, scale: 1, svgOrigin: "440 193", duration: 0.3, ease: "back.out(3)", immediateRender: false }, 3.0);
+    tl.to("#ln-hearts", { scale: 1.18, svgOrigin: "440 193", duration: 0.25, ease: "sine.inOut", yoyo: true, repeat: 5 }, 3.3);
+    tl.fromTo("#fh0", { y: 0, opacity: 0, scale: 0.4 }, { y: -260, opacity: 0, scale: 1.2, duration: 1.4, ease: "power1.out", keyframes: { opacity: [0, 1, 1, 0] }, immediateRender: false }, 3.10);
+    tl.fromTo("#fh1", { y: 0, opacity: 0, scale: 0.4 }, { y: -260, opacity: 0, scale: 1.2, duration: 1.4, ease: "power1.out", keyframes: { opacity: [0, 1, 1, 0] }, immediateRender: false }, 3.40);
+    tl.fromTo("#fh2", { y: 0, opacity: 0, scale: 0.4 }, { y: -260, opacity: 0, scale: 1.2, duration: 1.4, ease: "power1.out", keyframes: { opacity: [0, 1, 1, 0] }, immediateRender: false }, 3.70);
+    tl.fromTo("#cp2", { scale: 1.3, rotation: 8, opacity: 0 }, { scale: 1, rotation: 2, opacity: 1, duration: 0.2, ease: "power3.in", immediateRender: false }, 5.00);
+    tl.to("#cp2", { scale: 0.97, duration: 0.04, ease: "none" }, 5.20);
+    tl.to("#cp2", { scale: 1, duration: 0.12, ease: "power2.out" }, 5.24);
+    tl.to("#cp2", { y: 30, opacity: 0, duration: 0.15, ease: "power2.in" }, 7.84);
+    tl.to("#ln-head", { rotation: -4, svgOrigin: "440 300", duration: 0.3, ease: "power2.out" }, 5.0);
+    tl.set("#src-retro", { opacity: 0 }, 5.25);
+    tl.fromTo("#st0", { x: 280, y: -610, scale: 1.00, rotation: 0, opacity: 1 }, { x: 0, y: 0, scale: 1, rotation: 5, opacity: 1, duration: 0.24, ease: "power3.in", immediateRender: false }, 5.25);
+    tl.set("#src-van-gogh", { opacity: 0 }, 5.55);
+    tl.fromTo("#st1", { x: 271, y: -254, scale: 1.25, rotation: 0, opacity: 1 }, { x: 0, y: 0, scale: 1, rotation: -5, opacity: 1, duration: 0.24, ease: "power3.in", immediateRender: false }, 5.55);
+    tl.set("#src-mistik", { opacity: 0 }, 5.85);
+    tl.fromTo("#st2", { x: 412, y: -600, scale: 1.00, rotation: 0, opacity: 1 }, { x: 0, y: 0, scale: 1, rotation: 5, opacity: 1, duration: 0.24, ease: "power3.in", immediateRender: false }, 5.85);
+    tl.set("#src-coquette", { opacity: 0 }, 6.15);
+    tl.fromTo("#st3", { x: 423, y: -254, scale: 1.25, rotation: 0, opacity: 1 }, { x: 0, y: 0, scale: 1, rotation: -5, opacity: 1, duration: 0.24, ease: "power3.in", immediateRender: false }, 6.15);
+    tl.set("#src-kiraz", { opacity: 0 }, 6.45);
+    tl.fromTo("#st4", { x: 544, y: -590, scale: 1.00, rotation: 0, opacity: 1 }, { x: 0, y: 0, scale: 1, rotation: 5, opacity: 1, duration: 0.24, ease: "power3.in", immediateRender: false }, 6.45);
+    tl.set("#src-y2k", { opacity: 0 }, 6.75);
+    tl.fromTo("#st5", { x: 575, y: -234, scale: 1.25, rotation: 0, opacity: 1 }, { x: 0, y: 0, scale: 1, rotation: -5, opacity: 1, duration: 0.24, ease: "power3.in", immediateRender: false }, 6.75);
+    tl.set("#src-limon", { opacity: 0 }, 7.05);
+    tl.fromTo("#st6", { x: 256, y: -350, scale: 1.00, rotation: 0, opacity: 1 }, { x: 0, y: 0, scale: 1, rotation: 5, opacity: 1, duration: 0.24, ease: "power3.in", immediateRender: false }, 7.05);
+    tl.to("#ln-head", { rotation: 0, svgOrigin: "440 300", duration: 0.3, ease: "power2.out" }, 7.5);
+    tl.fromTo("#cp3", { scale: 1.3, rotation: 4, opacity: 0 }, { scale: 1, rotation: -2, opacity: 1, duration: 0.2, ease: "power3.in", immediateRender: false }, 8.00);
+    tl.to("#cp3", { scale: 0.97, duration: 0.04, ease: "none" }, 8.20);
+    tl.to("#cp3", { scale: 1, duration: 0.12, ease: "power2.out" }, 8.24);
+    tl.to("#cp3", { y: 30, opacity: 0, duration: 0.15, ease: "power2.in" }, 9.39);
+    tl.to("#ln-flip", { scaleX: -1, transformOrigin: "50% 50%", duration: 0.16, ease: "power2.inOut" }, 8.05);
+    tl.to("#ln-stackfix", { scaleX: -1, transformOrigin: "390px 330px", duration: 0.16, ease: "power2.inOut" }, 8.05);
+    tl.fromTo("#ln-lf1", { rotation: -18 }, { rotation: 18, svgOrigin: "425 340", duration: 0.18, ease: "sine.inOut", yoyo: true, repeat: 6, immediateRender: false }, 8.25);
+    tl.fromTo("#ln-lb1", { rotation: 18 }, { rotation: -18, svgOrigin: "131 340", duration: 0.18, ease: "sine.inOut", yoyo: true, repeat: 6, immediateRender: false }, 8.25);
+    tl.fromTo("#ln-lf2", { rotation: 18 }, { rotation: -18, svgOrigin: "383 340", duration: 0.18, ease: "sine.inOut", yoyo: true, repeat: 6, immediateRender: false }, 8.25);
+    tl.fromTo("#ln-lb2", { rotation: -18 }, { rotation: 18, svgOrigin: "177 340", duration: 0.18, ease: "sine.inOut", yoyo: true, repeat: 6, immediateRender: false }, 8.25);
+    tl.to("#ln", { x: -900, duration: 1.2, ease: "power1.in" }, 8.3);
+    tl.to("#ln-body", { y: -10, duration: 0.18, ease: "sine.inOut", yoyo: true, repeat: 6 }, 8.25);
+    tl.fromTo("#note", { x: -260, y: -360, rotation: -30, opacity: 1 }, { x: 0, y: 0, rotation: -8, opacity: 1, duration: 0.9, ease: "sine.inOut", immediateRender: false }, 8.4);
+    tl.to("#note", { keyframes: { x: [-200, -120, -60, -20, 0] }, duration: 0.9, ease: "none" }, 8.4);
+    tl.to("#scene", { scale: 4.2, transformOrigin: "700px 1010px", duration: 0.5, ease: "power2.in" }, 9.4);
+    tl.fromTo("#flash", { opacity: 0 }, { opacity: 1, duration: 0.08, ease: "none", immediateRender: false }, 9.86);
+    tl.to("#flash", { opacity: 0, duration: 0.3, ease: "power1.out" }, 9.98);
+    tl.fromTo("#cp4", { scale: 1.3, rotation: 4, opacity: 0 }, { scale: 1, rotation: -2, opacity: 1, duration: 0.2, ease: "power3.in", immediateRender: false }, 10.10);
+    tl.to("#cp4", { scale: 0.97, duration: 0.04, ease: "none" }, 10.30);
+    tl.to("#cp4", { scale: 1, duration: 0.12, ease: "power2.out" }, 10.34);
+    tl.to("#cp4", { y: 30, opacity: 0, duration: 0.15, ease: "power2.in" }, 12.89);
+    tl.fromTo("#bignote", { scale: 1.25, rotation: 4, opacity: 0 }, { scale: 1, rotation: -3, opacity: 1, duration: 0.22, ease: "power3.in", immediateRender: false }, 9.95);
+    tl.fromTo("#bn1", { clipPath: "inset(-20px 100% -20px -20px)" }, { clipPath: "inset(-20px -40px -20px -20px)", duration: 0.55, ease: "power1.inOut", immediateRender: false }, 10.30);
+    tl.fromTo("#bn2 .st", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.16, stagger: 0.09, ease: "back.out(3)", immediateRender: false }, 10.90);
+    tl.fromTo("#bn3", { clipPath: "inset(-20px 100% -20px -20px)" }, { clipPath: "inset(-20px -40px -20px -20px)", duration: 0.6, ease: "power1.inOut", immediateRender: false }, 11.40);
+    tl.fromTo("#bnpaw", { scale: 1.8, rotation: 20, opacity: 0 }, { scale: 1, rotation: -12, opacity: 1, duration: 0.18, ease: "power3.in", immediateRender: false }, 12.00);
+    tl.fromTo("#endbg", { scale: 0 }, { scale: 1, duration: 0.45, ease: "power3.in" }, 12.80);
+    tl.fromTo("#le", { y: 760 }, { y: 0, duration: 0.45, ease: "back.out(1.4)" }, 13.20);
+    tl.fromTo("#e1", { scale: 1.5, rotation: 6, opacity: 0 }, { scale: 1, rotation: -3, opacity: 1, duration: 0.22, ease: "power3.in", immediateRender: false }, 13.40);
+    tl.to("#e1", { scale: 0.96, duration: 0.04, ease: "none" }, 13.62);
+    tl.to("#e1", { scale: 1, duration: 0.12, ease: "power2.out" }, 13.66);
+    tl.fromTo("#e2", { scale: 1.35, rotation: -4, opacity: 0 }, { scale: 1, rotation: -2, opacity: 1, duration: 0.2, ease: "power3.in", immediateRender: false }, 13.85);
+    tl.fromTo("#e3", { scale: 1.35, rotation: 6, opacity: 0 }, { scale: 1, rotation: 2, opacity: 1, duration: 0.2, ease: "power3.in", immediateRender: false }, 14.15);
+    tl.fromTo(["#e4", "#e5"], { opacity: 0 }, { opacity: 1, duration: 0.2, stagger: 0.25, ease: "power1.out", immediateRender: false }, 14.60);
+    tl.to("#le-tail", { rotation: 14, svgOrigin: "108 300", duration: 0.5, ease: "sine.inOut", yoyo: true, repeat: 3 }, 13.70);
+    window.__timelines["aslan"] = tl;
+  </script>
+</template>
